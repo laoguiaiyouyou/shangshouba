@@ -331,11 +331,17 @@
   </style>
 </head>
 <body>
-<div id="root"></div>
+<div id="root">
+  <div style="display:flex;align-items:center;justify-content:center;height:100vh;flex-direction:column;gap:12px;background:#141414;">
+    <div style="width:36px;height:36px;border:3px solid #F9E12A;border-top-color:transparent;border-radius:50%;animation:spin 0.8s linear infinite;"></div>
+    <style>@keyframes spin{to{transform:rotate(360deg)}}</style>
+    <div style="color:#888;font-size:13px;font-family:sans-serif;">加载中...</div>
+  </div>
+</div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
 <script type="text/babel">
 const { useState, useEffect, useRef, useCallback } = React;
@@ -344,26 +350,35 @@ const { useState, useEffect, useRef, useCallback } = React;
 const SUPABASE_URL = 'https://fbjcyemdzcvkpeuuxzwt.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_Id_Uv8PWoFXQqaVhro7PNg_cY6rlWay';
 
-// ── SUPABASE CLIENT (minimal) ──
+// ── SUPABASE CLIENT (支持新版 publishable key) ──
 const supabase = {
   async get(key) {
-    if (!SUPABASE_URL) return null;
-    const r = await fetch(`${SUPABASE_URL}/rest/v1/appdata?key=eq.${key}&select=value`, {
-      headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` }
-    });
-    const d = await r.json();
-    return d?.[0]?.value ?? null;
+    try {
+      const r = await fetch(`${SUPABASE_URL}/rest/v1/appdata?key=eq.${encodeURIComponent(key)}&select=value`, {
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      if (!r.ok) return null;
+      const d = await r.json();
+      return d?.[0]?.value ?? null;
+    } catch(e) { return null; }
   },
   async set(key, value) {
-    if (!SUPABASE_URL) return;
-    await fetch(`${SUPABASE_URL}/rest/v1/appdata`, {
-      method: 'POST',
-      headers: {
-        apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}`,
-        'Content-Type': 'application/json', Prefer: 'resolution=merge-duplicates'
-      },
-      body: JSON.stringify({ key, value })
-    });
+    try {
+      await fetch(`${SUPABASE_URL}/rest/v1/appdata`, {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`,
+          'Content-Type': 'application/json',
+          'Prefer': 'resolution=merge-duplicates'
+        },
+        body: JSON.stringify({ key, value })
+      });
+    } catch(e) {}
   }
 };
 
@@ -568,7 +583,7 @@ function GoalTab({ data, onChange, toast }) {
   const [editFocus, setEditFocus] = useState(false);
   const [focusText, setFocusText] = useState(data.weekFocus || '');
   const [todayCount, setTodayCount] = useState(data.todayCount || 0);
-  const [editingMs, setEditingMs] = useState(null);
+  const [editingMs, setEditingMs] = useState(null); // null | 'new' | milestone object
   const [editMode, setEditMode] = useState(false);
 
   useEffect(() => { setFocusText(data.weekFocus || ''); setTodayCount(data.todayCount || 0); }, [data]);
@@ -625,10 +640,393 @@ function GoalTab({ data, onChange, toast }) {
         />
       )}
 
+      {/* Hero */}
       <div className="goal-hero">
         <div className="goal-hero-label">目标 · 6月底</div>
         <div className="goal-hero-number">15<span style={{fontSize:28,fontFamily:'Noto Sans SC'}}>单/天</span></div>
         <div className="goal-hero-sub">距今约 {Math.ceil((new Date('2025-06-30') - new Date()) / 86400000)} 天</div>
         <div className="today-count-row">
           <input
-            className="count-input
+            className="count-input"
+            type="number" min="0" max="99"
+            value={todayCount}
+            onChange={e => saveCount(Number(e.target.value))}
+          />
+          <span className="count-label">今日单量</span>
+          <div style={{flex:1, marginLeft:8}}>
+            <div className="progress-bar-bg">
+              <div className="progress-bar-fill" style={{width: `${Math.min(100, (todayCount/15)*100)}%`}} />
+            </div>
+            <div style={{fontSize:10, color:'rgba(0,0,0,0.5)', textAlign:'right'}}>{Math.round((todayCount/15)*100)}%</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Milestones */}
+      <div className="card">
+        <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:12}}>
+          <div className="card-title" style={{margin:0}}>⛳ 里程碑 {doneCount}/{total}</div>
+          <div style={{display:'flex', gap:6}}>
+            <button
+              className="task-action-btn"
+              style={{fontSize:11, borderColor: editMode ? 'var(--yellow)' : '', color: editMode ? 'var(--yellow)' : ''}}
+              onClick={() => setEditMode(e => !e)}
+            >
+              {editMode ? '完成编辑' : '✏️ 编辑'}
+            </button>
+            <button className="task-action-btn" onClick={() => setEditingMs('new')}>＋ 添加</button>
+          </div>
+        </div>
+        <div className="progress-bar-bg" style={{marginBottom:12}}>
+          <div className="progress-bar-fill" style={{width:`${total ? (doneCount/total)*100 : 0}%`}} />
+        </div>
+        <div className="milestone-list">
+          {(data.milestones || []).map(m => (
+            <div key={m.id} className="milestone-item">
+              <div
+                className={`milestone-dot ${m.status}`}
+                onClick={() => toggleMilestone(m.id)}
+                style={{cursor: editMode ? 'default' : 'pointer'}}
+              />
+              <div className="milestone-date" style={{flex:'none'}}>{m.date}</div>
+              <div className={`milestone-name ${m.status}`} style={{flex:1}}>{m.name}</div>
+              {editMode && (
+                <div style={{display:'flex', gap:4, flexShrink:0}}>
+                  <button className="task-action-btn" style={{fontSize:10}} onClick={() => setEditingMs(m)}>编辑</button>
+                  <button className="task-action-btn delete" style={{fontSize:10}} onClick={() => deleteMilestone(m.id)}>删除</button>
+                </div>
+              )}
+              {!editMode && (
+                <div
+                  style={{fontSize:14, color: m.status==='done' ? 'var(--yellow)' : 'var(--gray-light)', cursor:'pointer', padding:'0 4px'}}
+                  onClick={() => toggleMilestone(m.id)}
+                >
+                  {m.status === 'done' ? '✓' : '○'}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+        {editMode && (
+          <button className="add-task-btn" style={{marginTop:10, marginBottom:0}} onClick={() => setEditingMs('new')}>
+            ＋ 添加里程碑
+          </button>
+        )}
+      </div>
+
+      {/* Weekly focus */}
+      <div className="card">
+        <div className="card-title">📌 本周重点</div>
+        {editFocus ? (
+          <>
+            <textarea
+              className="focus-textarea"
+              value={focusText}
+              onChange={e => setFocusText(e.target.value)}
+              placeholder="本周要做什么..."
+              autoFocus
+            />
+            <div style={{display:'flex', gap:8, marginTop:8}}>
+              <button className="btn-secondary" onClick={() => setEditFocus(false)}>取消</button>
+              <button className="btn-primary" onClick={saveFocus}>保存</button>
+            </div>
+          </>
+        ) : (
+          <div className="focus-area" onClick={() => setEditFocus(true)}>
+            {focusText || <span style={{color:'var(--gray-text)'}}>点击编辑本周重点...</span>}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ── TASKS TAB ──
+function TasksTab({ tasks, onTasksChange, toast }) {
+  const [showForm, setShowForm] = useState(false);
+  const [editTask, setEditTask] = useState(null);
+
+  const toggle = (id) => {
+    const updated = tasks.map(t => t.id === id
+      ? { ...t, status: t.status === 'done' ? 'pending' : 'done' }
+      : t
+    );
+    onTasksChange(updated);
+  };
+
+  const del = (id) => {
+    onTasksChange(tasks.filter(t => t.id !== id));
+    toast('已删除');
+  };
+
+  const save = (form) => {
+    if (editTask) {
+      onTasksChange(tasks.map(t => t.id === editTask.id ? { ...t, ...form } : t));
+      setEditTask(null);
+      toast('已更新');
+    } else {
+      const newTask = { ...form, id: Date.now(), status: 'pending' };
+      onTasksChange([...tasks, newTask]);
+      setShowForm(false);
+      toast('已添加');
+    }
+  };
+
+  const groups = groupTasks(tasks);
+
+  const SECTION_CONFIG = [
+    { key: 'overdue', label: '⚠️ 逾期', cls: 'overdue' },
+    { key: 'today', label: '🔥 今天', cls: 'today-task' },
+    { key: 'upcoming', label: '⏳ 即将（3天内）', cls: 'upcoming' },
+    { key: 'future', label: '📅 待完成', cls: '' },
+    { key: 'persistent', label: '🔄 持续任务', cls: '' },
+    { key: 'unscheduled', label: '📋 待排期', cls: '' },
+    { key: 'done', label: '✅ 已完成', cls: '' },
+  ];
+
+  return (
+    <div className="tab-content">
+      {(showForm && !editTask) && (
+        <TaskForm onSave={save} onCancel={() => setShowForm(false)} />
+      )}
+      {editTask && (
+        <TaskForm initial={editTask} onSave={save} onCancel={() => setEditTask(null)} />
+      )}
+
+      {SECTION_CONFIG.map(({ key, label }) => {
+        const list = groups[key];
+        if (!list?.length) return null;
+        return (
+          <div key={key}>
+            <div className="section-header">
+              <span className="section-label">
+                {label}
+                <span className="section-count">{list.length}</span>
+              </span>
+            </div>
+            {list.map(t => (
+              <TaskItem
+                key={t.id} task={t}
+                onToggle={toggle}
+                onDelete={del}
+                onEdit={t => { setShowForm(false); setEditTask(t); }}
+              />
+            ))}
+          </div>
+        );
+      })}
+
+      {!showForm && !editTask && (
+        <button className="add-task-btn" onClick={() => { setEditTask(null); setShowForm(true); }}>
+          ＋ 添加任务
+        </button>
+      )}
+    </div>
+  );
+}
+
+// ── GROWTH TAB ──
+function GrowthTab({ data, onChange, toast }) {
+  const habits = data.habits || [
+    { id: 1, name: '读书', icon: '📚', streak: 0, log: {} },
+    { id: 2, name: '得到', icon: '🎧', streak: 0, log: {} },
+    { id: 3, name: '健身', icon: '💪', streak: 0, log: {} },
+  ];
+
+  const toggleHabit = (id) => {
+    const updated = habits.map(h => {
+      if (h.id !== id) return h;
+      const log = { ...h.log };
+      const wasDone = log[today];
+      log[today] = !wasDone;
+      // recalc streak
+      let streak = 0;
+      let d = new Date(today);
+      while (true) {
+        const k = d.toISOString().slice(0, 10);
+        if (log[k]) { streak++; d.setDate(d.getDate() - 1); }
+        else break;
+      }
+      return { ...h, log, streak };
+    });
+    onChange({ ...data, habits: updated });
+    toast('打卡成功 🎉');
+  };
+
+  // last 28 days
+  const last28 = Array.from({ length: 28 }, (_, i) => {
+    const d = new Date(today);
+    d.setDate(d.getDate() - (27 - i));
+    return d.toISOString().slice(0, 10);
+  });
+
+  const [showPersonalForm, setShowPersonalForm] = useState(false);
+  const personalTasks = data.personalTasks || [];
+
+  const addPersonal = (form) => {
+    const updated = [...personalTasks, { ...form, id: Date.now(), status: 'pending' }];
+    onChange({ ...data, personalTasks: updated });
+    setShowPersonalForm(false);
+  };
+
+  const togglePersonal = (id) => {
+    const updated = personalTasks.map(t => t.id === id
+      ? { ...t, status: t.status === 'done' ? 'pending' : 'done' }
+      : t
+    );
+    onChange({ ...data, personalTasks: updated });
+  };
+
+  const delPersonal = (id) => {
+    onChange({ ...data, personalTasks: personalTasks.filter(t => t.id !== id) });
+  };
+
+  return (
+    <div className="tab-content">
+      {/* Habits */}
+      <div className="card">
+        <div className="card-title">🌱 每日习惯</div>
+        <div className="habit-grid">
+          {habits.map(h => (
+            <div key={h.id} className="habit-card">
+              <div className="habit-icon">{h.icon}</div>
+              <div className="habit-info">
+                <div className="habit-name">{h.name}</div>
+                <div className="habit-streak">连续 <span>{h.streak}</span> 天</div>
+                <div className="habit-calendar">
+                  {last28.map(d => (
+                    <div key={d} className={`habit-day ${h.log?.[d] ? 'done' : ''} ${d === today ? 'today-dot' : ''}`} />
+                  ))}
+                </div>
+              </div>
+              <button
+                className={`habit-check-btn ${h.log?.[today] ? 'done' : ''}`}
+                onClick={() => toggleHabit(h.id)}
+              >
+                {h.log?.[today] ? '✓' : '○'}
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Personal tasks */}
+      <div className="card">
+        <div className="card-title">📝 个人任务</div>
+        {showPersonalForm && (
+          <TaskForm onSave={addPersonal} onCancel={() => setShowPersonalForm(false)} />
+        )}
+        {sortByPriority(personalTasks).map(t => (
+          <TaskItem
+            key={t.id} task={t}
+            onToggle={togglePersonal}
+            onDelete={delPersonal}
+            onEdit={() => {}}
+          />
+        ))}
+        {!showPersonalForm && (
+          <button className="add-task-btn" onClick={() => setShowPersonalForm(true)}>
+            ＋ 添加个人任务
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ── APP ──
+function App() {
+  const [tab, setTab] = useState('tasks');
+  const [tasks, setTasks] = useState(DEFAULT_TASKS);
+  const [goalData, setGoalData] = useState({ milestones: DEFAULT_MILESTONES, weekFocus: '', todayCount: 0 });
+  const [growthData, setGrowthData] = useState({});
+  const [syncing, setSyncing] = useState(false);
+  const [toastMsg, setToastMsg] = useState('');
+  const [loaded, setLoaded] = useState(false);
+
+  const showToast = (msg) => {
+    setToastMsg(msg);
+    setTimeout(() => setToastMsg(''), 2000);
+  };
+
+  // Load
+  useEffect(() => {
+    (async () => {
+      const [t, g, gr] = await Promise.all([
+        storage.get('sb_tasks'),
+        storage.get('sb_goal'),
+        storage.get('sb_growth'),
+      ]);
+      if (t) setTasks(t);
+      if (g) setGoalData(g);
+      if (gr) setGrowthData(gr);
+      setLoaded(true);
+    })();
+  }, []);
+
+  // Auto-save
+  const saveTimer = useRef(null);
+  const autoSave = useCallback(async (tasksVal, goalVal, growthVal) => {
+    clearTimeout(saveTimer.current);
+    saveTimer.current = setTimeout(async () => {
+      setSyncing(true);
+      await Promise.all([
+        storage.set('sb_tasks', tasksVal),
+        storage.set('sb_goal', goalVal),
+        storage.set('sb_growth', growthVal),
+      ]);
+      setSyncing(false);
+    }, 600);
+  }, []);
+
+  const handleTasks = (v) => { setTasks(v); autoSave(v, goalData, growthData); };
+  const handleGoal = (v) => { setGoalData(v); autoSave(tasks, v, growthData); };
+  const handleGrowth = (v) => { setGrowthData(v); autoSave(tasks, goalData, v); };
+
+  const dateStr = new Date().toLocaleDateString('zh-CN', { month: 'long', day: 'numeric', weekday: 'short' });
+
+  if (!loaded) return (
+    <div style={{display:'flex',alignItems:'center',justifyContent:'center',height:'100vh',flexDirection:'column',gap:12}}>
+      <div style={{width:40,height:40,border:'3px solid var(--yellow)',borderTop:'3px solid transparent',borderRadius:'50%',animation:'spin 0.8s linear infinite'}} />
+      <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
+      <div style={{color:'var(--gray-text)',fontSize:13}}>加载中...</div>
+    </div>
+  );
+
+  return (
+    <>
+      {toastMsg && <Toast msg={toastMsg} />}
+      <div className="app-header">
+        <div>
+          <div className="app-logo">上手吧<span> ·</span></div>
+          <div className="app-date">{dateStr}</div>
+        </div>
+        <button className={`sync-btn ${syncing ? 'syncing' : ''}`} onClick={() => showToast('数据已同步 ✓')}>
+          {syncing ? '同步中...' : '已同步 ✓'}
+        </button>
+      </div>
+
+      <div className="tab-bar">
+        {[
+          { key: 'goal', icon: '🎯', label: '目标' },
+          { key: 'tasks', icon: '📋', label: '任务' },
+          { key: 'growth', icon: '🌱', label: '成长' },
+        ].map(t => (
+          <button key={t.key} className={`tab-btn ${tab === t.key ? 'active' : ''}`} onClick={() => setTab(t.key)}>
+            <span className="tab-icon">{t.icon}</span>
+            {t.label}
+          </button>
+        ))}
+      </div>
+
+      {tab === 'goal' && <GoalTab data={goalData} onChange={handleGoal} toast={showToast} />}
+      {tab === 'tasks' && <TasksTab tasks={tasks} onTasksChange={handleTasks} toast={showToast} />}
+      {tab === 'growth' && <GrowthTab data={growthData} onChange={handleGrowth} toast={showToast} />}
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
