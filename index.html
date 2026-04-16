@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="上手吧" />
+  <title>上手吧 · 行动追踪</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --yellow: #F9E12A;
+      --black: #141414;
+      --gray-dark: #1e1e1e;
+      --gray-mid: #2a2a2a;
+      --gray-light: #3a3a3a;
+      --gray-text: #888;
+      --red: #FF3B3B;
+      --green: #39FF14;
+      --blue: #3B82F6;
+      --orange: #FF8C00;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    html, body { height: 100%; background: var(--black); color: #fff; font-family: 'Noto Sans SC', 'PingFang SC', '微软雅黑', sans-serif; overflow: hidden; }
+    #root { height: 100%; display: flex; flex-direction: column; }
+
+    /* ── HEADER ── */
+    .app-header {
+      background: var(--black);
+      border-bottom: 2px solid var(--yellow);
+      padding: 12px 16px 10px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-shrink: 0;
+      position: relative;
+    }
+    .app-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 26px;
+      color: var(--yellow);
+      letter-spacing: 2px;
+      line-height: 1;
+    }
+    .app-logo span { color: #fff; }
+    .app-date { font-size: 11px; color: var(--gray-text); letter-spacing: 1px; }
+    .sync-btn {
+      background: none; border: 1px solid var(--gray-light);
+      color: var(--gray-text); border-radius: 6px;
+      padding: 4px 10px; font-size: 11px; cursor: pointer;
+      font-family: inherit; transition: all 0.2s;
+    }
+    .sync-btn:hover { border-color: var(--yellow); color: var(--yellow); }
+    .sync-btn.syncing { color: var(--yellow); border-color: var(--yellow); animation: pulse 1s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+    /* ── TABS ── */
+    .tab-bar {
+      display: flex; background: var(--gray-dark);
+      border-bottom: 1px solid var(--gray-mid);
+      flex-shrink: 0;
+    }
+    .tab-btn {
+      flex: 1; padding: 10px 4px; background: none; border: none;
+      color: var(--gray-text); font-size: 12px; font-family: inherit;
+      cursor: pointer; transition: all 0.2s;
+      display: flex; flex-direction: column; align-items: center; gap: 2px;
+      border-bottom: 2px solid transparent;
+    }
+    .tab-btn .tab-icon { font-size: 18px; }
+    .tab-btn.active { color: var(--yellow); border-bottom-color: var(--yellow); }
+
+    /* ── SCROLL CONTENT ── */
+    .tab-content { flex: 1; overflow-y: auto; padding: 16px; }
+    .tab-content::-webkit-scrollbar { width: 3px; }
+    .tab-content::-webkit-scrollbar-track { background: transparent; }
+    .tab-content::-webkit-scrollbar-thumb { background: var(--gray-light); border-radius: 2px; }
+
+    /* ── CARDS ── */
+    .card {
+      background: var(--gray-dark); border: 1px solid var(--gray-mid);
+      border-radius: 12px; padding: 16px; margin-bottom: 14px;
+    }
+    .card-title {
+      font-size: 11px; text-transform: uppercase; letter-spacing: 2px;
+      color: var(--gray-text); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+    }
+    .card-title::after { content: ''; flex: 1; height: 1px; background: var(--gray-mid); }
+
+    /* ── GOAL BOARD ── */
+    .goal-hero {
+      background: var(--yellow); border-radius: 12px; padding: 20px;
+      margin-bottom: 14px; color: var(--black);
+    }
+    .goal-hero-label { font-size: 11px; font-weight: 700; letter-spacing: 2px; opacity: 0.6; }
+    .goal-hero-number { font-family: 'Bebas Neue', sans-serif; font-size: 72px; line-height: 1; }
+    .goal-hero-sub { font-size: 13px; font-weight: 500; margin-top: 4px; opacity: 0.7; }
+
+    .today-count-row { display: flex; align-items: center; gap: 10px; margin-top: 12px; }
+    .count-input {
+      background: rgba(0,0,0,0.15); border: 2px solid rgba(0,0,0,0.2);
+      border-radius: 8px; color: var(--black); font-size: 20px; font-weight: 900;
+      width: 60px; text-align: center; padding: 4px; font-family: 'Bebas Neue', sans-serif;
+    }
+    .count-input:focus { outline: none; border-color: rgba(0,0,0,0.5); }
+    .count-label { font-size: 13px; font-weight: 600; color: var(--black); opacity: 0.7; }
+
+    .milestone-list { display: flex; flex-direction: column; gap: 0; }
+    .milestone-item {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 10px 0; border-bottom: 1px solid var(--gray-mid); position: relative;
+    }
+    .milestone-item:last-child { border-bottom: none; }
+    .milestone-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--gray-light); flex-shrink: 0; margin-top: 4px;
+      border: 2px solid var(--gray-mid);
+    }
+    .milestone-dot.done { background: var(--yellow); border-color: var(--yellow); }
+    .milestone-dot.current { background: var(--green); border-color: var(--green); box-shadow: 0 0 8px var(--green); }
+    .milestone-date { font-size: 11px; color: var(--gray-text); min-width: 54px; margin-top: 2px; }
+    .milestone-name { font-size: 13px; font-weight: 500; }
+    .milestone-name.done { color: var(--gray-text); text-decoration: line-through; }
+    .milestone-name.current { color: var(--green); }
+
+    .focus-area {
+      background: var(--gray-mid); border-radius: 8px; padding: 12px;
+      min-height: 60px; font-size: 13px; color: #ccc; line-height: 1.6;
+      white-space: pre-wrap; cursor: pointer;
+    }
+    .focus-textarea {
+      background: var(--gray-mid); border: 1px solid var(--yellow);
+      border-radius: 8px; padding: 12px; width: 100%; min-height: 80px;
+      font-size: 13px; color: #fff; line-height: 1.6; font-family: inherit;
+      resize: none;
+    }
+    .focus-textarea:focus { outline: none; }
+
+    /* ── TASKS ── */
+    .section-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 8px; margin-top: 4px;
+    }
+    .section-label {
+      font-size: 11px; letter-spacing: 1.5px; color: var(--gray-text);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .section-count {
+      background: var(--gray-mid); border-radius: 10px;
+      padding: 1px 7px; font-size: 10px; color: var(--gray-text);
+    }
+
+    .task-item {
+      background: var(--gray-dark); border: 1px solid var(--gray-mid);
+      border-radius: 10px; padding: 12px; margin-bottom: 8px;
+      transition: all 0.2s; position: relative; overflow: hidden;
+    }
+    .task-item.overdue { border-left: 3px solid var(--red); }
+    .task-item.today-task { border-left: 3px solid var(--yellow); }
+    .task-item.upcoming { border-left: 3px solid var(--orange); }
+    .task-item.done-task { opacity: 0.45; }
+    .task-item.priority-high::before {
+      content: ''; position: absolute; top: 0; right: 0;
+      width: 0; height: 0;
+      border-top: 20px solid var(--red);
+      border-left: 20px solid transparent;
+    }
+    .task-item.priority-urgent::before {
+      border-top-color: var(--yellow);
+    }
+
+    .task-top { display: flex; align-items: flex-start; gap: 10px; }
+    .task-check {
+      width: 18px; height: 18px; border-radius: 4px;
+      border: 2px solid var(--gray-light); background: none;
+      flex-shrink: 0; cursor: pointer; margin-top: 1px;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .task-check.checked { background: var(--yellow); border-color: var(--yellow); }
+    .task-check.checked::after { content: '✓'; font-size: 11px; color: var(--black); font-weight: 900; }
+    .task-title { font-size: 14px; font-weight: 500; flex: 1; line-height: 1.4; }
+    .task-title.done-text { text-decoration: line-through; color: var(--gray-text); }
+
+    .task-meta { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; align-items: center; }
+    .tag {
+      font-size: 10px; padding: 2px 7px; border-radius: 10px;
+      border: 1px solid; display: inline-flex; align-items: center; gap: 3px;
+    }
+    .tag-assignee { border-color: var(--blue); color: var(--blue); background: rgba(59,130,246,0.1); }
+    .tag-date { border-color: var(--gray-light); color: var(--gray-text); background: transparent; }
+    .tag-date.overdue-date { border-color: var(--red); color: var(--red); background: rgba(255,59,59,0.1); }
+    .tag-boss { border-color: var(--orange); color: var(--orange); background: rgba(255,140,0,0.1); }
+    .tag-priority-high { border-color: var(--red); color: var(--red); background: rgba(255,59,59,0.1); }
+    .tag-priority-urgent { border-color: var(--yellow); color: #000; background: var(--yellow); }
+    .tag-priority-normal { border-color: var(--gray-light); color: var(--gray-text); }
+
+    .task-actions { display: flex; gap: 6px; margin-top: 8px; }
+    .task-action-btn {
+      font-size: 10px; padding: 3px 8px; border-radius: 6px;
+      border: 1px solid var(--gray-mid); background: none;
+      color: var(--gray-text); cursor: pointer; font-family: inherit;
+      transition: all 0.15s;
+    }
+    .task-action-btn:hover { border-color: var(--yellow); color: var(--yellow); }
+    .task-action-btn.delete:hover { border-color: var(--red); color: var(--red); }
+
+    /* ── ADD TASK FORM ── */
+    .add-task-btn {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      width: 100%; padding: 12px; background: none;
+      border: 1px dashed var(--gray-light); border-radius: 10px;
+      color: var(--gray-text); font-size: 13px; font-family: inherit;
+      cursor: pointer; transition: all 0.2s; margin-bottom: 20px;
+    }
+    .add-task-btn:hover { border-color: var(--yellow); color: var(--yellow); }
+
+    .add-form {
+      background: var(--gray-dark); border: 1px solid var(--yellow);
+      border-radius: 12px; padding: 14px; margin-bottom: 14px;
+    }
+    .form-row { display: flex; gap: 8px; margin-bottom: 10px; align-items: center; }
+    .form-input {
+      background: var(--gray-mid); border: 1px solid var(--gray-light);
+      border-radius: 8px; color: #fff; font-size: 13px; font-family: inherit;
+      padding: 8px 12px; flex: 1; transition: border-color 0.2s;
+    }
+    .form-input:focus { outline: none; border-color: var(--yellow); }
+    .form-select {
+      background: var(--gray-mid); border: 1px solid var(--gray-light);
+      border-radius: 8px; color: #fff; font-size: 12px; font-family: inherit;
+      padding: 8px; cursor: pointer;
+    }
+    .form-select:focus { outline: none; border-color: var(--yellow); }
+    .form-label { font-size: 11px; color: var(--gray-text); min-width: 40px; }
+    .form-checkbox-row { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #ccc; }
+    .form-checkbox { accent-color: var(--yellow); width: 14px; height: 14px; }
+
+    .btn-primary {
+      background: var(--yellow); color: var(--black);
+      border: none; border-radius: 8px; padding: 9px 18px;
+      font-size: 13px; font-weight: 700; font-family: inherit;
+      cursor: pointer; transition: all 0.15s;
+    }
+    .btn-primary:hover { background: #ffe44d; }
+    .btn-secondary {
+      background: none; color: var(--gray-text);
+      border: 1px solid var(--gray-light); border-radius: 8px;
+      padding: 9px 14px; font-size: 13px; font-family: inherit;
+      cursor: pointer;
+    }
+
+    /* ── GROWTH ── */
+    .habit-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+    .habit-card {
+      background: var(--gray-mid); border-radius: 10px; padding: 14px;
+      display: flex; align-items: center; gap: 14px;
+    }
+    .habit-icon { font-size: 28px; flex-shrink: 0; }
+    .habit-info { flex: 1; }
+    .habit-name { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+    .habit-streak { font-size: 11px; color: var(--gray-text); }
+    .habit-streak span { color: var(--yellow); font-weight: 700; font-size: 16px; }
+    .habit-check-btn {
+      width: 44px; height: 44px; border-radius: 50%;
+      border: 2px solid var(--gray-light); background: none;
+      font-size: 20px; cursor: pointer; transition: all 0.2s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .habit-check-btn.done { background: var(--yellow); border-color: var(--yellow); }
+    .habit-check-btn:not(.done):hover { border-color: var(--yellow); }
+
+    .habit-calendar { display: flex; gap: 3px; flex-wrap: wrap; margin-top: 8px; }
+    .habit-day {
+      width: 12px; height: 12px; border-radius: 2px;
+      background: var(--gray-light);
+    }
+    .habit-day.done { background: var(--yellow); }
+    .habit-day.today-dot { box-shadow: 0 0 4px var(--yellow); }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.8);
+      display: flex; align-items: flex-end; justify-content: center;
+      z-index: 100; padding: 0;
+    }
+    .modal {
+      background: var(--gray-dark); border-top: 2px solid var(--yellow);
+      border-radius: 16px 16px 0 0; width: 100%; max-width: 520px;
+      padding: 20px 16px 34px; max-height: 85vh; overflow-y: auto;
+    }
+    .modal-title { font-size: 16px; font-weight: 700; margin-bottom: 16px; color: var(--yellow); }
+
+    /* ── EMPTY STATE ── */
+    .empty-state { text-align: center; padding: 30px; color: var(--gray-text); font-size: 13px; }
+
+    /* ── FLOATING ADD ── */
+    .fab {
+      position: fixed; bottom: 80px; right: 20px;
+      width: 52px; height: 52px; border-radius: 50%;
+      background: var(--yellow); color: var(--black);
+      border: none; font-size: 24px; cursor: pointer;
+      box-shadow: 0 4px 20px rgba(249,225,42,0.4);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 300; z-index: 50; transition: all 0.2s;
+    }
+    .fab:hover { transform: scale(1.08); box-shadow: 0 6px 28px rgba(249,225,42,0.6); }
+
+    .progress-bar-bg {
+      height: 4px; background: var(--gray-mid); border-radius: 2px; margin: 8px 0;
+    }
+    .progress-bar-fill { height: 100%; background: var(--yellow); border-radius: 2px; transition: width 0.4s; }
+
+    .divider-label {
+      text-align: center; font-size: 10px; letter-spacing: 2px;
+      color: var(--gray-text); margin: 4px 0 10px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .divider-label::before, .divider-label::after {
+      content: ''; flex: 1; height: 1px; background: var(--gray-mid);
+    }
+
+    .toast {
+      position: fixed; top: 70px; left: 50%; transform: translateX(-50%);
+      background: var(--yellow); color: var(--black);
+      padding: 8px 20px; border-radius: 20px; font-size: 13px; font-weight: 600;
+      z-index: 200; animation: toastIn 0.2s ease, toastOut 0.3s ease 1.5s forwards;
+    }
+    @keyframes toastIn { from{opacity:0;transform:translateX(-50%) translateY(-10px)} to{opacity:1;transform:translateX(-50%) translateY(0)} }
+    @keyframes toastOut { to{opacity:0;transform:translateX(-50%) translateY(-10px)} }
+  </style>
+</head>
+<body>
+<div id="root">
+  <div style="display:flex;align-items:center;justify-content:center;height:100vh;flex-direction:column;gap:12px;background:#141414;">
+    <div style="width:36px;height:36px;border:3px solid #F9E12A;border-top-color:transparent;border-radius:50%;animation:spin 0.8s linear infinite;"></div>
+    <style>@keyframes spin{to{transform:rotate(360deg)}}</style>
+    <div style="color:#888;font-size:13px;font-family:sans-serif;">加载中...</div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<script type="text/babel">
+const { useState, useEffect, useRef, useCallback } = React;
+
+// ── SUPABASE CONFIG ──
+const SUPABASE_URL = 'https://fbjcyemdzcvkpeuuxzwt.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_Id_Uv8PWoFXQqaVhro7PNg_cY6rlWay';
+
+// ── SUPABASE CLIENT (支持新版 publishable key) ──
+const supabase = {
+  async get(key) {
+    try {
+      const r = await fetch(`${SUPABASE_URL}/rest/v1/appdata?key=eq.${encodeURIComponent(key)}&select=value`, {
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      if (!r.ok) return null;
+      const d = await r.json();
+      return d?.[0]?.value ?? null;
+    } catch(e) { return null; }
+  },
+  async set(key, value) {
+    try {
+      await fetch(`${SUPABASE_URL}/rest/v1/appdata`, {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`,
+          'Content-Type': 'application/json',
+          'Prefer': 'resolution=merge-duplicates'
+        },
+        body: JSON.stringify({ key, value })
+      });
+    } catch(e) {}
+  }
+};
+
+// ── LOCAL FALLBACK (works without Supabase) ──
+const storage = {
+  async get(key) {
+    try { const r = await supabase.get(key); if (r !== null) return r; } catch {}
+    const v = localStorage.getItem(key);
+    return v ? JSON.parse(v) : null;
+  },
+  async set(key, value) {
+    localStorage.setItem(key, JSON.stringify(value));
+    try { await supabase.set(key, value); } catch {}
+  }
+};
+
+// ── DEFAULT DATA ──
+const today = new Date().toISOString().slice(0, 10);
+
+const DEFAULT_TASKS = [
+  { id: 1, title: '铝板渠道A话术整理', assignee: '我', dueDate: '2025-03-07', bossFollow: false, status: 'pending', priority: 'urgent', persistent: false },
+  { id: 2, title: '新地推海报内容制作，发给老马', assignee: '我', dueDate: '2025-03-07', bossFollow: false, status: 'pending', priority: 'urgent', persistent: false },
+  { id: 3, title: '触达渠道A+B，周日反馈最晚周一', assignee: '有劳', dueDate: '2025-03-10', bossFollow: false, status: 'pending', priority: 'high', persistent: false },
+  { id: 4, title: '直播设备准备就位', assignee: '老杨', dueDate: '2025-03-09', bossFollow: false, status: 'pending', priority: 'high', persistent: false },
+  { id: 5, title: '满屋严选老板拜访', assignee: '我', dueDate: '2025-03-10', bossFollow: false, status: 'pending', priority: 'normal', persistent: false },
+  { id: 6, title: '全屋定制+设计师走访方案', assignee: '我', dueDate: '2025-03-10', bossFollow: false, status: 'pending', priority: 'normal', persistent: false },
+  { id: 7, title: '老客户转介绍执行方案', assignee: '我', dueDate: '2025-03-09', bossFollow: false, status: 'pending', priority: 'normal', persistent: false },
+  { id: 8, title: '装修避坑手册更新+地推方案', assignee: '我', dueDate: '2025-03-09', bossFollow: false, status: 'pending', priority: 'normal', persistent: false },
+  { id: 9, title: '用户画像梳理', assignee: '我', dueDate: '2025-03-09', bossFollow: false, status: 'pending', priority: 'normal', persistent: false },
+  { id: 10, title: '按年前方式即刻启动地推', assignee: '老马', dueDate: '2025-03-07', bossFollow: true, status: 'pending', priority: 'urgent', persistent: false },
+  { id: 11, title: '3+4月营销日历', assignee: '老杨', dueDate: '2025-03-11', bossFollow: false, status: 'pending', priority: 'normal', persistent: false },
+  { id: 12, title: '保洁技能检查验收', assignee: '全员', dueDate: '2025-03-10', bossFollow: false, status: 'pending', priority: 'normal', persistent: false },
+  { id: 13, title: '每周找队长候选人谈一次，说判断逻辑', assignee: '我', dueDate: null, bossFollow: false, status: 'pending', priority: 'normal', persistent: true },
+  { id: 14, title: '主动拓展高端渠道合作方，目标3-5个', assignee: '我', dueDate: null, bossFollow: false, status: 'pending', priority: 'normal', persistent: true },
+  { id: 15, title: '完成3-6月工作目标拆解', assignee: '我', dueDate: null, bossFollow: false, status: 'pending', priority: 'high', persistent: true },
+];
+
+const DEFAULT_MILESTONES = [
+  { id: 1, date: '3月现在', name: '启动', status: 'current' },
+  { id: 2, date: '3月15日', name: '招人', status: 'pending' },
+  { id: 3, date: '3月20日', name: '师傅人选确定', status: 'pending' },
+  { id: 4, date: '3月31日', name: '渠道打通', status: 'pending' },
+  { id: 5, date: '4月7日', name: '小程序上线', status: 'pending' },
+  { id: 6, date: '4月15日', name: '队长独立运营', status: 'pending' },
+  { id: 7, date: '4月30日', name: '6单/天', status: 'pending' },
+  { id: 8, date: '5月15日', name: '转介绍跑通', status: 'pending' },
+  { id: 9, date: '5月20日', name: '3-5渠道稳定', status: 'pending' },
+  { id: 10, date: '5月31日', name: '10单/天', status: 'pending' },
+  { id: 11, date: '6月15日', name: '营销日历常态化', status: 'pending' },
+  { id: 12, date: '6月30日', name: '🎯 15单/天', status: 'pending' },
+];
+
+const PRIORITY_ORDER = { urgent: 0, high: 1, normal: 2 };
+const PRIORITY_LABELS = { urgent: '🔴 最紧急', high: '🟡 重要', normal: '⬜ 普通' };
+
+// ── HELPERS ──
+function getTaskGroup(task) {
+  if (task.status === 'done') return 'done';
+  if (task.persistent) return 'persistent';
+  if (!task.dueDate) return 'unscheduled';
+  if (task.dueDate < today) return 'overdue';
+  if (task.dueDate === today) return 'today';
+  const diff = (new Date(task.dueDate) - new Date(today)) / 86400000;
+  if (diff <= 3) return 'upcoming';
+  return 'future';
+}
+
+function sortByPriority(tasks) {
+  return [...tasks].sort((a, b) => (PRIORITY_ORDER[a.priority] ?? 2) - (PRIORITY_ORDER[b.priority] ?? 2));
+}
+
+function groupTasks(tasks) {
+  const groups = { overdue: [], today: [], upcoming: [], future: [], persistent: [], unscheduled: [], done: [] };
+  tasks.forEach(t => groups[getTaskGroup(t)].push(t));
+  Object.keys(groups).forEach(k => { groups[k] = sortByPriority(groups[k]); });
+  return groups;
+}
+
+// ── TOAST ──
+function Toast({ msg }) {
+  return <div className="toast">{msg}</div>;
+}
+
+// ── TASK ITEM ──
+function TaskItem({ task, onToggle, onDelete, onEdit }) {
+  const group = getTaskGroup(task);
+  const cls = ['task-item',
+    group === 'overdue' ? 'overdue' : '',
+    group === 'today' ? 'today-task' : '',
+    group === 'upcoming' ? 'upcoming' : '',
+    task.status === 'done' ? 'done-task' : '',
+    task.priority === 'high' ? 'priority-high' : '',
+    task.priority === 'urgent' ? 'priority-urgent' : '',
+  ].filter(Boolean).join(' ');
+
+  return (
+    <div className={cls}>
+      <div className="task-top">
+        <div
+          className={`task-check ${task.status === 'done' ? 'checked' : ''}`}
+          onClick={() => onToggle(task.id)}
+        />
+        <div className={`task-title ${task.status === 'done' ? 'done-text' : ''}`}>{task.title}</div>
+      </div>
+      <div className="task-meta">
+        {task.assignee && <span className="tag tag-assignee">👤 {task.assignee}</span>}
+        {task.dueDate && (
+          <span className={`tag tag-date ${task.dueDate < today && task.status !== 'done' ? 'overdue-date' : ''}`}>
+            📅 {task.dueDate}
+          </span>
+        )}
+        {task.bossFollow && <span className="tag tag-boss">⭐ 老板跟进</span>}
+        {task.persistent && <span className="tag tag-assignee">🔄 持续</span>}
+        <span className={`tag tag-priority-${task.priority}`}>
+          {task.priority === 'urgent' ? '🔴 最紧急' : task.priority === 'high' ? '🟡 重要' : '⬜ 普通'}
+        </span>
+      </div>
+      <div className="task-actions">
+        <button className="task-action-btn" onClick={() => onEdit(task)}>编辑</button>
+        <button className="task-action-btn delete" onClick={() => onDelete(task.id)}>删除</button>
+      </div>
+    </div>
+  );
+}
+
+// ── ADD/EDIT FORM ──
+function TaskForm({ initial, onSave, onCancel }) {
+  const [form, setForm] = useState(initial || {
+    title: '', assignee: '我', dueDate: today,
+    bossFollow: false, priority: 'normal', persistent: false
+  });
+  const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
+
+  return (
+    <div className="add-form">
+      <div className="form-row">
+        <input
+          className="form-input" placeholder="任务内容..."
+          value={form.title} onChange={e => set('title', e.target.value)}
+          autoFocus
+        />
+      </div>
+      <div className="form-row">
+        <span className="form-label">负责人</span>
+        <input className="form-input" value={form.assignee} onChange={e => set('assignee', e.target.value)} />
+        <span className="form-label">日期</span>
+        <input className="form-input" type="date" value={form.dueDate || ''} onChange={e => set('dueDate', e.target.value)} style={{maxWidth:'130px'}} />
+      </div>
+      <div className="form-row">
+        <span className="form-label">优先级</span>
+        <select className="form-select" value={form.priority} onChange={e => set('priority', e.target.value)}>
+          <option value="urgent">🔴 最紧急</option>
+          <option value="high">🟡 重要</option>
+          <option value="normal">⬜ 普通</option>
+        </select>
+      </div>
+      <div className="form-row" style={{gap:16}}>
+        <label className="form-checkbox-row">
+          <input type="checkbox" className="form-checkbox" checked={form.bossFollow} onChange={e => set('bossFollow', e.target.checked)} />
+          老板跟进
+        </label>
+        <label className="form-checkbox-row">
+          <input type="checkbox" className="form-checkbox" checked={form.persistent} onChange={e => set('persistent', e.target.checked)} />
+          持续任务
+        </label>
+      </div>
+      <div className="form-row" style={{justifyContent:'flex-end', gap:8, marginBottom:0}}>
+        <button className="btn-secondary" onClick={onCancel}>取消</button>
+        <button className="btn-primary" onClick={() => form.title.trim() && onSave(form)}>保存</button>
+      </div>
+    </div>
+  );
+}
+
+// ── MILESTONE EDIT MODAL ──
+function MilestoneModal({ milestone, onSave, onCancel }) {
+  const [form, setForm] = useState({ date: milestone?.date || '', name: milestone?.name || '' });
+  const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
+  return (
+    <div className="modal-overlay" onClick={onCancel}>
+      <div className="modal" onClick={e => e.stopPropagation()}>
+        <div className="modal-title">{milestone?.id ? '编辑里程碑' : '新增里程碑'}</div>
+        <div className="form-row">
+          <span className="form-label">时间</span>
+          <input className="form-input" placeholder="如：4月15日" value={form.date} onChange={e => set('date', e.target.value)} autoFocus />
+        </div>
+        <div className="form-row">
+          <span className="form-label">内容</span>
+          <input className="form-input" placeholder="里程碑名称" value={form.name} onChange={e => set('name', e.target.value)} />
+        </div>
+        <div className="form-row" style={{justifyContent:'flex-end', gap:8, marginBottom:0}}>
+          <button className="btn-secondary" onClick={onCancel}>取消</button>
+          <button className="btn-primary" onClick={() => form.name.trim() && onSave(form)}>保存</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── GOAL TAB ──
+function GoalTab({ data, onChange, toast }) {
+  const [editFocus, setEditFocus] = useState(false);
+  const [focusText, setFocusText] = useState(data.weekFocus || '');
+  const [todayCount, setTodayCount] = useState(data.todayCount || 0);
+  const [editingMs, setEditingMs] = useState(null); // null | 'new' | milestone object
+  const [editMode, setEditMode] = useState(false);
+
+  useEffect(() => { setFocusText(data.weekFocus || ''); setTodayCount(data.todayCount || 0); }, [data]);
+
+  const saveFocus = () => {
+    setEditFocus(false);
+    onChange({ ...data, weekFocus: focusText });
+  };
+
+  const saveCount = (v) => {
+    setTodayCount(v);
+    onChange({ ...data, todayCount: v });
+  };
+
+  const toggleMilestone = (id) => {
+    if (editMode) return;
+    const ms = data.milestones.map(m => {
+      if (m.id !== id) return m;
+      if (m.status === 'done') return { ...m, status: 'pending' };
+      return { ...m, status: 'done' };
+    });
+    onChange({ ...data, milestones: ms });
+  };
+
+  const saveMilestone = (form) => {
+    let ms;
+    if (editingMs === 'new') {
+      ms = [...(data.milestones || []), { id: Date.now(), date: form.date, name: form.name, status: 'pending' }];
+      toast('里程碑已添加');
+    } else {
+      ms = (data.milestones || []).map(m => m.id === editingMs.id ? { ...m, ...form } : m);
+      toast('已更新');
+    }
+    onChange({ ...data, milestones: ms });
+    setEditingMs(null);
+  };
+
+  const deleteMilestone = (id) => {
+    const ms = (data.milestones || []).filter(m => m.id !== id);
+    onChange({ ...data, milestones: ms });
+    toast('已删除');
+  };
+
+  const doneCount = (data.milestones || []).filter(m => m.status === 'done').length;
+  const total = (data.milestones || []).length;
+
+  return (
+    <div className="tab-content">
+      {editingMs && (
+        <MilestoneModal
+          milestone={editingMs === 'new' ? null : editingMs}
+          onSave={saveMilestone}
+          onCancel={() => setEditingMs(null)}
+        />
+      )}
+
+      {/* Hero */}
+      <div className="goal-hero">
+        <div className="goal-hero-label">目标 · 6月底</div>
+        <div className="goal-hero-number">15<span style={{fontSize:28,fontFamily:'Noto Sans SC'}}>单/天</span></div>
+        <div className="goal-hero-sub">距今约 {Math.ceil((new Date('2025-06-30') - new Date()) / 86400000)} 天</div>
+        <div className="today-count-row">
+          <input
+            className="count-input"
+            type="number" min="0" max="99"
+            value={todayCount}
+            onChange={e => saveCount(Number(e.target.value))}
+          />
+          <span className="count-label">今日单量</span>
+          <div style={{flex:1, marginLeft:8}}>
+            <div className="progress-bar-bg">
+              <div className="progress-bar-fill" style={{width: `${Math.min(100, (todayCount/15)*100)}%`}} />
+            </div>
+            <div style={{fontSize:10, color:'rgba(0,0,0,0.5)', textAlign:'right'}}>{Math.round((todayCount/15)*100)}%</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Milestones */}
+      <div className="card">
+        <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:12}}>
+          <div className="card-title" style={{margin:0}}>⛳ 里程碑 {doneCount}/{total}</div>
+          <div style={{display:'flex', gap:6}}>
+            <button
+              className="task-action-btn"
+              style={{fontSize:11, borderColor: editMode ? 'var(--yellow)' : '', color: editMode ? 'var(--yellow)' : ''}}
+              onClick={() => setEditMode(e => !e)}
+            >
+              {editMode ? '完成编辑' : '✏️ 编辑'}
+            </button>
+            <button className="task-action-btn" onClick={() => setEditingMs('new')}>＋ 添加</button>
+          </div>
+        </div>
+        <div className="progress-bar-bg" style={{marginBottom:12}}>
+          <div className="progress-bar-fill" style={{width:`${total ? (doneCount/total)*100 : 0}%`}} />
+        </div>
+        <div className="milestone-list">
+          {(data.milestones || []).map(m => (
+            <div key={m.id} className="milestone-item">
+              <div
+                className={`milestone-dot ${m.status}`}
+                onClick={() => toggleMilestone(m.id)}
+                style={{cursor: editMode ? 'default' : 'pointer'}}
+              />
+              <div className="milestone-date" style={{flex:'none'}}>{m.date}</div>
+              <div className={`milestone-name ${m.status}`} style={{flex:1}}>{m.name}</div>
+              {editMode && (
+                <div style={{display:'flex', gap:4, flexShrink:0}}>
+                  <button className="task-action-btn" style={{fontSize:10}} onClick={() => setEditingMs(m)}>编辑</button>
+                  <button className="task-action-btn delete" style={{fontSize:10}} onClick={() => deleteMilestone(m.id)}>删除</button>
+                </div>
+              )}
+              {!editMode && (
+                <div
+                  style={{fontSize:14, color: m.status==='done' ? 'var(--yellow)' : 'var(--gray-light)', cursor:'pointer', padding:'0 4px'}}
+                  onClick={() => toggleMilestone(m.id)}
+                >
+                  {m.status === 'done' ? '✓' : '○'}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+        {editMode && (
+          <button className="add-task-btn" style={{marginTop:10, marginBottom:0}} onClick={() => setEditingMs('new')}>
+            ＋ 添加里程碑
+          </button>
+        )}
+      </div>
+
+      {/* Weekly focus */}
+      <div className="card">
+        <div className="card-title">📌 本周重点</div>
+        {editFocus ? (
+          <>
+            <textarea
+              className="focus-textarea"
+              value={focusText}
+              onChange={e => setFocusText(e.target.value)}
+              placeholder="本周要做什么..."
+              autoFocus
+            />
+            <div style={{display:'flex', gap:8, marginTop:8}}>
+              <button className="btn-secondary" onClick={() => setEditFocus(false)}>取消</button>
+              <button className="btn-primary" onClick={saveFocus}>保存</button>
+            </div>
+          </>
+        ) : (
+          <div className="focus-area" onClick={() => setEditFocus(true)}>
+            {focusText || <span style={{color:'var(--gray-text)'}}>点击编辑本周重点...</span>}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ── TASKS TAB ──
+function TasksTab({ tasks, onTasksChange, toast }) {
+  const [showForm, setShowForm] = useState(false);
+  const [editTask, setEditTask] = useState(null);
+
+  const toggle = (id) => {
+    const updated = tasks.map(t => t.id === id
+      ? { ...t, status: t.status === 'done' ? 'pending' : 'done' }
+      : t
+    );
+    onTasksChange(updated);
+  };
+
+  const del = (id) => {
+    onTasksChange(tasks.filter(t => t.id !== id));
+    toast('已删除');
+  };
+
+  const save = (form) => {
+    if (editTask) {
+      onTasksChange(tasks.map(t => t.id === editTask.id ? { ...t, ...form } : t));
+      setEditTask(null);
+      toast('已更新');
+    } else {
+      const newTask = { ...form, id: Date.now(), status: 'pending' };
+      onTasksChange([...tasks, newTask]);
+      setShowForm(false);
+      toast('已添加');
+    }
+  };
+
+  const groups = groupTasks(tasks);
+
+  const SECTION_CONFIG = [
+    { key: 'overdue', label: '⚠️ 逾期', cls: 'overdue' },
+    { key: 'today', label: '🔥 今天', cls: 'today-task' },
+    { key: 'upcoming', label: '⏳ 即将（3天内）', cls: 'upcoming' },
+    { key: 'future', label: '📅 待完成', cls: '' },
+    { key: 'persistent', label: '🔄 持续任务', cls: '' },
+    { key: 'unscheduled', label: '📋 待排期', cls: '' },
+    { key: 'done', label: '✅ 已完成', cls: '' },
+  ];
+
+  return (
+    <div className="tab-content">
+      {(showForm && !editTask) && (
+        <TaskForm onSave={save} onCancel={() => setShowForm(false)} />
+      )}
+      {editTask && (
+        <TaskForm initial={editTask} onSave={save} onCancel={() => setEditTask(null)} />
+      )}
+
+      {SECTION_CONFIG.map(({ key, label }) => {
+        const list = groups[key];
+        if (!list?.length) return null;
+        return (
+          <div key={key}>
+            <div className="section-header">
+              <span className="section-label">
+                {label}
+                <span className="section-count">{list.length}</span>
+              </span>
+            </div>
+            {list.map(t => (
+              <TaskItem
+                key={t.id} task={t}
+                onToggle={toggle}
+                onDelete={del}
+                onEdit={t => { setShowForm(false); setEditTask(t); }}
+              />
+            ))}
+          </div>
+        );
+      })}
+
+      {!showForm && !editTask && (
+        <button className="add-task-btn" onClick={() => { setEditTask(null); setShowForm(true); }}>
+          ＋ 添加任务
+        </button>
+      )}
+    </div>
+  );
+}
+
+// ── GROWTH TAB ──
+function GrowthTab({ data, onChange, toast }) {
+  const habits = data.habits || [
+    { id: 1, name: '读书', icon: '📚', streak: 0, log: {} },
+    { id: 2, name: '得到', icon: '🎧', streak: 0, log: {} },
+    { id: 3, name: '健身', icon: '💪', streak: 0, log: {} },
+  ];
+
+  const toggleHabit = (id) => {
+    const updated = habits.map(h => {
+      if (h.id !== id) return h;
+      const log = { ...h.log };
+      const wasDone = log[today];
+      log[today] = !wasDone;
+      // recalc streak
+      let streak = 0;
+      let d = new Date(today);
+      while (true) {
+        const k = d.toISOString().slice(0, 10);
+        if (log[k]) { streak++; d.setDate(d.getDate() - 1); }
+        else break;
+      }
+      return { ...h, log, streak };
+    });
+    onChange({ ...data, habits: updated });
+    toast('打卡成功 🎉');
+  };
+
+  // last 28 days
+  const last28 = Array.from({ length: 28 }, (_, i) => {
+    const d = new Date(today);
+    d.setDate(d.getDate() - (27 - i));
+    return d.toISOString().slice(0, 10);
+  });
+
+  const [showPersonalForm, setShowPersonalForm] = useState(false);
+  const personalTasks = data.personalTasks || [];
+
+  const addPersonal = (form) => {
+    const updated = [...personalTasks, { ...form, id: Date.now(), status: 'pending' }];
+    onChange({ ...data, personalTasks: updated });
+    setShowPersonalForm(false);
+  };
+
+  const togglePersonal = (id) => {
+    const updated = personalTasks.map(t => t.id === id
+      ? { ...t, status: t.status === 'done' ? 'pending' : 'done' }
+      : t
+    );
+    onChange({ ...data, personalTasks: updated });
+  };
+
+  const delPersonal = (id) => {
+    onChange({ ...data, personalTasks: personalTasks.filter(t => t.id !== id) });
+  };
+
+  return (
+    <div className="tab-content">
+      {/* Habits */}
+      <div className="card">
+        <div className="card-title">🌱 每日习惯</div>
+        <div className="habit-grid">
+          {habits.map(h => (
+            <div key={h.id} className="habit-card">
+              <div className="habit-icon">{h.icon}</div>
+              <div className="habit-info">
+                <div className="habit-name">{h.name}</div>
+                <div className="habit-streak">连续 <span>{h.streak}</span> 天</div>
+                <div className="habit-calendar">
+                  {last28.map(d => (
+                    <div key={d} className={`habit-day ${h.log?.[d] ? 'done' : ''} ${d === today ? 'today-dot' : ''}`} />
+                  ))}
+                </div>
+              </div>
+              <button
+                className={`habit-check-btn ${h.log?.[today] ? 'done' : ''}`}
+                onClick={() => toggleHabit(h.id)}
+              >
+                {h.log?.[today] ? '✓' : '○'}
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Personal tasks */}
+      <div className="card">
+        <div className="card-title">📝 个人任务</div>
+        {showPersonalForm && (
+          <TaskForm onSave={addPersonal} onCancel={() => setShowPersonalForm(false)} />
+        )}
+        {sortByPriority(personalTasks).map(t => (
+          <TaskItem
+            key={t.id} task={t}
+            onToggle={togglePersonal}
+            onDelete={delPersonal}
+            onEdit={() => {}}
+          />
+        ))}
+        {!showPersonalForm && (
+          <button className="add-task-btn" onClick={() => setShowPersonalForm(true)}>
+            ＋ 添加个人任务
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ── APP ──
+function App() {
+  const [tab, setTab] = useState('tasks');
+  const [tasks, setTasks] = useState(DEFAULT_TASKS);
+  const [goalData, setGoalData] = useState({ milestones: DEFAULT_MILESTONES, weekFocus: '', todayCount: 0 });
+  const [growthData, setGrowthData] = useState({});
+  const [syncing, setSyncing] = useState(false);
+  const [toastMsg, setToastMsg] = useState('');
+  const [loaded, setLoaded] = useState(false);
+
+  const showToast = (msg) => {
+    setToastMsg(msg);
+    setTimeout(() => setToastMsg(''), 2000);
+  };
+
+  // Load
+  useEffect(() => {
+    (async () => {
+      const [t, g, gr] = await Promise.all([
+        storage.get('sb_tasks'),
+        storage.get('sb_goal'),
+        storage.get('sb_growth'),
+      ]);
+      if (t) setTasks(t);
+      if (g) setGoalData(g);
+      if (gr) setGrowthData(gr);
+      setLoaded(true);
+    })();
+  }, []);
+
+  // Auto-save
+  const saveTimer = useRef(null);
+  const autoSave = useCallback(async (tasksVal, goalVal, growthVal) => {
+    clearTimeout(saveTimer.current);
+    saveTimer.current = setTimeout(async () => {
+      setSyncing(true);
+      await Promise.all([
+        storage.set('sb_tasks', tasksVal),
+        storage.set('sb_goal', goalVal),
+        storage.set('sb_growth', growthVal),
+      ]);
+      setSyncing(false);
+    }, 600);
+  }, []);
+
+  const handleTasks = (v) => { setTasks(v); autoSave(v, goalData, growthData); };
+  const handleGoal = (v) => { setGoalData(v); autoSave(tasks, v, growthData); };
+  const handleGrowth = (v) => { setGrowthData(v); autoSave(tasks, goalData, v); };
+
+  const dateStr = new Date().toLocaleDateString('zh-CN', { month: 'long', day: 'numeric', weekday: 'short' });
+
+  if (!loaded) return (
+    <div style={{display:'flex',alignItems:'center',justifyContent:'center',height:'100vh',flexDirection:'column',gap:12}}>
+      <div style={{width:40,height:40,border:'3px solid var(--yellow)',borderTop:'3px solid transparent',borderRadius:'50%',animation:'spin 0.8s linear infinite'}} />
+      <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
+      <div style={{color:'var(--gray-text)',fontSize:13}}>加载中...</div>
+    </div>
+  );
+
+  return (
+    <>
+      {toastMsg && <Toast msg={toastMsg} />}
+      <div className="app-header">
+        <div>
+          <div className="app-logo">上手吧<span> ·</span></div>
+          <div className="app-date">{dateStr}</div>
+        </div>
+        <button className={`sync-btn ${syncing ? 'syncing' : ''}`} onClick={() => showToast('数据已同步 ✓')}>
+          {syncing ? '同步中...' : '已同步 ✓'}
+        </button>
+      </div>
+
+      <div className="tab-bar">
+        {[
+          { key: 'goal', icon: '🎯', label: '目标' },
+          { key: 'tasks', icon: '📋', label: '任务' },
+          { key: 'growth', icon: '🌱', label: '成长' },
+        ].map(t => (
+          <button key={t.key} className={`tab-btn ${tab === t.key ? 'active' : ''}`} onClick={() => setTab(t.key)}>
+            <span className="tab-icon">{t.icon}</span>
+            {t.label}
+          </button>
+        ))}
+      </div>
+
+      {tab === 'goal' && <GoalTab data={goalData} onChange={handleGoal} toast={showToast} />}
+      {tab === 'tasks' && <TasksTab tasks={tasks} onTasksChange={handleTasks} toast={showToast} />}
+      {tab === 'growth' && <GrowthTab data={growthData} onChange={handleGrowth} toast={showToast} />}
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
