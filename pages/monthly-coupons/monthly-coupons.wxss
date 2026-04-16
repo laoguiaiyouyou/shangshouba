@@ -1,0 +1,101 @@
+.mc-page {
+  min-height: 100vh;
+  background: #f5f5f5;
+  box-sizing: border-box;
+}
+.mc-body {
+  padding: calc(212rpx + env(safe-area-inset-top)) 40rpx 0;
+}
+
+/* 等级 */
+.mc-level-bar { display: flex; align-items: center; gap: 12rpx; margin-bottom: 32rpx; }
+.mc-level-text { font-size: 26rpx; color: #333333; }
+.mc-level-badge { padding: 6rpx 20rpx; border-radius: 48rpx; background: #F9E12A; }
+.mc-level-badge-text { font-size: 22rpx; font-weight: 500; color: #000000; }
+
+/* 空态 */
+.mc-empty-card { background: #FFFFFF; border-radius: 24rpx; padding: 48rpx; text-align: center; }
+.mc-empty-text { font-size: 26rpx; color: #999999; }
+
+/* 券列表 */
+.mc-coupon-list { display: flex; flex-direction: column; gap: 16rpx; }
+.mc-coupon-card {
+  background: #FFFFFF; border-radius: 24rpx; padding: 28rpx;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.mc-coupon-name { font-size: 28rpx; font-weight: 500; color: #000000; flex: 1; }
+
+/* 按钮 */
+.mc-coupon-btn { padding: 14rpx 32rpx; border-radius: 48rpx; flex-shrink: 0; }
+.mc-coupon-btn--claim { background: #F9E12A; }
+.mc-coupon-btn--use { background: #111111; }
+.mc-coupon-btn--disabled { background: #F5F5F5; }
+.mc-coupon-btn-text { font-size: 24rpx; font-weight: 500; color: #000000; }
+.mc-coupon-btn--use .mc-coupon-btn-text { color: #FFFFFF; }
+.mc-coupon-btn-text--muted { color: #CCCCCC; }
+
+/* 规则 */
+.mc-rules { margin-top: 40rpx; padding: 28rpx; }
+.mc-rules-title { display: block; font-size: 24rpx; font-weight: 500; color: #333333; margin-bottom: 16rpx; }
+.mc-rules-text { display: block; font-size: 22rpx; color: #999999; line-height: 38rpx; }
+
+/* ══ 预约弹窗 ══ */
+.bk-mask { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 100; }
+.bk-modal {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: #FFFFFF; border-radius: 24rpx 24rpx 0 0;
+  padding: 0 32rpx 40rpx;
+  padding-bottom: calc(40rpx + env(safe-area-inset-bottom));
+  z-index: 101; box-sizing: border-box;
+}
+.bk-handle { width: 60rpx; height: 6rpx; background: #C6C6C8; border-radius: 3rpx; margin: 16rpx auto 24rpx; }
+.bk-title { display: block; font-size: 32rpx; font-weight: 600; color: #000000; margin-bottom: 32rpx; }
+
+/* 日历 */
+.bk-cal { margin-bottom: 24rpx; }
+.bk-cal-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16rpx; }
+.bk-cal-arrow { width: 56rpx; height: 56rpx; display: flex; align-items: center; justify-content: center; font-size: 32rpx; color: #000000; }
+.bk-cal-arrow--off { color: #CCCCCC; }
+.bk-cal-month { font-size: 28rpx; font-weight: 600; color: #000000; }
+.bk-cal-week { display: flex; margin-bottom: 8rpx; }
+.bk-cal-wk { flex: 1; text-align: center; font-size: 22rpx; color: #999999; }
+.bk-cal-grid { display: flex; flex-wrap: wrap; }
+.bk-cal-day { width: calc(100% / 7); height: 80rpx; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
+.bk-cal-day--empty { }
+.bk-cal-day--off { opacity: 0.3; }
+.bk-cal-day--on { background: #111111; border-radius: 12rpx; }
+.bk-cal-num { font-size: 26rpx; color: #333333; }
+.bk-cal-num--off { color: #CCCCCC; }
+.bk-cal-day--on .bk-cal-num { color: #FFFFFF; font-weight: 600; }
+.bk-cal-dot { width: 8rpx; height: 8rpx; border-radius: 50%; margin-top: 4rpx; }
+.bk-cal-dot--ok { background: #E8E8E8; }
+.bk-cal-dot--full-dot { background: #F9E12A; }
+.bk-cal-day--full { background: #F9E12A; border-radius: 12rpx; }
+.bk-cal-day--full .bk-cal-num { color: #000000; font-weight: 500; }
+.bk-cal-day--on .bk-cal-dot { background: #FFFFFF; }
+.bk-cal-legend { display: flex; gap: 24rpx; margin-top: 12rpx; }
+.bk-cal-legend-item { display: flex; align-items: center; gap: 6rpx; }
+.bk-cal-legend-text { font-size: 20rpx; color: #999999; }
+.bk-cal-selected { display: block; font-size: 24rpx; color: #000000; font-weight: 500; margin-top: 12rpx; }
+
+.bk-field { margin-bottom: 28rpx; }
+.bk-field-label { display: block; font-size: 24rpx; color: #999999; margin-bottom: 12rpx; }
+
+.bk-time-row { display: flex; gap: 16rpx; }
+.bk-time-btn {
+  flex: 1; height: 80rpx; display: flex; align-items: center; justify-content: center;
+  background: #F5F5F5; border-radius: 16rpx;
+}
+.bk-time-btn--on { background: #111111; }
+.bk-time-btn-text { font-size: 28rpx; font-weight: 500; color: #333333; }
+.bk-time-btn--on .bk-time-btn-text { color: #FFFFFF; }
+.bk-time-btn--off { background: #F9E12A; opacity: 0.6; }
+.bk-time-btn--off .bk-time-btn-text { color: #000000; }
+
+.bk-confirm-btn {
+  height: 88rpx; display: flex; align-items: center; justify-content: center;
+  background: #F9E12A; border-radius: 24rpx; margin-top: 32rpx;
+}
+.bk-confirm-text { font-size: 30rpx; font-weight: 600; color: #000000; }
+
+.bk-hint { display: block; font-size: 22rpx; color: #999999; text-align: center; margin-top: 16rpx; }

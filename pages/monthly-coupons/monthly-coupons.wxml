@@ -1,0 +1,127 @@
+<view class="mc-page">
+
+  <view class="global-top-bar">
+    <view class="global-top-back" bindtap="goBack">
+      <text class="global-top-back-icon">‹</text>
+    </view>
+    <view class="global-brand-wrap">
+      <view class="global-brand-dot"></view>
+      <text class="global-brand-title">我的券</text>
+    </view>
+    <view class="global-top-capsule"></view>
+  </view>
+
+  <view class="mc-body">
+
+    <view class="mc-level-bar">
+      <text class="mc-level-text">当前等级</text>
+      <view class="mc-level-badge">
+        <text class="mc-level-badge-text">{{currentLevel}}</text>
+      </view>
+    </view>
+
+    <!-- 非团长 -->
+    <view class="mc-empty-card" wx:if="{{!isLeader}}">
+      <text class="mc-empty-text">成为团长后可领取专属抵扣券</text>
+    </view>
+
+    <!-- 券列表 -->
+    <view class="mc-coupon-list" wx:if="{{isLeader}}">
+      <view class="mc-coupon-card" wx:for="{{couponList}}" wx:key="type">
+        <view class="mc-coupon-header">
+          <text class="mc-coupon-name">{{item.name}}</text>
+        </view>
+
+        <!-- 可领取 -->
+        <view class="mc-coupon-btn mc-coupon-btn--claim"
+          wx:if="{{item.status === 'claimable'}}"
+          bindtap="claimCoupon" data-type="{{item.type}}">
+          <text class="mc-coupon-btn-text">{{claimingType === item.type ? '领取中...' : '领取'}}</text>
+        </view>
+        <!-- 已领取 → 使用 -->
+        <view class="mc-coupon-btn mc-coupon-btn--use"
+          wx:if="{{item.status === 'holding'}}"
+          bindtap="openBooking" data-type="{{item.type}}">
+          <text class="mc-coupon-btn-text">使用</text>
+        </view>
+        <!-- 未解锁 -->
+        <view class="mc-coupon-btn mc-coupon-btn--disabled" wx:if="{{item.status === 'not_leader'}}">
+          <text class="mc-coupon-btn-text mc-coupon-btn-text--muted">未解锁</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="mc-rules">
+      <text class="mc-rules-title">使用说明</text>
+      <text class="mc-rules-text">· 领取后点"使用"，选择日期即可预约</text>
+      <text class="mc-rules-text">· 客服将在 30 分钟内与您确认上门时间</text>
+      <text class="mc-rules-text">· 过期自动作废，用完还能再领</text>
+      <text class="mc-rules-text">· 不可叠加、不可转赠、不可提现</text>
+    </view>
+
+  </view>
+
+  <!-- ══ 预约弹窗 ══ -->
+  <view wx:if="{{showBooking}}" class="bk-mask" bindtap="closeBooking"></view>
+  <view wx:if="{{showBooking}}" class="bk-modal">
+    <view class="bk-handle"></view>
+    <text class="bk-title">预约服务时间</text>
+
+    <!-- 日历选择 -->
+    <view class="bk-cal">
+      <view class="bk-cal-nav">
+        <view class="bk-cal-arrow {{calCanPrev ? '' : 'bk-cal-arrow--off'}}" bindtap="calPrev">‹</view>
+        <text class="bk-cal-month">{{calMonthLabel}}</text>
+        <view class="bk-cal-arrow {{calCanNext ? '' : 'bk-cal-arrow--off'}}" bindtap="calNext">›</view>
+      </view>
+      <view class="bk-cal-week">
+        <text class="bk-cal-wk">日</text><text class="bk-cal-wk">一</text><text class="bk-cal-wk">二</text>
+        <text class="bk-cal-wk">三</text><text class="bk-cal-wk">四</text><text class="bk-cal-wk">五</text>
+        <text class="bk-cal-wk">六</text>
+      </view>
+      <view class="bk-cal-grid">
+        <block wx:for="{{calDays}}" wx:key="index">
+          <view wx:if="{{item.empty}}" class="bk-cal-day bk-cal-day--empty"></view>
+          <view wx:elif="{{item.disabled}}" class="bk-cal-day bk-cal-day--off">
+            <text class="bk-cal-num bk-cal-num--off">{{item.day}}</text>
+          </view>
+          <view wx:elif="{{item.availability === 'full'}}" class="bk-cal-day bk-cal-day--full">
+            <text class="bk-cal-num">{{item.day}}</text>
+          </view>
+          <view wx:else class="bk-cal-day {{bookingDate === item.dateStr ? 'bk-cal-day--on' : ''}}"
+            bindtap="calSelectDate" data-date="{{item.dateStr}}">
+            <text class="bk-cal-num">{{item.day}}</text>
+          </view>
+        </block>
+      </view>
+      <view class="bk-cal-legend">
+        <view class="bk-cal-legend-item"><view class="bk-cal-dot bk-cal-dot--ok"></view><text class="bk-cal-legend-text">可约</text></view>
+        <view class="bk-cal-legend-item"><view class="bk-cal-dot bk-cal-dot--full-dot"></view><text class="bk-cal-legend-text">已满</text></view>
+      </view>
+      <text class="bk-cal-selected" wx:if="{{bookingDate}}">已选：{{bookingDate}}</text>
+    </view>
+
+    <!-- 上午/下午（除甲醛不显示） -->
+    <view class="bk-field" wx:if="{{bookingNeedTime}}">
+      <text class="bk-field-label">选择时段</text>
+      <view class="bk-time-row">
+        <view class="bk-time-btn {{bookingTimePeriod === '上午' ? 'bk-time-btn--on' : ''}} {{amDisabled ? 'bk-time-btn--off' : ''}}"
+          bindtap="selectTimePeriod" data-period="上午">
+          <text class="bk-time-btn-text">上午{{amDisabled ? '（已满）' : ''}}</text>
+        </view>
+        <view class="bk-time-btn {{bookingTimePeriod === '下午' ? 'bk-time-btn--on' : ''}} {{pmDisabled ? 'bk-time-btn--off' : ''}}"
+          bindtap="selectTimePeriod" data-period="下午">
+          <text class="bk-time-btn-text">下午{{pmDisabled ? '（已满）' : ''}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 确认按钮 -->
+    <view class="bk-confirm-btn" bindtap="confirmBooking">
+      <text class="bk-confirm-text">{{bookingLoading ? '预约中...' : '确认预约'}}</text>
+    </view>
+
+    <text class="bk-hint">客服将在 30 分钟内与您确认具体上门时间</text>
+  </view>
+
+</view>

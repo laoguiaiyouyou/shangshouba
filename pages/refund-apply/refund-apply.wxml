@@ -1,0 +1,84 @@
+<view class="refund-page">
+
+  <view class="global-top-bar">
+    <view class="global-top-back" bindtap="goBack">
+      <text class="global-top-back-icon">‹</text>
+    </view>
+    <view class="global-brand-wrap">
+      <view class="global-brand-dot"></view>
+      <text class="global-brand-title">安心住·上手吧</text>
+    </view>
+    <view class="global-top-capsule"></view>
+  </view>
+
+  <!-- 订单信息卡 -->
+  <view class="refund-card">
+    <text class="refund-card-title">订单信息</text>
+    <view class="refund-order-row">
+      <text class="refund-order-label">套餐名称</text>
+      <text class="refund-order-value">{{orderName || '深度开荒'}}</text>
+    </view>
+    <view class="refund-order-row" wx:if="{{serviceArea}}">
+      <text class="refund-order-label">服务面积</text>
+      <text class="refund-order-value">{{serviceArea}}㎡</text>
+    </view>
+    <view class="refund-order-row">
+      <text class="refund-order-label">预约日期</text>
+      <text class="refund-order-value">{{serviceDate || '--'}}</text>
+    </view>
+    <view class="refund-order-row" wx:if="{{totalPrice}}">
+      <text class="refund-order-label">实付金额</text>
+      <text class="refund-order-value refund-order-price">¥{{totalPrice}}</text>
+    </view>
+  </view>
+
+  <!-- 退款原因卡 -->
+  <view class="refund-card">
+    <text class="refund-card-title">退款原因</text>
+    <view class="refund-reason-list">
+      <block wx:for="{{reasons}}" wx:key="index">
+        <view class="refund-reason-item {{selectedReason === index ? 'active' : ''}}" bindtap="selectReason" data-index="{{index}}">
+          <view class="refund-radio {{selectedReason === index ? 'checked' : ''}}"></view>
+          <text class="refund-reason-text">{{item}}</text>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <!-- 上传截图卡 -->
+  <view class="refund-card">
+    <text class="refund-card-title">上传截图</text>
+    <text class="refund-card-tip">如有相关截图可上传，有助于加快审核</text>
+    <view class="refund-upload-grid">
+      <view
+        class="refund-upload-item"
+        wx:for="{{images}}"
+        wx:key="index"
+      >
+        <image class="refund-upload-img" src="{{item}}" mode="aspectFill"></image>
+      </view>
+      <view class="refund-upload-add" bindtap="chooseImage">
+        <text class="refund-upload-plus">＋</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 退款截止提示 -->
+  <view class="refund-deadline" wx:if="{{refundDeadlineText}}">
+    <text class="refund-deadline-text">{{refundDeadlineText}}</text>
+  </view>
+
+  <!-- 提示说明 -->
+  <view class="refund-notice">
+    <text class="refund-notice-text">· 开工前 72 小时可全额退款，超时后申请将关闭</text>
+    <text class="refund-notice-text">· 退款金额原路退回，1-3 个工作日到账</text>
+    <text class="refund-notice-text">· 退款申请提交后不可撤销，请谨慎操作</text>
+  </view>
+
+  <!-- 提交退款按钮 -->
+  <view class="refund-submit-wrap">
+    <text class="refund-submit-btn" bindtap="submitRefund">提交退款申请</text>
+    <text class="refund-secondary-btn" bindtap="giveAnotherChance">再给一次机会</text>
+  </view>
+
+</view>

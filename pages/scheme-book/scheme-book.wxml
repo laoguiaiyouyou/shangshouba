@@ -1,0 +1,164 @@
+<view class="scheme-page">
+  <!-- 顶部自定义导航 -->
+  <view class="global-top-bar">
+    <view class="global-top-back" bindtap="goBack">
+      <text class="global-top-back-icon">‹</text>
+    </view>
+    <view class="global-brand-wrap">
+      <view class="global-brand-dot"></view>
+      <text class="global-brand-title">安心住·上手吧</text>
+    </view>
+    <view class="global-top-capsule"></view>
+  </view>
+
+  <scroll-view class="scheme-scroll" scroll-y="true">
+    <!-- 顶区：流程第 1 步 + 短引导 -->
+    <view class="scheme-page-header">
+      <view class="scheme-step-chip">确认 · 第 1 步</view>
+      <text class="scheme-page-title">确认勘查结果</text>
+      <text class="scheme-page-desc">请核对下列事项并逐项确认</text>
+    </view>
+
+    <!-- 逐项确认（首屏核心） -->
+    <view class="scheme-card confirm-card">
+      <view class="confirm-card-head">
+        <view class="section-title-row">
+          <view class="section-title-accent"></view>
+          <text class="card-title">需要您确认</text>
+        </view>
+        <text class="confirm-progress" wx:if="{{confirmTotalCount > 0}}">{{confirmDoneCount}}/{{confirmTotalCount}}</text>
+      </view>
+
+      <view class="confirm-item" wx:for="{{confirmItems}}" wx:for-item="item" wx:for-index="idx" wx:key="idx">
+        <view class="confirm-item-main">
+          <text class="confirm-label">{{item.label}}</text>
+
+          <view wx:if="{{item.selected === 'yes'}}" class="confirm-detail-row">
+            <text class="confirm-detail confirm-detail-prefix">{{item.detailLabel}}：</text>
+            <input
+              class="confirm-detail-input confirm-detail-input--inline"
+              value="{{item.detailText}}"
+              placeholder="请输入"
+              bindinput="onDetailInput"
+              data-index="{{idx}}"
+            />
+          </view>
+
+          <text class="confirm-detail" wx:elif="{{item.selected === 'no'}}">{{item.detailLabel}}：无</text>
+          <text class="confirm-detail confirm-detail-hint" wx:else>待确认</text>
+        </view>
+
+        <view class="confirm-toggle">
+          <view class="radio-option {{item.selected === 'yes' ? 'radio-active' : ''}}" bindtap="setConfirmItem" data-index="{{idx}}" data-value="yes">
+            <view class="radio-dot {{item.selected === 'yes' ? 'radio-dot-active' : ''}}"></view>
+            <text class="radio-label">有</text>
+          </view>
+          <view class="radio-option {{item.selected === 'no' ? 'radio-active' : ''}}" bindtap="setConfirmItem" data-index="{{idx}}" data-value="no">
+            <view class="radio-dot {{item.selected === 'no' ? 'radio-dot-active' : ''}}"></view>
+            <text class="radio-label">无</text>
+          </view>
+        </view>
+
+        <view wx:if="{{idx === 0}}" class="confirm-item-extra">
+          <view class="install-hint">
+            <text class="install-hint-text">提示：即便是水龙头安装这类小安排，也可能影响作业时长。若当日总作业超出 16 小时，超出部分将额外按购买价 ÷ 12 的时薪计算，不满 1 小时按 1 小时计，请您务必重视和确认。</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="scheme-divider"></view>
+
+      <!-- 特别说明：无异议选择 + 全文 -->
+      <view class="special-section">
+        <view class="special-header">
+          <view class="section-title-row section-title-row--compact">
+            <view class="section-title-accent"></view>
+            <text class="card-title">特别说明是否无异议</text>
+          </view>
+          <view class="radio-group-inline">
+            <view class="radio-option {{specialChoice === 'yes' ? 'radio-active radio-active-warn' : ''}}" bindtap="setSpecialChoice" data-value="yes">
+              <view class="radio-dot radio-dot-warn {{specialChoice === 'yes' ? 'radio-dot-active-warn' : ''}}"></view>
+              <text class="radio-label">有异议</text>
+            </view>
+            <view class="radio-option {{specialChoice === 'no' ? 'radio-active' : ''}}" bindtap="setSpecialChoice" data-value="no">
+              <view class="radio-dot {{specialChoice === 'no' ? 'radio-dot-active' : ''}}"></view>
+              <text class="radio-label">无异议</text>
+            </view>
+          </view>
+        </view>
+
+        <view class="special-list">
+          <view class="special-item" wx:for="{{specialNotes}}" wx:key="index">
+            <view class="special-item-dot"></view>
+            <text class="special-text">{{item}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 核对信息（只读参照） -->
+    <view class="scheme-card info-card">
+      <text class="card-title">核对信息</text>
+
+      <view class="info-row">
+        <text class="info-label">客户姓名</text>
+        <text class="info-value">{{basicInfo.customerName}}</text>
+      </view>
+
+      <view class="info-row info-row--split">
+        <view class="info-cell">
+          <text class="info-label">服务类型</text>
+          <text class="info-value">{{basicInfo.serviceType}}</text>
+        </view>
+        <view class="info-cell info-cell--end">
+          <text class="info-label">预约日期</text>
+          <text class="info-value">{{basicInfo.serviceDate}}</text>
+        </view>
+      </view>
+
+      <view class="info-row info-row--split">
+        <view class="info-cell">
+          <text class="info-label">小区名</text>
+          <text class="info-value">{{basicInfo.communityName}}</text>
+        </view>
+        <view class="info-cell info-cell--end">
+          <text class="info-label">房号</text>
+          <text class="info-value">{{basicInfo.roomNo}}</text>
+        </view>
+      </view>
+
+      <view class="info-row info-row--split">
+        <view class="info-cell">
+          <text class="info-label">面积</text>
+          <text class="info-value">{{basicInfo.area}}</text>
+        </view>
+        <view class="info-cell info-cell--end">
+          <text class="info-label">费用</text>
+          <text class="info-value">{{basicInfo.totalPrice}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 重点摘要 -->
+    <view class="scheme-card extra-card">
+      <text class="card-title">您的要求 · 我们的重点</text>
+      <view class="extra-list">
+        <view class="extra-item" wx:for="{{extraNotes}}" wx:key="index">
+          <text class="extra-bullet">{{item.prefix}}</text>
+          <text class="extra-text">{{item.text}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="scheme-bottom-placeholder"></view>
+  </scroll-view>
+
+  <!-- 底部固定操作区 -->
+  <view class="scheme-footer">
+    <view class="scheme-submit-hint" wx:if="{{!canSubmit}}">
+      <text class="scheme-submit-hint-text">完成全部确认项后可继续</text>
+    </view>
+    <view class="btn {{canSubmit ? 'btn-primary' : 'btn-disabled'}}" bindtap="confirmNoObjection">确认并继续</view>
+    <view class="btn btn-secondary" bindtap="needCommunication">需要沟通</view>
+  </view>
+</view>

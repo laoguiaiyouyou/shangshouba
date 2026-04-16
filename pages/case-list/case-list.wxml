@@ -1,0 +1,74 @@
+<view class="cl-page">
+
+  <!-- 顶部安全区 + 导航 -->
+  <view class="cl-topbar" style="padding-top: calc({{statusBarHeight}}px + 0rpx);">
+    <view class="cl-topbar-inner">
+      <view class="cl-back" bindtap="goBack">
+        <text class="cl-back-icon">‹</text>
+      </view>
+      <view class="cl-brand">
+        <view class="cl-brand-dot"></view>
+        <text class="cl-brand-name">安心住·上手吧</text>
+      </view>
+      <view class="cl-back cl-back--phantom"></view>
+    </view>
+  </view>
+
+  <!-- 分类标题区 -->
+  <view class="cl-hero">
+    <text class="cl-hero-sup">案例实拍</text>
+    <text class="cl-hero-title">{{currentLabel}}</text>
+  </view>
+
+  <!-- Tab 切换栏（4 个分类胶囊） -->
+  <view class="cl-tab-bar">
+    <view
+      class="cl-tab {{tab.category === currentCategory ? 'cl-tab--active' : ''}}"
+      wx:for="{{tabs}}"
+      wx:key="category"
+      bindtap="onTabTap"
+      data-category="{{item.category}}"
+      data-label="{{item.label}}">
+      <text class="cl-tab-text">{{item.label}}</text>
+    </view>
+  </view>
+
+  <!-- 案例列表（双列） -->
+  <scroll-view class="cl-scroll" scroll-y enable-flex>
+    <view class="cl-grid">
+      <view
+        class="cl-card"
+        wx:for="{{currentItems}}"
+        wx:key="id">
+
+        <!-- 图片区：有 cover 显示图片，无则占位 -->
+        <view class="cl-card-img-wrap">
+          <image
+            wx:if="{{item.cover}}"
+            class="cl-card-img"
+            src="{{item.cover}}"
+            mode="aspectFill"
+            lazy-load />
+          <view wx:else class="cl-card-placeholder">
+            <view class="cl-card-ph-inner">
+              <view class="cl-card-ph-icon"></view>
+              <text class="cl-card-ph-label">案例图即将上线</text>
+            </view>
+          </view>
+        </view>
+
+        <!-- 小区 + 面积 -->
+        <view class="cl-card-meta" wx:if="{{item.community || item.area}}">
+          <text class="cl-card-community">{{item.community}}</text>
+          <text class="cl-card-dot" wx:if="{{item.community && item.area}}"> · </text>
+          <text class="cl-card-area">{{item.area}}</text>
+        </view>
+
+      </view>
+    </view>
+
+    <!-- 底部安全区 -->
+    <view class="cl-bottom-safe"></view>
+  </scroll-view>
+
+</view>

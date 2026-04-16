@@ -1,0 +1,310 @@
+/* ================================================================
+   payment-success.wxss
+   颜色系统：黄 #f9e12a · 黑 #000000 · 灰 #333333/#999999 · 白 #ffffff
+   扁平化，无 liquid glass
+   ================================================================ */
+
+.ps-page {
+  min-height: 100vh;
+  background: #F2F2F7;
+  padding-top: calc(212rpx + env(safe-area-inset-top));
+  padding-bottom: 80rpx;
+  box-sizing: border-box;
+}
+
+/* ── Hero ── */
+.ps-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40rpx 40rpx 32rpx;
+  background: #FFFFFF;
+  border-bottom: 1rpx solid #E5E5EA;
+}
+.ps-hero-icon {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  background: #f9e12a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16rpx;
+}
+.ps-hero-check {
+  font-size: 52rpx;
+  color: #000000;
+  font-weight: 600;
+  line-height: 1;
+}
+.ps-hero-title {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #000000;
+  margin-bottom: 8rpx;
+}
+.ps-hero-sub {
+  font-size: 24rpx;
+  color: #999999;
+  text-align: center;
+  line-height: 36rpx;
+}
+
+/* ── 通用卡片 ── */
+.ps-card {
+  background: #FFFFFF;
+  border-radius: 24rpx;
+  margin: 20rpx 40rpx 0;
+  padding: 28rpx;
+  box-sizing: border-box;
+}
+
+/* ── 订单信息行 ── */
+.ps-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 12rpx 0;
+  border-bottom: 1rpx solid #F2F2F7;
+}
+.ps-row--last { border-bottom: none; }
+.ps-row-label {
+  font-size: 26rpx;
+  color: #999999;
+  width: 130rpx;
+  flex-shrink: 0;
+  line-height: 40rpx;
+}
+.ps-row-value {
+  flex: 1;
+  font-size: 26rpx;
+  color: #333333;
+  text-align: right;
+  line-height: 40rpx;
+}
+.ps-row-price {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #000000;
+}
+
+/* ── 邀约返现卡 ── */
+.ps-invite-card {
+  border: 2rpx solid #f9e12a;
+}
+.ps-invite-top {
+  margin-bottom: 10rpx;
+}
+.ps-invite-badge {
+  display: inline-block;
+  background: #f9e12a;
+  color: #000000;
+  font-size: 20rpx;
+  font-weight: 500;
+  padding: 2rpx 12rpx;
+  border-radius: 6rpx;
+  margin-bottom: 10rpx;
+}
+.ps-invite-amount {
+  display: block;
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #333333;
+  line-height: 40rpx;
+}
+.ps-invite-amount-num {
+  font-size: 32rpx;
+  font-weight: 600;
+}
+.ps-invite-desc {
+  display: block;
+  font-size: 24rpx;
+  color: #999999;
+  line-height: 36rpx;
+  margin-bottom: 20rpx;
+}
+.ps-invite-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+/* ── 拼团卡 ── */
+.ps-group-card {
+  background: #111111;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.ps-group-left { flex: 1; }
+.ps-group-badge {
+  display: inline-block;
+  background: #f9e12a;
+  color: #000000;
+  font-size: 20rpx;
+  font-weight: 500;
+  padding: 2rpx 12rpx;
+  border-radius: 6rpx;
+  margin-bottom: 10rpx;
+}
+.ps-group-title {
+  display: block;
+  font-size: 26rpx;
+  font-weight: 500;
+  color: #FFFFFF;
+  margin-bottom: 4rpx;
+}
+.ps-group-sub {
+  display: block;
+  font-size: 23rpx;
+  color: rgba(255,255,255,0.6);
+  line-height: 36rpx;
+}
+.ps-group-arrow {
+  font-size: 36rpx;
+  color: rgba(255,255,255,0.5);
+  margin-left: 16rpx;
+}
+
+/* ── 转介绍卡 ── */
+.ps-referral-card { border: 2rpx solid #f9e12a; }
+.ps-referral-top { margin-bottom: 10rpx; }
+.ps-referral-title {
+  display: block;
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #333333;
+  margin-top: 8rpx;
+  margin-bottom: 4rpx;
+}
+.ps-referral-amount { font-weight: 600; font-size: 32rpx; }
+.ps-referral-desc {
+  display: block;
+  font-size: 24rpx;
+  color: #999999;
+  line-height: 36rpx;
+  margin-bottom: 20rpx;
+}
+
+/* ── 通用按钮 ── */
+.ps-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 84rpx;
+  border-radius: 16rpx;
+  box-sizing: border-box;
+}
+.ps-btn--yellow { background: #f9e12a; }
+.ps-btn--black  { background: #111111; }
+.ps-btn--outline { border: 2rpx solid #000000; background: transparent; }
+.ps-btn--ghost  { background: #F2F2F7; }
+.ps-btn-text {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #000000;
+}
+.ps-btn--black .ps-btn-text  { color: #FFFFFF; }
+.ps-btn--ghost .ps-btn-text  { color: #999999; }
+
+/* ── 底部按钮组 ── */
+.ps-actions {
+  margin: 20rpx 40rpx 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+/* ── QR码弹层 ── */
+.ps-mask {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 100;
+}
+.ps-qr-sheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #FFFFFF;
+  border-radius: 24rpx 24rpx 0 0;
+  padding: 0 28rpx calc(40rpx + env(safe-area-inset-bottom));
+  z-index: 101;
+  box-sizing: border-box;
+}
+.ps-qr-handle {
+  width: 60rpx;
+  height: 6rpx;
+  background: #C6C6C8;
+  border-radius: 3rpx;
+  margin: 16rpx auto 20rpx;
+}
+.ps-qr-title {
+  display: block;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #000000;
+  text-align: center;
+  margin-bottom: 8rpx;
+}
+.ps-qr-desc {
+  display: block;
+  font-size: 26rpx;
+  color: #999999;
+  text-align: center;
+  line-height: 40rpx;
+  margin-bottom: 20rpx;
+}
+.ps-qr-area {
+  width: 340rpx;
+  height: 340rpx;
+  margin: 0 auto 24rpx;
+  background: #F2F2F7;
+  border-radius: 16rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.ps-qr-img { width: 100%; height: 100%; }
+.ps-qr-loading-text { font-size: 26rpx; color: #999999; }
+.ps-qr-fail-text { font-size: 26rpx; color: #999999; text-align: center; padding: 0 20rpx; }
+.ps-qr-btns { display: flex; flex-direction: column; gap: 12rpx; }
+
+/* 链接分享框 */
+.ps-link-box {
+  background: #F2F2F7;
+  border-radius: 14rpx;
+  padding: 20rpx;
+  margin-bottom: 20rpx;
+  word-break: break-all;
+}
+.ps-link-text { font-size: 24rpx; color: #999999; line-height: 38rpx; }
+
+/* ── 团购身份标签 ── */
+.ps-group-chip {
+  margin-top: 16rpx;
+  display: inline-flex;
+  align-items: center;
+  background: rgba(249, 225, 42, 0.18);
+  border: 1rpx solid rgba(249, 225, 42, 0.50);
+  border-radius: 999rpx;
+  padding: 6rpx 20rpx;
+}
+.ps-group-chip-text {
+  font-size: 22rpx;
+  font-weight: 500;
+  color: #999999;
+}
+
+/* ── 订单卡：团购优惠行 ── */
+.ps-row--group .ps-row-label {
+  color: #999999;
+}
+.ps-row-discount {
+  font-size: 26rpx;
+  font-weight: 500;
+  color: #F9E12A;
+  text-align: right;
+}

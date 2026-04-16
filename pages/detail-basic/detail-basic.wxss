@@ -1,0 +1,138 @@
+page { background: #f9f9f9; }
+
+.db-page { min-height: 100vh; background: #f9f9f9; }
+
+.db-top-bar { background: transparent; }
+
+/* Hero */
+.db-hero {
+  position: relative;
+  width: 100%;
+  height: 480rpx;
+  overflow: hidden;
+}
+.db-hero-bg {
+  position: absolute;
+  inset: 0;
+  background: #e8e8e8;
+}
+.db-hero-content {
+  position: absolute;
+  left: 48rpx;
+  right: 48rpx;
+  bottom: 64rpx;
+}
+.db-hero-title {
+  display: block;
+  font-size: 44rpx;
+  font-weight: 600;
+  color: #000000;
+  line-height: 62rpx;
+}
+.db-hero-sub {
+  display: block;
+  margin-top: 12rpx;
+  font-size: 24rpx;
+  font-weight: 400;
+  color: #999999;
+  line-height: 36rpx;
+}
+
+/* 内容区 */
+.db-body {
+  position: relative;
+  margin-top: -32rpx;
+  border-radius: 32rpx 32rpx 0 0;
+  background: #f9f9f9;
+  padding: 40rpx 40rpx 0;
+}
+
+.db-section-head {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  margin-bottom: 28rpx;
+}
+.db-accent-bar {
+  width: 6rpx;
+  height: 32rpx;
+  border-radius: 3rpx;
+  background: #F9E12A;
+}
+.db-section-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #000000;
+  line-height: 44rpx;
+}
+
+/* 服务分组 */
+.db-group {
+  margin-bottom: 32rpx;
+}
+.db-group-bar {
+  padding: 12rpx 20rpx;
+  background: #000000;
+  border-radius: 12rpx;
+  margin-bottom: 16rpx;
+}
+.db-group-name {
+  font-size: 24rpx;
+  font-weight: 500;
+  color: #ffffff;
+  line-height: 34rpx;
+}
+
+.db-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12rpx 4rpx;
+}
+.db-line + .db-line {
+  border-top: 1rpx solid #f3f3f3;
+}
+.db-line-text {
+  flex: 1;
+  font-size: 24rpx;
+  font-weight: 400;
+  color: #333333;
+  line-height: 38rpx;
+}
+.db-line-dot {
+  width: 8rpx;
+  height: 8rpx;
+  border-radius: 50%;
+  background: #F9E12A;
+  flex-shrink: 0;
+  margin-left: 16rpx;
+}
+
+.db-spacer {
+  height: calc(140rpx + env(safe-area-inset-bottom));
+}
+
+/* 底部 CTA */
+.db-bottom-cta {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 90;
+  padding: 12rpx 40rpx calc(12rpx + env(safe-area-inset-bottom));
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(40rpx);
+  -webkit-backdrop-filter: blur(40rpx);
+}
+.db-bottom-cta-btn {
+  width: 100%;
+  height: 96rpx;
+  border-radius: 24rpx;
+  background: #F9E12A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.db-bottom-cta-text {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #000000;
+}

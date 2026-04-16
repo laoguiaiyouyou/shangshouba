@@ -1,0 +1,99 @@
+/**app.wxss**/
+/* ── 字体系统 v2 ── */
+page {
+  --font-main: 'PingFang SC', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  --font-number: 'Manrope', sans-serif;
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --c-primary: #000000;
+  --c-body: #333333;
+  --c-caption: #999999;
+  --c-brand: #F9E12A;
+
+  background-color: #f9f9f9;
+  font-family: var(--font-main);
+  font-weight: var(--fw-regular);
+  color: var(--c-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 全局统一顶部栏（刘海屏适配：再加高字体半行，确保标题完整露出） */
+.global-top-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: calc(212rpx + constant(safe-area-inset-top));
+  height: calc(212rpx + env(safe-area-inset-top));
+  padding-top: calc(96rpx + constant(safe-area-inset-top));
+  padding-top: calc(96rpx + env(safe-area-inset-top));
+  background: rgba(255, 255, 255, 0.96);
+  z-index: 999;
+  box-sizing: border-box;
+}
+
+.global-brand-wrap {
+  position: absolute;
+  left: 50%;
+  top: calc(constant(safe-area-inset-top) + 120rpx);
+  top: calc(env(safe-area-inset-top) + 120rpx);
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+}
+
+.global-brand-dot {
+  width: 20rpx;
+  height: 20rpx;
+  border-radius: 50%;
+  background: #F9E12A;
+  flex-shrink: 0;
+}
+
+.global-brand-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #111111;
+  line-height: 32rpx;
+}
+
+.global-top-capsule {
+  position: absolute;
+  right: 16rpx;
+  top: calc(constant(safe-area-inset-top) + 112rpx);
+  top: calc(env(safe-area-inset-top) + 112rpx);
+  z-index: 1000;
+}
+
+.global-top-back {
+  position: absolute;
+  left: 16rpx;
+  top: calc(constant(safe-area-inset-top) + 108rpx);
+  top: calc(env(safe-area-inset-top) + 108rpx);
+  width: 72rpx;
+  height: 72rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.global-top-back-icon {
+  font-size: 44rpx;
+  line-height: 44rpx;
+  color: #111111;
+  font-weight: 400;
+}
+
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 200rpx 0;
+  box-sizing: border-box;
+} 

@@ -1,0 +1,28 @@
+<view class="dm-page">
+
+  <view class="global-top-bar dm-top-bar">
+    <view class="global-top-back" bindtap="goBack">
+      <text class="global-top-back-icon">‹</text>
+    </view>
+    <view class="global-brand-wrap">
+      <view class="global-brand-dot"></view>
+      <text class="global-brand-title">安心住·上手吧</text>
+    </view>
+    <view class="global-top-capsule"></view>
+  </view>
+
+  <view class="dm-hero">
+    <view class="dm-hero-bg"></view>
+    <view class="dm-hero-content">
+      <text class="dm-hero-title">深度开荒 Max</text>
+      <text class="dm-hero-sub">搬家前后全程守护，深度清洁一站搞定</text>
+    </view>
+  </view>
+
+  <view class="dm-body">
+    <view class="dm-placeholder">
+      <text class="dm-placeholder-text">如需了解详情，请联系客服</text>
+    </view>
+  </view>
+
+</view>

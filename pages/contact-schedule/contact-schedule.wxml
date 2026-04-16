@@ -1,0 +1,61 @@
+<view class="contact-page">
+
+  <view class="global-top-bar">
+    <view class="global-top-back" bindtap="goBack">
+      <text class="global-top-back-icon">‹</text>
+    </view>
+    <view class="global-brand-wrap">
+      <view class="global-brand-dot"></view>
+      <text class="global-brand-title">安心住·上手吧</text>
+    </view>
+    <view class="global-top-capsule"></view>
+  </view>
+
+  <view class="contact-body">
+
+    <view class="contact-card reason-card">
+      <text class="card-title">为什么需要沟通</text>
+
+      <view class="reason-item">
+        <view class="reason-dot"></view>
+        <text class="reason-text">面积较小或较大，服务排班与工时安排不同</text>
+      </view>
+
+      <view class="reason-item">
+        <view class="reason-dot"></view>
+        <text class="reason-text">需要人工评估现场情况与服务节奏</text>
+      </view>
+
+      <view class="reason-item">
+        <view class="reason-dot"></view>
+        <text class="reason-text">部分时段需要协调服务资源后再确认</text>
+      </view>
+    </view>
+
+    <view class="contact-card service-card">
+      <text class="card-title">服务承诺</text>
+
+      <view class="service-row">
+        <text class="service-label">响应时间</text>
+        <text class="service-value">30分钟内联系您</text>
+      </view>
+
+      <view class="service-row">
+        <text class="service-label">沟通方式</text>
+        <text class="service-value">企业微信人工沟通</text>
+      </view>
+
+      <view class="service-row">
+        <text class="service-label">确认内容</text>
+        <text class="service-value">确认服务时间安排</text>
+      </view>
+    </view>
+
+  </view>
+
+  <view class="contact-footer">
+    <text class="contact-btn" bindtap="goEnterpriseWechat">确认并联系客服</text>
+    <text class="contact-footer-desc">点击后将添加客服企业微信，我们将在30分钟内主动联系您确认服务时间安排</text>
+  </view>
+
+</view>

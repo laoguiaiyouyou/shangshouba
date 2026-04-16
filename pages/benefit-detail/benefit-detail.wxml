@@ -1,0 +1,228 @@
+<view class="bd-page">
+
+  <!-- 顶部导航 -->
+  <view class="global-top-bar">
+    <view class="global-top-back" bindtap="goBack">
+      <text class="global-top-back-icon">‹</text>
+    </view>
+    <view class="global-brand-wrap">
+      <view class="global-brand-dot"></view>
+      <text class="global-brand-title">团长权益</text>
+    </view>
+    <view class="global-top-capsule"></view>
+  </view>
+
+  <!-- 权益卡片轮播（参考滴滴 V3 卡片切换） -->
+  <view class="bd-swiper-wrap">
+    <swiper class="bd-swiper"
+      current="{{swiperIndex}}"
+      bindchange="onSwiperChange"
+      previous-margin="60rpx"
+      next-margin="60rpx">
+      <swiper-item wx:for="{{tabs}}" wx:key="id">
+        <view class="bd-swiper-card {{swiperIndex === index ? 'bd-swiper-card--active' : ''}}">
+          <text class="bd-swiper-card-name">{{item.name}}</text>
+        </view>
+      </swiper-item>
+    </swiper>
+  </view>
+
+  <view class="bd-body">
+
+    <!-- ══ 月月领券 ══ -->
+    <block wx:if="{{activeTab === 'monthly_coupon'}}">
+      <view class="bd-card">
+        <view class="bd-card-head">
+          <text class="bd-card-title">月月领券</text>
+          <view class="bd-badge"><text class="bd-badge-text">{{currentLevel}}</text></view>
+        </view>
+        <text class="bd-card-desc">每月主动领取，领了就用，过期作废</text>
+      </view>
+
+      <view class="bd-coupon-list">
+        <view class="bd-coupon-item" wx:for="{{couponList}}" wx:key="id">
+          <text class="bd-coupon-name">{{item.name}}</text>
+          <view class="bd-coupon-btn bd-coupon-btn--claim" wx:if="{{item.status === 'claimable'}}"
+            bindtap="claimMonthlyCoupon" data-id="{{item.id}}">
+            <text class="bd-coupon-btn-text">领取</text>
+          </view>
+          <view class="bd-coupon-btn bd-coupon-btn--done" wx:if="{{item.status === 'claimed'}}">
+            <text class="bd-coupon-btn-text bd-coupon-btn-text--muted">已领取</text>
+          </view>
+          <view class="bd-coupon-btn bd-coupon-btn--done" wx:if="{{item.status === 'locked'}}">
+            <text class="bd-coupon-btn-text bd-coupon-btn-text--muted">未解锁</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="bd-rules">
+        <text class="bd-rules-title">领券规则</text>
+        <text class="bd-rules-text">· 手上有未用未过期的同类券时不可再领</text>
+        <text class="bd-rules-text">· 用完或过期后按频率可再领</text>
+        <text class="bd-rules-text">· 年度张数用完即止</text>
+        <text class="bd-rules-text">· 不可叠加、不可转赠、不可提现</text>
+      </view>
+    </block>
+
+    <!-- ══ 返佣权益 ══ -->
+    <block wx:if="{{activeTab === 'rebate'}}">
+      <view class="bd-card">
+        <view class="bd-card-head">
+          <text class="bd-card-title">{{benefitTitle}}</text>
+          <view class="bd-badge"><text class="bd-badge-text">{{currentLevel}}</text></view>
+        </view>
+        <text class="bd-card-desc">{{benefitDesc}}</text>
+      </view>
+
+      <view class="bd-section">
+        <text class="bd-section-title">返佣标准</text>
+        <view class="bd-tier-table">
+          <view class="bd-tier-header">
+            <text class="bd-tier-header-cell">等级</text>
+            <text class="bd-tier-header-cell">同小区</text>
+            <text class="bd-tier-header-cell">同栋楼</text>
+          </view>
+          <view class="bd-tier-row {{item.level === currentLevel ? 'bd-tier-row--on' : ''}}" wx:for="{{benefitTiers}}" wx:key="level">
+            <text class="bd-tier-cell bd-tier-level">{{item.level}}</text>
+            <text class="bd-tier-cell bd-tier-price">{{item.rebate}}</text>
+            <text class="bd-tier-cell bd-tier-freq">{{item.sameBuilding}}</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="bd-section">
+        <text class="bd-section-title">升级奖金</text>
+        <view class="bd-tier-table">
+          <view class="bd-tier-row" wx:for="{{benefitTiers}}" wx:key="level">
+            <text class="bd-tier-cell bd-tier-level">{{item.level}}</text>
+            <text class="bd-tier-cell bd-tier-price">{{item.bonus}}</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="bd-rules">
+        <text class="bd-rules-title">规则说明</text>
+        <text class="bd-rules-text" wx:for="{{benefitRules}}" wx:key="*this">· {{item}}</text>
+      </view>
+    </block>
+
+    <!-- ══ 权益详情（擦窗/宠物消杀/除甲醛/日常保洁） ══ -->
+    <block wx:if="{{activeTab !== 'monthly_coupon' && activeTab !== 'rebate'}}">
+
+      <!-- 权益卡片 -->
+      <view class="bd-card">
+        <view class="bd-card-head">
+          <text class="bd-card-title">{{benefitTitle}}</text>
+          <view class="bd-badge"><text class="bd-badge-text">{{currentLevel}}</text></view>
+        </view>
+        <text class="bd-card-desc">{{benefitDesc}}</text>
+      </view>
+
+      <!-- 领取/使用卡片 -->
+      <view class="bd-claim-card">
+        <view class="bd-claim-left">
+          <text class="bd-claim-title">{{benefitTitle}}</text>
+          <text class="bd-claim-status">{{claimStatus}}</text>
+        </view>
+        <!-- 未解锁 -->
+        <view class="bd-claim-btn bd-claim-btn--disabled" wx:if="{{!tier}}">
+          <text class="bd-claim-btn-text">未解锁</text>
+        </view>
+        <!-- 可领取 -->
+        <view class="bd-claim-btn" wx:if="{{tier && claimStatus === '可领取'}}" bindtap="claimBenefit">
+          <text class="bd-claim-btn-text">{{claimLoading ? '领取中' : '领取'}}</text>
+        </view>
+        <!-- 已领取 → 使用 -->
+        <view class="bd-claim-btn bd-claim-btn--use" wx:if="{{tier && claimStatus === '已领取'}}" bindtap="openBooking">
+          <text class="bd-claim-btn-text">使用</text>
+        </view>
+      </view>
+
+      <!-- 原价说明 -->
+      <text class="bd-original">{{benefitOriginal}}</text>
+
+      <!-- 等级对比表（参考滴滴 V1-V8 表格） -->
+      <view class="bd-section">
+        <text class="bd-section-title">权益对象</text>
+        <view class="bd-tier-table">
+          <view class="bd-tier-header">
+            <text class="bd-tier-header-cell">等级</text>
+            <text class="bd-tier-header-cell">你的价格</text>
+            <text class="bd-tier-header-cell">次数</text>
+          </view>
+          <view class="bd-tier-row {{item.isCurrent ? 'bd-tier-row--on' : ''}}" wx:for="{{benefitTiers}}" wx:key="level">
+            <text class="bd-tier-cell bd-tier-level">{{item.level}}</text>
+            <text class="bd-tier-cell bd-tier-price">{{item.price}}</text>
+            <text class="bd-tier-cell bd-tier-freq">{{item.freq}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 规则说明 -->
+      <view class="bd-rules">
+        <text class="bd-rules-title">规则说明</text>
+        <text class="bd-rules-text" wx:for="{{benefitRules}}" wx:key="*this">· {{item}}</text>
+      </view>
+
+    </block>
+
+  </view>
+
+  <!-- ══ 预约弹窗 ══ -->
+  <view wx:if="{{showBooking}}" class="bk-mask" bindtap="closeBooking"></view>
+  <view wx:if="{{showBooking}}" class="bk-modal">
+    <view class="bk-handle"></view>
+    <text class="bk-title">预约服务时间</text>
+    <!-- 日历 -->
+    <view class="bk-cal">
+      <view class="bk-cal-nav">
+        <view class="bk-cal-arrow {{calCanPrev ? '' : 'bk-cal-arrow--off'}}" bindtap="calPrev">‹</view>
+        <text class="bk-cal-month">{{calMonthLabel}}</text>
+        <view class="bk-cal-arrow {{calCanNext ? '' : 'bk-cal-arrow--off'}}" bindtap="calNext">›</view>
+      </view>
+      <view class="bk-cal-week">
+        <text class="bk-cal-wk">日</text><text class="bk-cal-wk">一</text><text class="bk-cal-wk">二</text>
+        <text class="bk-cal-wk">三</text><text class="bk-cal-wk">四</text><text class="bk-cal-wk">五</text>
+        <text class="bk-cal-wk">六</text>
+      </view>
+      <view class="bk-cal-grid">
+        <block wx:for="{{calDays}}" wx:key="index">
+          <view wx:if="{{item.empty}}" class="bk-cal-day bk-cal-day--empty"></view>
+          <view wx:elif="{{item.disabled}}" class="bk-cal-day bk-cal-day--off">
+            <text class="bk-cal-num bk-cal-num--off">{{item.day}}</text>
+          </view>
+          <view wx:elif="{{item.availability === 'full'}}" class="bk-cal-day bk-cal-day--full">
+            <text class="bk-cal-num">{{item.day}}</text>
+          </view>
+          <view wx:else class="bk-cal-day {{bookingDate === item.dateStr ? 'bk-cal-day--on' : ''}}"
+            bindtap="calSelectDate" data-date="{{item.dateStr}}">
+            <text class="bk-cal-num">{{item.day}}</text>
+          </view>
+        </block>
+      </view>
+      <view class="bk-cal-legend">
+        <view class="bk-cal-legend-item"><view class="bk-cal-dot bk-cal-dot--ok"></view><text class="bk-cal-legend-text">可约</text></view>
+        <view class="bk-cal-legend-item"><view class="bk-cal-dot bk-cal-dot--full-dot"></view><text class="bk-cal-legend-text">已满</text></view>
+      </view>
+      <text class="bk-cal-selected" wx:if="{{bookingDate}}">已选：{{bookingDate}}</text>
+    </view>
+    <view class="bk-field" wx:if="{{bookingNeedTime}}">
+      <text class="bk-field-label">选择时段</text>
+      <view class="bk-time-row">
+        <view class="bk-time-btn {{bookingTimePeriod === '上午' ? 'bk-time-btn--on' : ''}} {{amDisabled ? 'bk-time-btn--off' : ''}}"
+          bindtap="selectTimePeriod" data-period="上午">
+          <text class="bk-time-btn-text">上午{{amDisabled ? '（已满）' : ''}}</text>
+        </view>
+        <view class="bk-time-btn {{bookingTimePeriod === '下午' ? 'bk-time-btn--on' : ''}} {{pmDisabled ? 'bk-time-btn--off' : ''}}"
+          bindtap="selectTimePeriod" data-period="下午">
+          <text class="bk-time-btn-text">下午{{pmDisabled ? '（已满）' : ''}}</text>
+        </view>
+      </view>
+    </view>
+    <view class="bk-confirm-btn" bindtap="confirmBooking">
+      <text class="bk-confirm-text">{{bookingLoading ? '预约中...' : '确认预约'}}</text>
+    </view>
+    <text class="bk-hint">客服将在 30 分钟内与您确认具体上门时间</text>
+  </view>
+
+</view>

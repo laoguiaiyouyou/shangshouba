@@ -1,0 +1,175 @@
+<view class="ps-page">
+
+  <!-- 顶栏 -->
+  <view class="global-top-bar">
+    <view class="global-top-back" bindtap="goBack">
+      <text class="global-top-back-icon">‹</text>
+    </view>
+    <view class="global-brand-wrap">
+      <view class="global-brand-dot"></view>
+      <text class="global-brand-title">安心住·上手吧</text>
+    </view>
+    <view class="global-top-capsule"></view>
+  </view>
+
+  <!-- Hero -->
+  <view class="ps-hero">
+    <view class="ps-hero-icon">
+      <text class="ps-hero-check">✓</text>
+    </view>
+    <text class="ps-hero-title">支付成功</text>
+    <text class="ps-hero-sub">已锁定档期，开工前 72 小时可全额退款</text>
+    <!-- 团购身份标签 -->
+    <view wx:if="{{isGroupMode}}" class="ps-group-chip">
+      <text class="ps-group-chip-text">🏘 邻里拼团订单</text>
+    </view>
+  </view>
+
+  <!-- 订单信息卡 -->
+  <view class="ps-card">
+    <view class="ps-row">
+      <text class="ps-row-label">服务项目</text>
+      <text class="ps-row-value">{{orderName}}</text>
+    </view>
+    <view class="ps-row">
+      <text class="ps-row-label">服务面积</text>
+      <text class="ps-row-value">{{orderArea}}</text>
+    </view>
+    <view class="ps-row">
+      <text class="ps-row-label">服务地址</text>
+      <text class="ps-row-value">{{communityName}} {{roomNo}}</text>
+    </view>
+    <view class="ps-row">
+      <text class="ps-row-label">预约日期</text>
+      <text class="ps-row-value">{{serviceDate}}</text>
+    </view>
+    <!-- 团购优惠行（仅团购订单显示）-->
+    <view wx:if="{{isGroupMode}}" class="ps-row ps-row--group">
+      <text class="ps-row-label">团购优惠</text>
+      <text class="ps-row-value ps-row-discount">
+        {{groupDiscountPerSqm > 0 ? '-¥' + groupDiscountPerSqm + '/㎡' : '已享团购优惠'}}{{groupDiscount > 0 ? '（-¥' + groupDiscount + '）' : ''}}
+      </text>
+    </view>
+    <view class="ps-row ps-row--last">
+      <text class="ps-row-label">实付金额</text>
+      <text class="ps-row-value ps-row-price" wx:if="{{totalPrice > 0}}">¥{{totalPrice}}</text>
+      <text class="ps-row-value" wx:else>—</text>
+    </view>
+  </view>
+
+  <!-- 路径1（60天内，普通模式）：邀约返现 + 拼团入口 -->
+  <block wx:if="{{!isGroupMode && pathType === 'normal'}}">
+
+    <!-- 邀约返现卡 -->
+    <view class="ps-card ps-invite-card">
+      <view class="ps-invite-top">
+        <view class="ps-invite-badge">邀约返现</view>
+        <text class="ps-invite-amount" wx:if="{{inviteBackAmount > 0}}">
+          邀约1位邻居下单<text class="ps-invite-amount-num"> 退返¥{{inviteBackAmount}}</text>
+        </text>
+        <text class="ps-invite-amount" wx:else>邀约邻居下单，享返现优惠</text>
+      </view>
+      <text class="ps-invite-desc">邻居完成深度开荒后，返佣自动到账钱包，可提现</text>
+      <view class="ps-invite-actions">
+        <view class="ps-btn ps-btn--yellow" bindtap="generateInviteQRCode">
+          <text class="ps-btn-text">生成邀约码</text>
+        </view>
+        <view class="ps-btn ps-btn--outline" bindtap="goInviteBack">
+          <text class="ps-btn-text">复制邀约链接</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 拼团入口卡 -->
+    <view class="ps-card ps-group-card" bindtap="goGroupBuy">
+      <view class="ps-group-left">
+        <view class="ps-group-badge">拼团更省</view>
+        <text class="ps-group-title">组 3 人团，成团后每人 ¥2/㎡ 返到钱包</text>
+        <text class="ps-group-sub">你 + 邻居 2 人，7 天内成团返现到钱包</text>
+      </view>
+      <text class="ps-group-arrow">›</text>
+    </view>
+
+  </block>
+
+  <!-- 路径2（60天以上早鸟，普通模式）：普通转介绍 -->
+  <view class="ps-card ps-referral-card" wx:if="{{!isGroupMode && pathType === 'early_bird'}}">
+    <view class="ps-referral-top">
+      <view class="ps-invite-badge">推荐赚钱</view>
+      <text class="ps-referral-title">推荐邻居完工，赚 <text class="ps-referral-amount">¥15起</text></text>
+    </view>
+    <text class="ps-referral-desc">同栋楼最高 ¥50/户，邻居完工后到账钱包可提现</text>
+    <view class="ps-btn ps-btn--yellow" bindtap="goReferral">
+      <text class="ps-btn-text">生成推荐链接</text>
+    </view>
+  </view>
+
+  <!-- 底部操作 -->
+  <view class="ps-actions">
+    <!-- 团购模式：主动作是"查看开团进度" -->
+    <block wx:if="{{isGroupMode}}">
+      <view class="ps-btn ps-btn--yellow" bindtap="goGroupBuyStatus">
+        <text class="ps-btn-text">查看开团进度</text>
+      </view>
+      <view class="ps-btn ps-btn--ghost" bindtap="goOrder">
+        <text class="ps-btn-text">查看订单详情</text>
+      </view>
+    </block>
+    <!-- 普通模式：原有结构 -->
+    <block wx:else>
+      <view class="ps-btn ps-btn--black" bindtap="goOrder">
+        <text class="ps-btn-text">查看订单</text>
+      </view>
+      <view class="ps-btn ps-btn--ghost" bindtap="goHome">
+        <text class="ps-btn-text">返回首页</text>
+      </view>
+    </block>
+  </view>
+
+  <!-- 邀约弹层 -->
+  <view class="ps-mask" wx:if="{{showQRModal}}" bindtap="closeQRModal"></view>
+  <view class="ps-qr-sheet" wx:if="{{showQRModal}}">
+    <view class="ps-qr-handle"></view>
+
+    <!-- 加载中 -->
+    <block wx:if="{{qrCodeLoading}}">
+      <text class="ps-qr-title">准备中…</text>
+      <view class="ps-qr-area"><text class="ps-qr-loading-text">生成中，请稍候</text></view>
+    </block>
+
+    <!-- 有二维码图片 -->
+    <block wx:elif="{{qrCodeUrl}}">
+      <text class="ps-qr-title">邀约二维码</text>
+      <text class="ps-qr-desc">邻居扫码下单后，¥{{inviteBackAmount > 0 ? inviteBackAmount : '2元/㎡'}} 自动退返到你的钱包</text>
+      <view class="ps-qr-area">
+        <image class="ps-qr-img" src="{{qrCodeUrl}}" mode="aspectFit" />
+      </view>
+      <view class="ps-qr-btns">
+        <view class="ps-btn ps-btn--black" bindtap="saveQRCode">
+          <text class="ps-btn-text">保存到相册</text>
+        </view>
+        <view class="ps-btn ps-btn--ghost" bindtap="closeQRModal">
+          <text class="ps-btn-text">关闭</text>
+        </view>
+      </view>
+    </block>
+
+    <!-- 无二维码，展示链接分享 -->
+    <block wx:else>
+      <text class="ps-qr-title">邀约邻居</text>
+      <text class="ps-qr-desc">复制链接发给邻居，对方下单后 ¥{{inviteBackAmount > 0 ? inviteBackAmount : '...'}} 自动退返你的钱包</text>
+      <view class="ps-link-box">
+        <text class="ps-link-text">{{qrInviteLink || inviteCode}}</text>
+      </view>
+      <view class="ps-qr-btns">
+        <view class="ps-btn ps-btn--black" bindtap="copyInviteLink">
+          <text class="ps-btn-text">复制邀约链接</text>
+        </view>
+        <view class="ps-btn ps-btn--ghost" bindtap="closeQRModal">
+          <text class="ps-btn-text">关闭</text>
+        </view>
+      </view>
+    </block>
+  </view>
+
+</view>

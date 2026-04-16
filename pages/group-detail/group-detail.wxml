@@ -1,0 +1,121 @@
+<view class="gd-page">
+
+  <!-- 顶栏 -->
+  <view class="global-top-bar">
+    <view class="global-top-back" bindtap="goBack">
+      <text class="global-top-back-icon">‹</text>
+    </view>
+    <view class="global-brand-wrap">
+      <view class="global-brand-dot"></view>
+      <text class="global-brand-title">安心住·上手吧</text>
+    </view>
+    <view class="global-top-capsule"></view>
+  </view>
+
+  <scroll-view class="gd-body" scroll-y>
+
+    <!-- 团状态英雄卡（黑色） -->
+    <view class="gd-team-hero">
+      <view class="gd-team-top-row">
+        <text class="gd-team-name">{{teamName}}</text>
+        <view class="gd-status-badge gd-status-badge--{{teamStatus}}">{{teamStatusLabel}}</view>
+      </view>
+      <text class="gd-team-service">{{serviceName}}</text>
+
+      <!-- 人数进度 -->
+      <view class="gd-count-row">
+        <text class="gd-count-num">{{teamCount}}</text>
+        <text class="gd-count-sep">/{{teamTarget}} 户</text>
+      </view>
+      <view class="gd-progress-bar">
+        <view class="gd-progress-fill" style="width: {{teamPct}}%"></view>
+      </view>
+      <text class="gd-gap-tip" wx:if="{{!teamFormed}}">
+        还差 {{teamGap}} 户成团，成团后即可按 ¥2/㎡ 下单
+      </text>
+      <view class="gd-formed-banner" wx:else>
+        <text class="gd-formed-icon">🎉</text>
+        <text class="gd-formed-text">已成团！点击下方按钮享 ¥2/㎡ 下单</text>
+      </view>
+    </view>
+
+    <!-- 专属邀请码 -->
+    <view class="gd-card">
+      <text class="gd-card-title">专属邀请码</text>
+      <text class="gd-card-sub">邻居扫码加入你的团，凑满 3 户即成团</text>
+
+      <view class="gd-qr-area" bindtap="showShareQR">
+        <view wx:if="{{qrCodeUrl}}" class="gd-qr-img-wrap">
+          <image class="gd-qr-image" src="{{qrCodeUrl}}" mode="aspectFit"></image>
+        </view>
+        <view wx:else class="gd-qr-placeholder">
+          <text class="gd-qr-placeholder-icon">⬛</text>
+          <text class="gd-qr-placeholder-text">点击生成二维码</text>
+        </view>
+      </view>
+
+      <view class="gd-invite-actions">
+        <view class="gd-invite-btn" bindtap="showShareQR">刷新邀请码</view>
+        <view class="gd-invite-btn gd-invite-btn--ghost" bindtap="copyInviteLink">复制邀请链接</view>
+      </view>
+    </view>
+
+    <!-- 团成员记录 -->
+    <view class="gd-card">
+      <text class="gd-card-title">团成员记录</text>
+      <view wx:if="{{memberList.length === 0}}" class="gd-empty">
+        <text class="gd-empty-text">还没有邻居加入，快去分享邀请码吧</text>
+      </view>
+      <view wx:else>
+        <view class="gd-member-item" wx:for="{{memberList}}" wx:key="id">
+          <view class="gd-member-left">
+            <text class="gd-member-name">{{item.name}}</text>
+            <text class="gd-member-date">{{item.date}}</text>
+          </view>
+          <view class="gd-member-status gd-member-status--{{item.statusKey}}">{{item.statusLabel}}</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 团长进度激励（轻量） -->
+    <view class="gd-leader-hint" wx:if="{{leaderProgressHint}}" bindtap="goLeaderBenefits">
+      <text class="gd-leader-hint-icon">⚡</text>
+      <text class="gd-leader-hint-text">{{leaderProgressHint}}</text>
+      <text class="gd-leader-hint-link">查看团长权益 ›</text>
+    </view>
+
+    <view class="gd-footer-placeholder"></view>
+  </scroll-view>
+
+  <!-- 固定底部按钮 -->
+  <view class="gd-footer">
+    <view wx:if="{{!teamFormed}}" class="gd-footer-btn" bindtap="showShareQR">
+      邀请邻居加入
+    </view>
+    <view wx:else class="gd-footer-btn gd-footer-btn--formed" bindtap="goCheckout">
+      去下单
+    </view>
+  </view>
+
+  <!-- 二维码弹窗 -->
+  <view wx:if="{{showQRModal}}" class="gd-modal-mask" bindtap="closeQRModal">
+    <view class="gd-modal" catchtap="">
+      <text class="gd-modal-title">分享给邻居</text>
+      <text class="gd-modal-sub">邻居扫码加入你的团，凑满 3 户即成团</text>
+      <view wx:if="{{qrLoading}}" class="gd-qr-loading">
+        <view class="gd-qr-spinner"></view>
+        <text class="gd-qr-loading-text">生成中…</text>
+      </view>
+      <block wx:elif="{{qrCodeUrl}}">
+        <image class="gd-qr-image-modal" src="{{qrCodeUrl}}" mode="aspectFit"></image>
+        <view class="gd-modal-btn gd-modal-btn--primary" bindtap="saveQRCode">保存到相册</view>
+      </block>
+      <block wx:else>
+        <view class="gd-link-box"><text class="gd-link-text">{{inviteLink}}</text></view>
+        <view class="gd-modal-btn gd-modal-btn--primary" bindtap="copyInviteLink">复制邀请链接</view>
+      </block>
+      <view class="gd-modal-btn gd-modal-btn--ghost" bindtap="closeQRModal">关闭</view>
+    </view>
+  </view>
+
+</view>

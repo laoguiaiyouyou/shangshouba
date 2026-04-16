@@ -1,0 +1,434 @@
+/* 主黄 #F9E12A + 黑白灰；玻璃感仅大容器 */
+.gift-page {
+  min-height: 100vh;
+  padding: 24rpx 40rpx 48rpx;
+  box-sizing: border-box;
+  background: #f5f5f5;
+}
+
+.gift-shell {
+  border-radius: 24rpx;
+  padding: 28rpx 28rpx 32rpx;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1rpx solid rgba(17, 17, 17, 0.06);
+  box-sizing: border-box;
+}
+
+.gift-overview {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 8rpx 0 24rpx;
+  border-bottom: 1rpx solid rgba(17, 17, 17, 0.06);
+}
+
+.gift-stat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.gift-stat-num {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #000000;
+  line-height: 44rpx;
+}
+
+.gift-stat-label {
+  font-size: 22rpx;
+  color: #999999;
+  line-height: 34rpx;
+}
+
+.gift-rules-entry {
+  padding: 20rpx 0 8rpx;
+}
+
+.gift-rules-entry-text {
+  font-size: 24rpx;
+  color: #333333;
+  text-decoration: underline;
+  text-underline-offset: 4rpx;
+}
+
+.gift-empty {
+  padding: 80rpx 32rpx 40rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.gift-empty-title {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #000000;
+  line-height: 42rpx;
+  margin-bottom: 12rpx;
+}
+
+.gift-empty-desc {
+  font-size: 24rpx;
+  color: #999999;
+  line-height: 38rpx;
+  margin-bottom: 36rpx;
+}
+
+.gift-empty-btn {
+  padding: 18rpx 40rpx;
+  border-radius: 999rpx;
+  background: #f9e12a;
+}
+
+.gift-empty-btn-text {
+  font-size: 26rpx;
+  font-weight: 500;
+  color: #000000;
+}
+
+.gift-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+  padding-top: 16rpx;
+}
+
+.gift-card {
+  padding: 28rpx 28rpx;
+  border-radius: 24rpx;
+  background: #ffffff;
+  border: 1rpx solid rgba(17, 17, 17, 0.06);
+  box-sizing: border-box;
+}
+
+.gift-card--expired {
+  opacity: 0.55;
+}
+
+.gift-card-name {
+  display: block;
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #000000;
+  line-height: 40rpx;
+  margin-bottom: 10rpx;
+}
+
+.gift-card-source {
+  display: block;
+  font-size: 22rpx;
+  color: #999999;
+  line-height: 34rpx;
+  margin-bottom: 6rpx;
+}
+
+.gift-card-expire {
+  display: block;
+  font-size: 22rpx;
+  color: #999999;
+  line-height: 34rpx;
+  margin-bottom: 12rpx;
+}
+
+.gift-card-row {
+  margin-bottom: 16rpx;
+}
+
+.gift-card-status {
+  font-size: 24rpx;
+  font-weight: 500;
+  color: #333333;
+}
+
+.gift-card-booked-line {
+  display: block;
+  font-size: 22rpx;
+  color: #999999;
+  line-height: 34rpx;
+  margin-bottom: 12rpx;
+}
+
+.gift-card-btn {
+  width: 100%;
+  padding: 18rpx 0;
+  border-radius: 999rpx;
+  background: #f9e12a;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.gift-card-btn--disabled {
+  background: #e8e8e8;
+}
+
+.gift-card-btn-text {
+  font-size: 26rpx;
+  font-weight: 500;
+  color: #000000;
+}
+
+.gift-card-btn--disabled .gift-card-btn-text {
+  color: #999999;
+}
+
+/* 弹层通用 */
+.gift-modal-root {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 1000;
+}
+
+.gift-modal-mask {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.gift-modal-box {
+  position: absolute;
+  left: 48rpx;
+  right: 48rpx;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 32rpx 28rpx 28rpx;
+  border-radius: 24rpx;
+  background: #ffffff;
+  box-sizing: border-box;
+}
+
+.gift-modal-box--compact {
+  left: 40rpx;
+  right: 40rpx;
+}
+
+.gift-modal-title {
+  display: block;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #000000;
+  line-height: 44rpx;
+  margin-bottom: 20rpx;
+  text-align: center;
+}
+
+.gift-modal-subtitle {
+  display: block;
+  font-size: 26rpx;
+  font-weight: 500;
+  color: #333333;
+  line-height: 38rpx;
+  margin-bottom: 10rpx;
+}
+
+.gift-modal-expire {
+  display: block;
+  font-size: 24rpx;
+  color: #999999;
+  line-height: 34rpx;
+  margin-bottom: 16rpx;
+}
+
+.gift-modal-ruletext {
+  display: block;
+  font-size: 26rpx;
+  color: #333333;
+  line-height: 40rpx;
+  white-space: pre-wrap;
+  margin-bottom: 16rpx;
+}
+
+.gift-modal-line--fix {
+  color: #999999;
+}
+
+.gift-modal-bullets {
+  display: flex;
+  flex-direction: column;
+  gap: 14rpx;
+  margin-bottom: 28rpx;
+}
+
+.gift-modal-line {
+  font-size: 26rpx;
+  color: #999999;
+  line-height: 38rpx;
+}
+
+.gift-modal-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.gift-modal-btn {
+  width: 100%;
+  padding: 22rpx 0;
+  border-radius: 999rpx;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.gift-modal-btn--primary {
+  background: #f9e12a;
+}
+
+.gift-modal-btn--ghost {
+  background: transparent;
+  border: 1rpx solid rgba(17, 17, 17, 0.12);
+}
+
+.gift-modal-btn-text {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #000000;
+}
+
+.gift-modal-btn-text.ghost {
+  font-weight: 500;
+}
+
+/* 底部抽屉预约 */
+.gift-sheet-root {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 1001;
+}
+
+.gift-sheet-mask {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.gift-sheet-panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 16rpx 32rpx calc(28rpx + env(safe-area-inset-bottom));
+  border-radius: 24rpx 24rpx 0 0;
+  background: #ffffff;
+  box-sizing: border-box;
+}
+
+.gift-sheet-handle {
+  width: 64rpx;
+  height: 8rpx;
+  border-radius: 4rpx;
+  background: rgba(17, 17, 17, 0.12);
+  margin: 0 auto 20rpx;
+}
+
+.gift-sheet-title {
+  display: block;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #000000;
+  margin-bottom: 12rpx;
+  text-align: center;
+}
+
+.gift-sheet-hint {
+  display: block;
+  font-size: 24rpx;
+  color: #999999;
+  line-height: 36rpx;
+  margin-bottom: 24rpx;
+  text-align: center;
+}
+
+.gift-contact-desc {
+  display: block;
+  font-size: 26rpx;
+  color: #999999;
+  line-height: 40rpx;
+  margin-bottom: 28rpx;
+  padding: 0 8rpx;
+}
+
+.gift-picker-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22rpx 20rpx;
+  margin-bottom: 20rpx;
+  border-radius: 12rpx;
+  border: 1rpx solid rgba(17, 17, 17, 0.08);
+  background: #fafafa;
+}
+
+.gift-picker-label {
+  font-size: 26rpx;
+  color: #999999;
+}
+
+.gift-picker-value {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #333333;
+}
+
+.gift-slot-label {
+  display: block;
+  font-size: 24rpx;
+  color: #999999;
+  margin-bottom: 12rpx;
+}
+
+.gift-slot-row {
+  display: flex;
+  gap: 16rpx;
+  margin-bottom: 28rpx;
+}
+
+.gift-slot-chip {
+  flex: 1;
+  padding: 20rpx 0;
+  border-radius: 12rpx;
+  text-align: center;
+  border: 1rpx solid rgba(17, 17, 17, 0.1);
+  background: #fafafa;
+}
+
+.gift-slot-chip--on {
+  border-color: #f9e12a;
+  background: rgba(249, 225, 42, 0.15);
+}
+
+.gift-slot-chip-text {
+  font-size: 26rpx;
+  font-weight: 500;
+  color: #333333;
+}
+
+.gift-sheet-actions {
+  margin-top: 8rpx;
+}
+
+.gift-view-block {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+  margin-bottom: 24rpx;
+}
+
+.gift-view-line {
+  font-size: 26rpx;
+  color: #333333;
+  line-height: 38rpx;
+}

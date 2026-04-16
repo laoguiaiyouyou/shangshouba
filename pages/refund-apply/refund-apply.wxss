@@ -1,0 +1,204 @@
+.refund-page {
+  min-height: 100vh;
+  background: #f5f5f5;
+  box-sizing: border-box;
+  padding-top: calc(212rpx + env(safe-area-inset-top) + 20rpx);
+  padding-bottom: 60rpx;
+}
+
+/* 通用卡片 */
+.refund-card {
+  margin: 48rpx 40rpx 0;
+  padding: 28rpx 28rpx;
+  border-radius: 24rpx;
+  background: #ffffff;
+  box-sizing: border-box;
+}
+
+.refund-card-title {
+  display: block;
+  font-size: 28rpx;
+  line-height: 40rpx;
+  font-weight: 500;
+  color: #000000;
+  margin-bottom: 20rpx;
+}
+
+.refund-card-tip {
+  display: block;
+  margin-top: -8rpx;
+  margin-bottom: 20rpx;
+  font-size: 22rpx;
+  line-height: 34rpx;
+  color: #999999;
+}
+
+/* 订单信息 */
+.refund-order-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 16rpx;
+}
+
+.refund-order-label {
+  font-size: 24rpx;
+  line-height: 34rpx;
+  color: #999999;
+}
+
+.refund-order-value {
+  font-size: 24rpx;
+  line-height: 34rpx;
+  color: #333333;
+}
+
+.refund-order-price {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #F9E12A;
+}
+
+/* 退款原因 */
+.refund-reasons {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.refund-reason-item {
+  display: flex;
+  align-items: center;
+  padding: 20rpx;
+  border-radius: 16rpx;
+  background: #f7f7f7;
+}
+
+.refund-reason-item.selected {
+  background: #fff9e6;
+}
+
+.refund-radio {
+  width: 28rpx;
+  height: 28rpx;
+  border-radius: 50%;
+  border: 2rpx solid #d0d0d0;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  margin-right: 16rpx;
+  position: relative;
+}
+
+.refund-radio.checked {
+  border-color: #F9E12A;
+}
+
+.refund-radio.checked::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 50%;
+  background: #F9E12A;
+}
+
+.refund-reason-text {
+  font-size: 26rpx;
+  line-height: 40rpx;
+  color: #333333;
+}
+
+/* 上传截图 */
+.refund-upload-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
+
+.refund-upload-item,
+.refund-upload-add {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 16rpx;
+  overflow: hidden;
+}
+
+.refund-upload-img {
+  width: 100%;
+  height: 100%;
+}
+
+.refund-upload-add {
+  border: 2rpx dashed #d0d0d0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.refund-upload-plus {
+  font-size: 48rpx;
+  color: #cccccc;
+  line-height: 1;
+}
+
+/* 退款截止提示 */
+.refund-deadline {
+  margin: 48rpx 40rpx 0;
+  padding: 16rpx 20rpx;
+  border-radius: 16rpx;
+  background: rgba(249, 225, 42, 0.1);
+  text-align: center;
+}
+.refund-deadline-text {
+  font-size: 24rpx;
+  font-weight: 500;
+  color: #F9E12A;
+  line-height: 36rpx;
+}
+
+/* 提示说明 */
+.refund-notice {
+  margin: 48rpx 40rpx 0;
+  padding: 20rpx 24rpx;
+}
+
+.refund-notice-text {
+  display: block;
+  font-size: 22rpx;
+  line-height: 36rpx;
+  color: #999999;
+}
+
+/* 提交按钮 */
+.refund-submit-wrap {
+  margin: 48rpx 40rpx 0;
+}
+
+.refund-submit-btn {
+  display: block;
+  height: 88rpx;
+  border-radius: 999rpx;
+  background: #f9e12a;
+  text-align: center;
+  line-height: 88rpx;
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #000000;
+}
+
+.refund-secondary-btn {
+  display: block;
+  margin-top: 20rpx;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  border-radius: 999rpx;
+  background: #ffffff;
+  color: #999999;
+  font-size: 28rpx;
+  background: #f5f5f5;
+}

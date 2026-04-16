@@ -1,0 +1,140 @@
+<view class="page">
+
+  <!-- 顶栏：首页用透明覆盖在 Hero 上 -->
+  <view class="top-bar">
+    <view class="top-bar-brand">
+      <view class="top-bar-dot"></view>
+      <text class="top-bar-name">安心住·上手吧</text>
+    </view>
+  </view>
+
+  <!-- ═══ Hero：全幅照片 + 叠字 ═══ -->
+  <view class="hero">
+    <view class="hero-photo">
+      <image class="hero-photo-img" src="/images/hero-home.jpg" mode="aspectFill" binderror=""></image>
+      <view class="hero-photo-scrim"></view>
+    </view>
+    <view class="hero-overlay">
+      <text class="hero-title">缔造纯净\n生活空间</text>
+      <text class="hero-sub">不只是清洁，更是为您打造安心入住的居家体验</text>
+    </view>
+    <view class="hero-stats">
+      <view class="hero-stat" wx:for="{{statsStrip}}" wx:key="label">
+        <text class="hero-stat-val">{{item.value}}</text>
+        <text class="hero-stat-label">{{item.label}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- ═══ 内容区：白底 ═══ -->
+  <view class="content">
+
+    <!-- 服务入口：一主二副 -->
+    <view class="svc-section">
+      <!-- 主打卡 -->
+      <view class="svc-main" bindtap="onServiceTap" data-url="{{services[0].url}}">
+        <view class="svc-main-top">
+          <view class="svc-hot-tag">HOT</view>
+          <text class="svc-main-title">{{services[0].title}}</text>
+          <view class="svc-main-icon"></view>
+        </view>
+        <text class="svc-main-desc">{{services[0].tagline}}</text>
+      </view>
+
+      <!-- 两张副卡横排 -->
+      <view class="svc-pair">
+        <view class="svc-sub" bindtap="onServiceTap" data-url="{{services[1].url}}">
+          <view class="svc-sub-icon"></view>
+          <text class="svc-sub-title">{{services[1].title}}</text>
+          <text class="svc-sub-desc">{{services[1].shortDesc}}</text>
+        </view>
+        <view class="svc-sub" bindtap="onServiceTap" data-url="{{services[2].url}}">
+          <view class="svc-sub-icon"></view>
+          <text class="svc-sub-title">{{services[2].title}}</text>
+          <text class="svc-sub-desc">{{services[2].shortDesc}}</text>
+        </view>
+      </view>
+
+    </view>
+
+    <!-- 团购 CTA -->
+    <view class="group-cta" bindtap="goGroupBuy">点击开团，最多享 -¥2/m²</view>
+
+    <!-- 品质保障：照片拼贴 -->
+    <view class="quality-section">
+      <view class="section-head">
+        <text class="section-title">案例实拍</text>
+        <text class="section-meta">TRUSTED BY 10K+</text>
+      </view>
+      <view class="quality-grid">
+        <view class="quality-cell quality-cell--tall"
+          bindtap="onCaseShowcaseTap" data-category="before_after">
+          <view class="quality-photo"><!-- 照片插槽：未来换为 <image src="..." mode="aspectFill" /> 即可 --></view>
+          <text class="quality-label">开荒前后对比</text>
+        </view>
+        <view class="quality-col">
+          <view class="quality-cell quality-cell--half"
+            bindtap="onCaseShowcaseTap" data-category="glass">
+            <view class="quality-photo"><!-- 照片插槽：未来换为 <image src="..." mode="aspectFill" /> 即可 --></view>
+            <text class="quality-label">玻璃清洁</text>
+          </view>
+          <view class="quality-cell quality-cell--half"
+            bindtap="onCaseShowcaseTap" data-category="kitchen">
+            <view class="quality-photo"><!-- 照片插槽：未来换为 <image src="..." mode="aspectFill" /> 即可 --></view>
+            <text class="quality-label">厨房深洁</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 评价 -->
+    <view class="review-block">
+      <view class="review-head">
+        <text class="review-title">他们都在说</text>
+        <view class="review-pill" bindtap="goReviewList">
+          <text class="review-score">{{ratingEntry.score}}</text>
+          <text class="review-label">{{ratingEntry.label}}</text>
+          <text class="review-count">{{ratingEntry.count}}</text>
+          <text class="review-arrow">›</text>
+        </view>
+      </view>
+      <view class="review-body">
+        <view class="review-bar"></view>
+        <text class="review-snippet">"{{reviewSnippet}}"</text>
+      </view>
+    </view>
+
+    <!-- 为什么选我们：图文大卡 -->
+    <view class="why-section">
+      <text class="section-title">为什么选我们</text>
+      <view class="why-cards">
+        <view class="why-card-lg" wx:for="{{whyPoints}}" wx:key="title">
+          <view class="why-card-img"><!-- 照片插槽：未来换为 <image src="..." mode="aspectFill" /> 即可 --></view>
+          <view class="why-card-body">
+            <text class="why-card-name">{{item.title}}</text>
+            <text class="why-card-desc">{{item.desc}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="bottom-spacer"></view>
+  </view>
+
+  <!-- TabBar -->
+  <view class="tabbar">
+    <view class="tab-item">
+      <view class="tab-dot tab-dot--on"></view>
+      <text class="tab-label tab-label--on">开荒</text>
+    </view>
+    <view class="tab-item" bindtap="goGroupBuyTab">
+      <view class="tab-dot"></view>
+      <text class="tab-label">我的社区我的团</text>
+    </view>
+    <view class="tab-item" bindtap="goMine">
+      <view class="tab-dot"></view>
+      <text class="tab-label">我的</text>
+    </view>
+  </view>
+
+</view>

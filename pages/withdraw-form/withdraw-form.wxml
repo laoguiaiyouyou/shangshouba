@@ -1,0 +1,75 @@
+<view class="wf-page">
+
+  <view class="global-top-bar">
+    <view class="global-top-back" bindtap="goBack">
+      <text class="global-top-back-icon">‹</text>
+    </view>
+    <view class="global-brand-wrap">
+      <view class="global-brand-dot"></view>
+      <text class="global-brand-title">安心住·上手吧</text>
+    </view>
+    <view class="global-top-capsule"></view>
+  </view>
+
+  <!-- 提现金额卡 -->
+  <view class="wf-card amount-card">
+    <text class="card-title">提现金额</text>
+    <view class="amount-input-row">
+      <text class="amount-symbol">¥</text>
+      <input
+        class="amount-input"
+        type="digit"
+        placeholder="请输入提现金额"
+        placeholder-class="amount-placeholder"
+        value="{{amount}}"
+        bindinput="onAmountInput"
+      />
+    </view>
+    <view class="amount-tips">
+      <text class="amount-tip-item" bindtap="fillAll">全部提现（¥320.00）</text>
+    </view>
+  </view>
+
+  <!-- 到账方式卡 -->
+  <view class="wf-card method-card">
+    <text class="card-title">到账方式</text>
+    <view class="method-item selected">
+      <view class="method-icon wechat-icon">
+        <text class="method-icon-text">微</text>
+      </view>
+      <view class="method-info">
+        <text class="method-name">微信零钱</text>
+        <text class="method-desc">实时到账</text>
+      </view>
+      <view class="method-check">✓</view>
+    </view>
+  </view>
+
+  <!-- 提现说明卡 -->
+  <view class="wf-card notice-card">
+    <text class="card-title">提现说明</text>
+    <text class="notice-item">· 每次提现最低 ¥1，最高 ¥200</text>
+    <text class="notice-item">· 提现将在 24 小时内到账微信零钱</text>
+    <text class="notice-item">· 返现奖励需好友完工后方可提现</text>
+    <text class="notice-item">· 如有疑问请联系客服</text>
+  </view>
+
+  <!-- 提交按钮 -->
+  <view class="wf-submit-wrap">
+    <text class="wf-submit-btn" bindtap="openWithdrawModal">立即提现</text>
+  </view>
+
+  <!-- 确认弹窗 -->
+  <view class="wf-modal-mask" wx:if="{{showWithdrawModal}}" bindtap="closeWithdrawModal">
+    <view class="wf-modal" catchtap="">
+      <text class="modal-title">确认提现</text>
+      <text class="modal-amount">¥{{amount || '0.00'}}</text>
+      <text class="modal-desc">将提现至微信零钱，预计 24 小时内到账</text>
+      <view class="modal-btns">
+        <text class="modal-btn cancel" bindtap="closeWithdrawModal">取消</text>
+        <text class="modal-btn confirm" bindtap="submitWithdraw">确认提现</text>
+      </view>
+    </view>
+  </view>
+
+</view>

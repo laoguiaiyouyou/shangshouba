@@ -1,0 +1,52 @@
+<view class="db-page">
+
+  <view class="global-top-bar db-top-bar">
+    <view class="global-top-back" bindtap="goBack">
+      <text class="global-top-back-icon">‹</text>
+    </view>
+    <view class="global-brand-wrap">
+      <view class="global-brand-dot"></view>
+      <text class="global-brand-title">安心住·上手吧</text>
+    </view>
+    <view class="global-top-capsule"></view>
+  </view>
+
+  <!-- Hero -->
+  <view class="db-hero">
+    <view class="db-hero-bg"></view>
+    <view class="db-hero-content">
+      <text class="db-hero-title">开荒保洁</text>
+      <text class="db-hero-sub">新房入住 / 装修后深度清扫</text>
+    </view>
+  </view>
+
+  <!-- 服务清单 -->
+  <view class="db-body">
+    <view class="db-section-head">
+      <view class="db-accent-bar"></view>
+      <text class="db-section-title">服务清单</text>
+    </view>
+
+    <block wx:for="{{serviceGroups}}" wx:key="id" wx:for-item="grp">
+      <view class="db-group">
+        <view class="db-group-bar">
+          <text class="db-group-name">{{grp.title}}</text>
+        </view>
+        <view class="db-line" wx:for="{{grp.lines}}" wx:for-item="line" wx:key="idx">
+          <text class="db-line-text">{{line}}</text>
+          <view class="db-line-dot"></view>
+        </view>
+      </view>
+    </block>
+
+    <view class="db-spacer"></view>
+  </view>
+
+  <!-- 底部 CTA -->
+  <view class="db-bottom-cta">
+    <view class="db-bottom-cta-btn" bindtap="goCheckout">
+      <text class="db-bottom-cta-text">立即预约 开荒保洁</text>
+    </view>
+  </view>
+
+</view>

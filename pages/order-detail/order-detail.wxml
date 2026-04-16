@@ -1,0 +1,295 @@
+<view class="od-page {{isRefundFlow ? 'od-page--refund' : ''}} {{detailLayout === 'coupon_booking' ? 'od-page--has-cta' : ''}}">
+
+  <!-- 顶部固定导航（结构不变） -->
+  <view class="global-top-bar">
+    <view class="global-top-back" bindtap="goBack">
+      <text class="global-top-back-icon">‹</text>
+    </view>
+    <view class="global-brand-wrap">
+      <view class="global-brand-dot"></view>
+      <text class="global-brand-title">安心住·上手吧</text>
+    </view>
+    <view class="global-top-capsule"></view>
+  </view>
+
+  <!-- 页面主体：顶部 padding 让出固定导航高度 -->
+  <view class="od-body" wx:if="{{detailLayout === 'error'}}">
+    <view class="od-load-error">
+      <text class="od-load-error-title">{{loadErrorTitle}}</text>
+      <text class="od-load-error-desc">{{loadErrorDesc}}</text>
+      <view class="od-load-error-btn" bindtap="goBackToMine">返回我的订单</view>
+    </view>
+  </view>
+
+  <view class="od-body" wx:elif="{{detailLayout === 'coupon_booking'}}">
+    <view class="od-hero od-summary-card od-hero--invert">
+      <view class="od-hero-name-row">
+        <text class="od-hero-name">{{orderName}}</text>
+        <view class="od-hero-chip">
+          <text class="od-hero-chip-text">{{orderStatus}}</text>
+        </view>
+      </view>
+    </view>
+    <view class="od-cards" wx:if="{{showCouponInfoLine || showCouponNotice}}">
+      <view class="od-card od-coupon-booking-card">
+        <text class="od-coupon-booking-line" wx:if="{{showCouponInfoLine}}">{{couponInfoLine}}</text>
+        <text class="od-coupon-booking-notice" wx:if="{{showCouponNotice}}">{{couponNoticeLine}}</text>
+      </view>
+      <view class="od-bottom-safe"></view>
+    </view>
+    <view class="od-bottom-safe" wx:else></view>
+  </view>
+
+  <view class="od-body" wx:else>
+
+    <!-- 【A层】Hero：身份锚点 -->
+    <view class="od-hero od-summary-card od-hero--invert">
+      <view class="od-hero-name-row">
+        <text class="od-hero-name">{{orderName}}</text>
+        <view class="od-hero-chip {{isGroupMode ? 'od-hero-chip--group' : ''}}">
+          <text class="od-hero-chip-text">{{orderStatus}}</text>
+        </view>
+      </view>
+      <view class="od-hero-meta">
+        <text class="od-hero-meta-item">{{communityName}}</text>
+        <text class="od-hero-meta-sep">·</text>
+        <text class="od-hero-meta-item">{{orderArea}}</text>
+        <text class="od-hero-meta-sep">·</text>
+        <text class="od-hero-meta-item">{{serviceDate}}</text>
+        <text class="od-hero-meta-tag" wx:if="{{isGroupMode}}">团购价</text>
+      </view>
+      <text class="od-hero-guide" wx:if="{{currentGuide}}">{{currentGuide}}</text>
+    </view>
+
+    <!-- 【B层】旅程 — 两条独立路径 -->
+
+    <!-- 路径1：正常履约态 -->
+    <view class="od-journey" wx:if="{{!isRefundFlow}}">
+
+      <!-- 服务进度：haokang 5节点 -->
+      <block wx:if="{{isHaokang}}">
+        <view class="pg-wrap pg-wrap--haokang">
+          <view class="pg-row pg-row-top">
+            <view class="pg-node {{item.stateClass}}" wx:for="{{haokangPgNodes}}" wx:for-item="item" wx:for-index="idx" wx:key="label">
+              <view class="pg-dot-wrap">
+                <view class="{{item.isFirst ? 'pg-spacer' : 'pg-line'}}"></view>
+                <view class="pg-dot"></view>
+                <view class="{{item.isLast ? 'pg-spacer' : 'pg-line'}}"></view>
+              </view>
+              <text class="pg-text">{{item.label}}</text>
+            </view>
+          </view>
+        </view>
+      </block>
+
+      <!-- 服务进度：hujin/360 蛇形（冻结，保留不动） -->
+      <block wx:else>
+        <view class="pg-wrap">
+          <view class="pg-row pg-row-top">
+            <view class="pg-node {{orderStatus === '待服务' ? 'pg-active' : 'pg-done'}}">
+              <view class="pg-dot-wrap"><view class="pg-spacer"></view><view class="pg-dot"></view><view class="pg-line"></view></view>
+              <text class="pg-text">待服务</text>
+              <image class="pg-mascot" src="/images/mascot.png" mode="aspectFit"></image>
+            </view>
+            <view class="pg-node {{orderStatus === '藏灰处理中' ? 'pg-active' : (orderStatus === '待服务' ? '' : 'pg-done')}}">
+              <view class="pg-dot-wrap"><view class="pg-line"></view><view class="pg-dot"></view><view class="pg-line"></view></view>
+              <text class="pg-text">藏灰处理中</text>
+            </view>
+            <view class="pg-node {{orderStatus === '待勘查' || orderStatus === '勘察完工' ? 'pg-active' : (orderStatus === '待服务' || orderStatus === '藏灰处理中' ? '' : 'pg-done')}}">
+              <view class="pg-dot-wrap"><view class="pg-line"></view><view class="pg-dot"></view><view class="pg-line"></view></view>
+              <text class="pg-text">待勘查</text>
+            </view>
+            <view class="pg-node {{orderStatus === '待深处理' ? 'pg-active' : (orderStatus === '待服务' || orderStatus === '藏灰处理中' || orderStatus === '待勘查' || orderStatus === '勘察完工' ? '' : 'pg-done')}}">
+              <view class="pg-dot-wrap"><view class="pg-line"></view><view class="pg-dot"></view><view class="pg-line"></view></view>
+              <text class="pg-text">待深处理</text>
+            </view>
+            <view class="pg-node {{orderStatus === '深处理中' ? 'pg-active' : (orderStatus === '待备住除尘' || orderStatus === '待搬家清洁' || orderStatus === '已交付' || orderStatus === '已完成' ? 'pg-done' : '')}}">
+              <view class="pg-dot-wrap"><view class="pg-line"></view><view class="pg-dot"></view><view class="pg-spacer"></view></view>
+              <text class="pg-text">深处理中</text>
+            </view>
+          </view>
+          <view class="pg-turn-bar">
+            <view class="pg-turn-line {{orderStatus === '待备住除尘' || orderStatus === '待搬家清洁' || orderStatus === '已交付' || orderStatus === '已完成' ? 'pg-turn-done' : ''}}"></view>
+          </view>
+          <view class="pg-row pg-row-bot">
+            <view class="pg-node pg-node-hint">
+              <view class="pg-dot-wrap"><view class="pg-arrow-left"><text class="pg-arrow-head">◀</text><view class="pg-arrow-line"></view></view><view class="pg-dot"></view><view class="pg-line"></view></view>
+              <text class="pg-text">服务才开始</text>
+            </view>
+            <view class="pg-node {{orderStatus === '已交付' || orderStatus === '已完成' ? 'pg-active' : ''}}">
+              <view class="pg-dot-wrap"><view class="pg-line"></view><view class="pg-dot"></view><view class="pg-line"></view></view>
+              <text class="pg-text">已交付</text>
+            </view>
+            <view class="pg-node {{orderStatus === '待搬家清洁' ? 'pg-active' : (orderStatus === '已交付' || orderStatus === '已完成' ? 'pg-done' : '')}}">
+              <view class="pg-dot-wrap"><view class="pg-line"></view><view class="pg-dot"></view><view class="pg-line"></view></view>
+              <text class="pg-text">待搬家清洁</text>
+            </view>
+            <view class="pg-node {{orderStatus === '待备住除尘' ? 'pg-active' : (orderStatus === '待搬家清洁' || orderStatus === '已交付' || orderStatus === '已完成' ? 'pg-done' : '')}}">
+              <view class="pg-dot-wrap"><view class="pg-line"></view><view class="pg-dot"></view><view class="pg-spacer"></view></view>
+              <text class="pg-text">待入住除尘</text>
+            </view>
+          </view>
+        </view>
+      </block>
+
+      <!-- 阶段引导语 -->
+      <view class="pg-stage-bar {{isHaokang ? 'pg-stage-bar--haokang' : ''}}" wx:if="{{currentStageDesc}}">
+        <view class="pg-stage-accent"></view>
+        <text class="pg-stage-text">{{currentStageDesc}}</text>
+      </view>
+
+      <!-- 行动出口：文档动作并入旅程 -->
+      <view class="od-journey-action" wx:if="{{docActionType !== 'none'}}">
+        <view class="od-journey-action-btn" bindtap="handleDocAction">
+          <text class="od-journey-action-btn-text">{{docActionText}}</text>
+          <text class="od-journey-action-btn-arrow">›</text>
+        </view>
+      </view>
+      <view class="od-journey-action-none" wx:else>
+        <view class="od-journey-action-none-icon">●</view>
+        <text class="od-journey-action-none-text">{{docActionDesc || '勘察确认书暂未生成'}}</text>
+      </view>
+
+      <!-- 联系客服：次级文字链 -->
+      <view class="od-journey-contact" bindtap="contactCustomerService">
+        <text class="od-journey-contact-text">联系客服</text>
+      </view>
+    </view>
+
+    <!-- 路径2：退款态（B层只保留进度3步，说明信息全部收入C层） -->
+    <view class="od-journey od-journey--refund" wx:if="{{isRefundFlow}}">
+      <text class="od-journey-section-label">退款进度</text>
+      <view class="progress-row">
+        <view class="progress-item done">
+          <view class="progress-dot"></view>
+          <text class="progress-text">申请退款</text>
+        </view>
+        <view class="progress-item {{orderStatus === '退款处理中' ? 'active' : (orderStatus === '已退款' ? 'done' : '')}}">
+          <view class="progress-dot"></view>
+          <text class="progress-text">退款处理中</text>
+        </view>
+        <view class="progress-item {{orderStatus === '已退款' ? 'active' : ''}}">
+          <view class="progress-dot"></view>
+          <text class="progress-text">已退款</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 【C层】费用摘要 -->
+    <view class="od-fee-summary">
+
+      <!-- 正常履约态 -->
+      <block wx:if="{{!isRefundFlow}}">
+        <view class="od-fee-row" wx:if="{{totalPrice > 0}}">
+          <text class="od-fee-label">本单实付</text>
+          <text class="od-fee-val od-fee-val--bold">¥{{isUpgraded && upgradePrice > 0 ? totalPrice + upgradePrice : totalPrice}}</text>
+        </view>
+        <view class="od-fee-row" wx:if="{{totalDiscount > 0}}">
+          <text class="od-fee-label">已享优惠</text>
+          <text class="od-fee-val od-fee-val--discount">-¥{{totalDiscount}}</text>
+        </view>
+        <view class="od-fee-rule">
+          <text class="od-fee-rule-text">开工前 72 小时可全额退款</text>
+        </view>
+        <view class="od-fee-expand-trigger" wx:if="{{grossPrice > 0}}" bindtap="toggleFeeDetail">
+          <text class="od-fee-expand-text">{{feeExpanded ? '收起明细' : '查看明细'}}</text>
+        </view>
+        <view class="od-fee-detail" wx:if="{{feeExpanded}}">
+          <view class="od-fee-row">
+            <text class="od-fee-label">商品金额</text>
+            <text class="od-fee-val">¥{{grossPrice}}</text>
+          </view>
+          <view class="od-fee-row" wx:if="{{newcomerDiscount > 0}}">
+            <text class="od-fee-label">新人券</text>
+            <text class="od-fee-val od-fee-val--discount">-¥{{newcomerDiscount}}</text>
+          </view>
+          <view class="od-fee-row" wx:if="{{earlyBirdDiscount > 0}}">
+            <text class="od-fee-label">早鸟优惠</text>
+            <text class="od-fee-val od-fee-val--discount">-¥{{earlyBirdDiscount}}</text>
+          </view>
+          <view class="od-fee-row" wx:if="{{groupDiscount > 0}}">
+            <text class="od-fee-label">邻里拼团优惠</text>
+            <text class="od-fee-val od-fee-val--discount">-¥{{groupDiscount}}</text>
+          </view>
+          <view class="od-fee-row" wx:if="{{isUpgraded && upgradePrice > 0}}">
+            <text class="od-fee-label">升级补差</text>
+            <text class="od-fee-val">+¥{{upgradePrice}}</text>
+          </view>
+        </view>
+      </block>
+
+      <!-- 退款态（B层退款说明已合入此处） -->
+      <block wx:if="{{isRefundFlow}}">
+        <view class="od-fee-row" wx:if="{{totalPrice > 0}}">
+          <text class="od-fee-label">实付金额</text>
+          <text class="od-fee-val">¥{{totalPrice}}</text>
+        </view>
+        <view class="od-fee-row" wx:if="{{orderStatus === '退款处理中'}}">
+          <text class="od-fee-label">预计退款金额</text>
+          <text class="od-fee-val od-fee-val--bold">¥{{totalPrice}}</text>
+        </view>
+        <view class="od-fee-row" wx:if="{{orderStatus === '已退款'}}">
+          <text class="od-fee-label">已退金额</text>
+          <text class="od-fee-val od-fee-val--bold">¥{{totalPrice}}</text>
+        </view>
+        <view class="od-fee-row">
+          <text class="od-fee-label">退款方式</text>
+          <text class="od-fee-val">原路退回</text>
+        </view>
+        <view class="od-fee-row" wx:if="{{orderStatus === '退款处理中'}}">
+          <text class="od-fee-label">预计时效</text>
+          <text class="od-fee-val">1-3 个工作日</text>
+        </view>
+        <view class="od-fee-row">
+          <text class="od-fee-label">当前状态</text>
+          <text class="od-fee-val">{{orderStatus === '已退款' ? '已原路退回' : orderStatus}}</text>
+        </view>
+      </block>
+      <!-- 退款入口 -->
+      <block wx:if="{{!isRefundFlow}}">
+        <view class="od-fee-refund-entry od-fee-refund-entry--active" wx:if="{{canApplyRefund}}">
+          <view class="od-fee-refund-entry-left">
+            <text class="od-fee-refund-entry-label">可申请退款</text>
+            <text class="od-fee-refund-entry-countdown" wx:if="{{refundCountdown}}">{{refundCountdown}}</text>
+          </view>
+          <view class="od-fee-refund-entry-btn" bindtap="goRefundApply">
+            <text class="od-fee-refund-entry-btn-text">申请退款</text>
+          </view>
+        </view>
+        <view class="od-fee-refund-entry od-fee-refund-entry--closed" wx:if="{{!canApplyRefund && (orderStatus === '待服务' || orderStatus === '待勘查')}}">
+          <text class="od-fee-refund-closed-text">已超过退款截止时间（开工前 72 小时）</text>
+        </view>
+      </block>
+      <!-- 保障标签行 -->
+      <view class="od-assurance-tags" wx:if="{{!isRefundFlow}}">
+        <text class="od-assurance-tag">72h可退</text>
+        <text class="od-assurance-tag">实名工人</text>
+        <text class="od-assurance-tag">承诺书</text>
+        <text class="od-assurance-tag">全程录像</text>
+      </view>
+    </view>
+
+    <!-- 【D层】推荐入口（条件显示，底部次级） -->
+    <view class="od-referral-strip" wx:if="{{showInviteModule && !isRefundFlow}}">
+      <view class="od-referral-strip-left">
+        <text class="od-referral-strip-main">推荐邻居完工，返佣到账钱包</text>
+        <text class="od-referral-strip-sub">每户 ¥15起 · 同栋楼最高 ¥50</text>
+      </view>
+      <view class="od-referral-strip-actions">
+        <text class="od-referral-strip-link" bindtap="goGroupInvite">推荐邻居</text>
+        <text class="od-referral-strip-link" bindtap="goLeaderBenefits">团长权益</text>
+      </view>
+    </view>
+
+    <view class="od-bottom-safe"></view>
+
+  </view>
+
+  <!-- 优惠券预约（待联系）：仅联系客服 -->
+  <view class="od-action-bar" wx:if="{{detailLayout === 'coupon_booking'}}">
+    <view class="od-action-bar-btn" bindtap="contactCustomerService">
+      <text class="od-action-bar-text">联系客服</text>
+    </view>
+  </view>
+
+</view>

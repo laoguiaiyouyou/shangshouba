@@ -1,0 +1,909 @@
+/* ================================================================
+   checkout.wxss  —  Apple 扁平设计系统
+   颜色：黄 #f9e12a · 黑 #000000 · 灰 #333333/#999999 · 白 #fff
+   无 liquid glass，无蓝色，无渐变
+   ================================================================ */
+
+/* ── 颜色令牌（注释记录，实际用字面值）
+   bg:          #F2F2F7   Apple grouped bg
+   card:        #FFFFFF
+   label:       #000000   主文字（标题黑）
+   label-2:     #333333   正文
+   label-3:     #999999   辅助/说明
+   label-4:     #999999   disabled / placeholder
+   sep:         #C6C6C8
+   sep-light:   #E5E5EA
+   yellow:      #f9e12a
+   ── */
+
+/* ── 页面根 ── */
+.co-page {
+  min-height: 100vh;
+  background: #F2F2F7;
+  box-sizing: border-box;
+}
+
+/* ── 服务卡固定区：紧贴顶栏下沿，无缝无间距 ── */
+.co-service-sticky {
+  position: fixed;
+  top: calc(212rpx + env(safe-area-inset-top));
+  left: 0;
+  right: 0;
+  z-index: 40;
+  background: #FFFFFF;
+  border-bottom: 1rpx solid #E5E5EA;
+  box-sizing: border-box;
+}
+
+/* ── 内容区：顶栏(212) + 服务卡(108) + 分割线(1) + 间距(28) = 349rpx ── */
+.co-body {
+  padding: calc(349rpx + env(safe-area-inset-top)) 40rpx calc(180rpx + env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+  box-sizing: border-box;
+}
+
+/* ── 通用卡片 ── */
+.co-card {
+  background: #FFFFFF;
+  border-radius: 24rpx;
+  padding: 28rpx;
+  box-sizing: border-box;
+}
+
+.co-card-title {
+  display: block;
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #000000;
+  letter-spacing: 0.2rpx;
+  margin-bottom: 24rpx;
+}
+
+/* ── 服务卡（紧贴顶栏，无圆角，无多余间距） ── */
+.co-service-card {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  padding: 16rpx 20rpx;
+  background: #FFFFFF;
+  box-sizing: border-box;
+}
+.co-service-cover {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 14rpx;
+  background: #F2F2F7;
+  flex-shrink: 0;
+}
+.co-service-info { flex: 1; }
+.co-service-name-row {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+  margin-bottom: 6rpx;
+}
+.co-service-name {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #000000;
+}
+.co-service-badge {
+  background: #f9e12a;
+  color: #000000;
+  font-size: 20rpx;
+  font-weight: 500;
+  padding: 2rpx 10rpx;
+  border-radius: 6rpx;
+}
+.co-service-sub {
+  display: block;
+  font-size: 24rpx;
+  color: #999999;
+  line-height: 38rpx;
+  margin-bottom: 6rpx;
+}
+.co-service-refund {
+  display: block;
+  font-size: 22rpx;
+  color: #999999;
+  line-height: 34rpx;
+}
+
+/* ── 房屋信息白卡 ── */
+.co-house-card {
+  background: #ffffff;
+  border-radius: 24rpx;
+  padding: 32rpx 28rpx;
+  margin-bottom: 8rpx;
+}
+.co-house-field {
+  margin-bottom: 28rpx;
+}
+.co-house-label {
+  display: block;
+  font-size: 24rpx;
+  font-weight: 400;
+  color: #999999;
+  line-height: 34rpx;
+  margin-bottom: 8rpx;
+}
+.co-house-input {
+  display: block;
+  width: 100%;
+  font-size: 28rpx;
+  font-weight: 400;
+  color: #333333;
+  line-height: 44rpx;
+  padding: 4rpx 0;
+}
+.co-house-underline {
+  height: 1rpx;
+  background: #e5e5e5;
+  margin-top: 8rpx;
+}
+.co-house-row2 {
+  display: flex;
+  gap: 32rpx;
+}
+.co-house-half {
+  flex: 1;
+  min-width: 0;
+}
+.co-house-area-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+}
+.co-house-area-wrap .co-house-input {
+  flex: 1;
+}
+.co-house-unit {
+  font-size: 26rpx;
+  font-weight: 500;
+  color: #000000;
+  flex-shrink: 0;
+}
+
+/* ── 房屋类型横排按钮组 ── */
+.co-house-type-row {
+  display: flex;
+  gap: 16rpx;
+  margin-top: 8rpx;
+}
+.co-house-type-btn {
+  flex: 1;
+  height: 64rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12rpx;
+  background: #F5F5F5;
+  font-size: 24rpx;
+  font-weight: 400;
+  color: #333333;
+}
+.co-house-type-btn--active {
+  background: #111111;
+  color: #FFFFFF;
+  font-weight: 500;
+}
+
+/* ── 结构化楼栋房号输入 ── */
+.co-house-room-row {
+  display: flex;
+  gap: 20rpx;
+  margin-top: 24rpx;
+}
+.co-house-room-col {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 6rpx;
+  min-width: 0;
+}
+.co-house-room-input {
+  flex: 1;
+  font-size: 28rpx;
+  font-weight: 400;
+  color: #333333;
+  line-height: 44rpx;
+  padding: 4rpx 0;
+  min-width: 0;
+}
+.co-house-room-suffix {
+  font-size: 24rpx;
+  font-weight: 400;
+  color: #999999;
+  flex-shrink: 0;
+}
+
+/* ── 选择档期头部 ── */
+.co-schedule-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 32rpx;
+  margin-bottom: 16rpx;
+}
+
+/* ── 日历白卡 ── */
+.co-calendar-card {
+  background: #ffffff;
+  border-radius: 24rpx;
+  padding: 28rpx;
+  margin-bottom: 8rpx;
+}
+
+/* 折叠态 */
+.co-cal-collapsed {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.co-cal-collapsed-date {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #000000;
+}
+.co-cal-collapsed-arrow {
+  font-size: 20rpx;
+  color: #999999;
+}
+
+/* ── 分区标题 ── */
+.co-section-title {
+  display: block;
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #000000;
+  line-height: 40rpx;
+}
+
+/* ── 独立输入行 ── */
+.co-input-row {
+  display: flex;
+  align-items: center;
+  min-height: 88rpx;
+  padding: 0 4rpx;
+  border-bottom: 1rpx solid #f3f3f3;
+}
+.co-input-label {
+  font-size: 24rpx;
+  font-weight: 400;
+  color: #999999;
+  width: 120rpx;
+  flex-shrink: 0;
+}
+.co-input-val {
+  flex: 1;
+  font-size: 28rpx;
+  font-weight: 400;
+  color: #333333;
+  min-height: 60rpx;
+  line-height: 60rpx;
+  text-align: right;
+}
+.co-input-area-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6rpx;
+}
+.co-input-unit {
+  font-size: 24rpx;
+  font-weight: 400;
+  color: #999999;
+}
+
+/* ── 旧表单字段（保留兼容） ── */
+.co-field {
+  display: flex;
+  align-items: center;
+  min-height: 80rpx;
+  border-bottom: 1rpx solid #E5E5EA;
+  gap: 16rpx;
+}
+.co-field--last { border-bottom: none; }
+
+.co-field-label {
+  font-size: 26rpx;
+  color: #333333;
+  white-space: nowrap;
+  width: 120rpx;
+  flex-shrink: 0;
+}
+.co-field-input {
+  flex: 1;
+  font-size: 28rpx;
+  color: #333333;
+  min-height: 60rpx;
+  line-height: 60rpx;
+}
+
+/* 楼栋房号行 */
+.co-room-row {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  gap: 0;
+}
+.co-room-col {
+  display: flex;
+  align-items: center;
+  gap: 6rpx;
+  flex: 1;
+}
+.co-room-col--flat { flex: 1.4; }
+.co-room-sep {
+  width: 1rpx;
+  height: 32rpx;
+  background: #E5E5EA;
+  margin: 0 12rpx;
+  flex-shrink: 0;
+}
+.co-room-prefix {
+  font-size: 22rpx;
+  color: #999999;
+  white-space: nowrap;
+}
+.co-room-input {
+  flex: 1;
+  font-size: 28rpx;
+  color: #333333;
+  min-height: 60rpx;
+  line-height: 60rpx;
+}
+
+/* 面积行 */
+.co-area-row { display: flex; align-items: center; flex: 1; gap: 8rpx; }
+.co-area-input { flex: 1; font-size: 28rpx; color: #333333; }
+.co-area-unit { font-size: 26rpx; color: #333333; }
+.co-area-tip { font-size: 22rpx; color: #999999; white-space: nowrap; }
+
+/* ── 日历卡 ── */
+
+/* 可折叠头（卡片外独立） */
+.co-calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12rpx 4rpx;
+  margin-bottom: 8rpx;
+}
+.co-calendar-header-right {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+}
+.co-date-chip {
+  font-size: 24rpx;
+  color: #000000;
+  background: #f9e12a;
+  padding: 4rpx 14rpx;
+  border-radius: 20rpx;
+  font-weight: 500;
+}
+.co-date-chip--empty {
+  background: #F2F2F7;
+  color: #999999;
+  font-weight: 400;
+}
+.co-toggle-icon {
+  font-size: 20rpx;
+  color: #999999;
+}
+.co-calendar-tip {
+  display: block;
+  font-size: 22rpx;
+  color: #999999;
+  margin-top: 10rpx;
+  margin-bottom: 16rpx;
+}
+
+/* 月份导航 */
+.co-month-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16rpx;
+}
+.co-month-arrow {
+  width: 52rpx;
+  height: 52rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36rpx;
+  color: #333333;
+  border-radius: 50%;
+}
+.co-month-arrow.disabled { color: #C6C6C8; }
+.co-month-label {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #000000;
+  letter-spacing: 0.5rpx;
+}
+
+/* 星期行 */
+.co-week-row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 6rpx;
+}
+.co-week-item {
+  text-align: center;
+  font-size: 22rpx;
+  color: #999999;
+  padding: 4rpx 0;
+}
+.co-week-item--sat { color: #999999; }
+
+/* 日历格 */
+.co-calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4rpx 0;
+  margin-bottom: 16rpx;
+}
+.co-day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 72rpx;
+  border-radius: 12rpx;
+  position: relative;
+}
+.co-day-num {
+  font-size: 26rpx;
+  line-height: 1.2;
+}
+.co-day--empty  { background: transparent; }
+.co-day--disabled .co-day-num { color: #C6C6C8; }
+.co-day--available .co-day-num { color: #333333; }
+.co-day--hot .co-day-num  { color: #333333; font-weight: 500; }
+.co-day--full .co-day-num { color: #C6C6C8; }
+.co-day--selected {
+  background: #111111;
+  border-radius: 14rpx;
+}
+.co-day--selected .co-day-num { color: #FFFFFF; font-weight: 600; }
+
+/* 日期状态小点 */
+.co-day-dot {
+  width: 8rpx;
+  height: 8rpx;
+  border-radius: 50%;
+  margin-top: 2rpx;
+}
+.co-day-dot--available { background: #C6C6C8; }
+.co-day-dot--hot       { background: #f9e12a; }
+.co-day-dot--full      { background: #E5E5EA; }
+.co-day-dot--selected  { background: #FFFFFF; }
+
+/* 图例 */
+.co-legend-row {
+  display: flex;
+  gap: 24rpx;
+  align-items: center;
+  padding-top: 8rpx;
+  border-top: 1rpx solid #F2F2F7;
+}
+.co-legend-item { display: flex; align-items: center; gap: 6rpx; }
+.co-legend-text { font-size: 22rpx; color: #999999; line-height: 34rpx; }
+
+/* ── 费用明细 ── */
+.co-price-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 64rpx;
+  border-bottom: 1rpx solid #F2F2F7;
+}
+.co-price-left { display: flex; align-items: center; gap: 10rpx; }
+.co-price-label { font-size: 26rpx; color: #333333; line-height: 40rpx; }
+.co-price-tag {
+  font-size: 20rpx;
+  color: #999999;
+  background: #F2F2F7;
+  padding: 2rpx 10rpx;
+  border-radius: 6rpx;
+}
+.co-price-val  { font-size: 26rpx; color: #333333; line-height: 40rpx; }
+.co-price-off  { font-size: 26rpx; color: #333333; font-weight: 500; line-height: 40rpx; }
+
+/* 早鸟提示 */
+.co-hint-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8rpx;
+  padding: 12rpx 0;
+  border-bottom: 1rpx solid #F2F2F7;
+}
+.co-hint-icon { font-size: 24rpx; line-height: 36rpx; flex-shrink: 0; }
+.co-hint-text { font-size: 23rpx; color: #999999; line-height: 36rpx; }
+
+.co-divider { height: 1rpx; background: #E5E5EA; margin: 4rpx 0; }
+
+/* 应付金额 */
+.co-final-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 16rpx;
+}
+.co-final-label { font-size: 28rpx; font-weight: 500; color: #000000; }
+.co-final-right { display: flex; flex-direction: column; align-items: flex-end; gap: 2rpx; }
+.co-final-psm   { font-size: 22rpx; color: #999999; }
+.co-final-price { font-size: 36rpx; font-weight: 600; color: #000000; letter-spacing: -0.5rpx; }
+
+/* 优惠来源小字 */
+.co-discount-source {
+  display: block;
+  font-size: 22rpx;
+  font-weight: 400;
+  color: #999999;
+  line-height: 32rpx;
+  padding-left: 4rpx;
+  margin-top: -4rpx;
+  margin-bottom: 8rpx;
+}
+
+/* 状态提示行 */
+.co-state-hint {
+  margin-top: 16rpx;
+  padding: 16rpx 0 0;
+}
+.co-state-hint-text {
+  display: block;
+  font-size: 22rpx;
+  font-weight: 400;
+  color: #999999;
+  line-height: 34rpx;
+}
+.co-state-link {
+  display: inline-block;
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  font-weight: 500;
+  color: #000000;
+  line-height: 34rpx;
+  text-decoration: underline;
+}
+
+/* 邀约返现行 */
+.co-rebate-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10rpx;
+  margin-top: 16rpx;
+  padding: 16rpx 18rpx;
+  background: #fffdf0;
+  border-radius: 24rpx;
+  border: 1rpx solid #f9e12a;
+}
+.co-rebate-icon    { font-size: 28rpx; line-height: 1.3; flex-shrink: 0; }
+.co-rebate-content { flex: 1; }
+.co-rebate-title   { display: block; font-size: 26rpx; color: #333333; line-height: 40rpx; }
+.co-rebate-amount  { font-weight: 600; color: #000000; }
+.co-rebate-effective {
+  display: block;
+  font-size: 23rpx;
+  color: #999999;
+  line-height: 36rpx;
+  margin-top: 4rpx;
+}
+
+/* 拼团推广卡样式已移除（入口改在底栏） */
+
+/* ── 年月选择器 ── */
+.co-picker-mask {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 100;
+}
+.co-picker-sheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #FFFFFF;
+  border-radius: 24rpx 24rpx 0 0;
+  z-index: 101;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.co-picker-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24rpx 28rpx 16rpx;
+  border-bottom: 1rpx solid #E5E5EA;
+}
+.co-picker-cancel  { font-size: 28rpx; color: #999999; }
+.co-picker-title   { font-size: 28rpx; font-weight: 500; color: #000000; }
+.co-picker-confirm { font-size: 28rpx; color: #000000; font-weight: 500; }
+.co-picker-view    { height: 360rpx; }
+.co-picker-item {
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  font-size: 30rpx;
+  color: #333333;
+}
+
+/* ── 底部提交栏 ── */
+.co-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 16rpx 20rpx;
+  padding-bottom: calc(16rpx + env(safe-area-inset-bottom));
+  background: #FFFFFF;
+  border-top: 1rpx solid #E5E5EA;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12rpx;
+  z-index: 50;
+  box-sizing: border-box;
+}
+.co-bar-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2rpx;
+  flex: 1;
+}
+.co-bar-label { font-size: 22rpx; color: #999999; }
+.co-bar-price { font-size: 36rpx; font-weight: 600; color: #000000; letter-spacing: -0.5rpx; }
+.co-bar-psm   { font-size: 20rpx; color: #999999; }
+.co-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+  flex-shrink: 0;
+}
+/* 拼团小按钮 */
+.co-bar-group-btn {
+  height: 80rpx;
+  padding: 0 20rpx;
+  border: 2rpx solid #000000;
+  border-radius: 16rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rpx;
+}
+.co-bar-group-icon { font-size: 24rpx; line-height: 1; }
+.co-bar-group-text { font-size: 20rpx; font-weight: 500; color: #333333; white-space: nowrap; }
+/* 主按钮 */
+.co-bar-btn {
+  height: 80rpx;
+  min-width: 200rpx;
+  padding: 0 32rpx;
+  background: #111111;
+  border-radius: 16rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.co-bar-btn.disabled { background: #C6C6C8; }
+.co-bar-btn-text { font-size: 30rpx; font-weight: 500; color: #FFFFFF; letter-spacing: 0.5rpx; }
+
+/* ── 券抵扣标签 ── */
+.co-coupon-tag {
+  padding: 4rpx 12rpx;
+  background: #F9E12A;
+  border-radius: 8rpx;
+}
+.co-coupon-tag-text {
+  font-size: 26rpx;
+  font-weight: 500;
+  color: #000000;
+}
+
+/* ── 重复下单提示弹窗 ── */
+.dup-mask {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 100;
+}
+.dup-modal {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #FFFFFF;
+  border-radius: 24rpx 24rpx 0 0;
+  padding: 0 32rpx 40rpx;
+  padding-bottom: calc(40rpx + env(safe-area-inset-bottom));
+  z-index: 101;
+  box-sizing: border-box;
+}
+.dup-handle {
+  width: 60rpx;
+  height: 6rpx;
+  background: #C6C6C8;
+  border-radius: 3rpx;
+  margin: 16rpx auto 24rpx;
+}
+.dup-title {
+  display: block;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #000000;
+  margin-bottom: 16rpx;
+}
+.dup-desc {
+  display: block;
+  font-size: 28rpx;
+  color: #666666;
+  line-height: 1.6;
+  margin-bottom: 32rpx;
+}
+.dup-actions {
+  display: flex;
+  gap: 16rpx;
+}
+.dup-btn-secondary {
+  flex: 1;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #000000;
+  background: #FFFFFF;
+  border: 1rpx solid #000000;
+  border-radius: 24rpx;
+}
+.dup-btn-primary {
+  flex: 1;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #000000;
+  background: #F9E12A;
+  border-radius: 24rpx;
+}
+
+/* ── 沟通档期弹窗（保留原有样式） ── */
+.contact-mask {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 100;
+}
+.contact-modal {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #FFFFFF;
+  border-radius: 24rpx 24rpx 0 0;
+  padding: 0 28rpx 40rpx;
+  padding-bottom: calc(40rpx + env(safe-area-inset-bottom));
+  z-index: 101;
+  box-sizing: border-box;
+}
+.contact-handle {
+  width: 60rpx;
+  height: 6rpx;
+  background: #C6C6C8;
+  border-radius: 3rpx;
+  margin: 16rpx auto 20rpx;
+}
+.contact-title {
+  display: block;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #000000;
+  margin-bottom: 20rpx;
+}
+.contact-card {
+  background: #F2F2F7;
+  border-radius: 24rpx;
+  padding: 28rpx;
+  margin-bottom: 14rpx;
+}
+.contact-card-title {
+  display: block;
+  font-size: 24rpx;
+  font-weight: 500;
+  color: #333333;
+  margin-bottom: 12rpx;
+}
+.contact-reason-item { display: flex; align-items: flex-start; gap: 10rpx; margin-bottom: 8rpx; }
+.contact-reason-dot  { width: 10rpx; height: 10rpx; border-radius: 50%; background: #000000; margin-top: 10rpx; flex-shrink: 0; }
+.contact-reason-text { font-size: 24rpx; color: #333333; line-height: 38rpx; }
+.contact-service-row { display: flex; justify-content: space-between; align-items: center; padding: 6rpx 0; border-bottom: 1rpx solid #E5E5EA; }
+.contact-service-row:last-child { border-bottom: none; }
+.contact-service-label { font-size: 24rpx; color: #999999; }
+.contact-service-value { font-size: 24rpx; color: #333333; font-weight: 400; }
+.contact-date-label { display: block; font-size: 22rpx; color: #999999; margin-bottom: 4rpx; }
+.contact-date-value { display: block; font-size: 28rpx; font-weight: 500; color: #333333; }
+.contact-confirm-btn {
+  display: block;
+  text-align: center;
+  height: 84rpx;
+  line-height: 84rpx;
+  background: #000000;
+  color: #FFFFFF;
+  font-size: 30rpx;
+  font-weight: 500;
+  border-radius: 16rpx;
+  margin-top: 20rpx;
+}
+.contact-note {
+  display: block;
+  text-align: center;
+  margin-top: 14rpx;
+  font-size: 22rpx;
+  color: #999999;
+  line-height: 34rpx;
+}
+
+/* =============================
+   团购身份 Banner
+============================= */
+.co-group-banner {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  background: #1a1a1a;
+  padding: 18rpx 24rpx;
+}
+
+.co-group-banner-icon {
+  font-size: 32rpx;
+  flex-shrink: 0;
+}
+
+.co-group-banner-text-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+}
+
+.co-group-banner-main {
+  font-size: 24rpx;
+  font-weight: 500;
+  color: #F9E12A;
+  line-height: 1.4;
+}
+
+.co-group-banner-sub {
+  font-size: 20rpx;
+  color: rgba(255, 255, 255, 0.50);
+  line-height: 1.3;
+}
+
+/* 服务卡：团购价徽标变体 */
+.co-service-badge--group {
+  background: #F9E12A;
+  color: #000000;
+}
+
+/* =============================
+   费用明细：团购折扣行
+============================= */
+.co-price-tag--group {
+  background: rgba(249, 225, 42, 0.18);
+  color: #999999;
+}
+
+.co-price-off--group {
+  color: #F9E12A;
+  font-weight: 600;
+}
+

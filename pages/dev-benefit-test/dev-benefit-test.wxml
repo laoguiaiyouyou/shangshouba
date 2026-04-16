@@ -1,0 +1,80 @@
+<view class="dt-page">
+
+  <view class="dt-header">
+    <text class="dt-title">权益测试面板</text>
+    <text class="dt-sub">上线前删除，所有操作走云函数确保 OPENID 正确</text>
+  </view>
+
+  <!-- 数据准备 -->
+  <view class="dt-section">
+    <text class="dt-section-title">第 1 步：准备测试数据</text>
+    <view class="dt-btn dt-btn--yellow" bindtap="setupLeader">
+      <text class="dt-btn-text">1. 创建团长（S2 高级团长）</text>
+    </view>
+    <view class="dt-btn dt-btn--yellow" bindtap="claimAllCoupons">
+      <text class="dt-btn-text">2. 一键领取 4 种券</text>
+    </view>
+  </view>
+
+  <!-- 查看 -->
+  <view class="dt-section">
+    <text class="dt-section-title">查看数据</text>
+    <view class="dt-row">
+      <view class="dt-btn dt-btn--outline" bindtap="listCoupons">
+        <text class="dt-btn-text">查看券</text>
+      </view>
+      <view class="dt-btn dt-btn--outline" bindtap="listBookings">
+        <text class="dt-btn-text">查看预约</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 跳转 -->
+  <view class="dt-section">
+    <text class="dt-section-title">第 2 步：跳转测试使用流程</text>
+    <view class="dt-btn dt-btn--dark" bindtap="goMonthlyCoupons">
+      <text class="dt-btn-text dt-btn-text--white">我的券（领取 + 使用预约）</text>
+    </view>
+    <view class="dt-row">
+      <view class="dt-btn dt-btn--outline" bindtap="goBenefitDaily">
+        <text class="dt-btn-text">日常保洁</text>
+      </view>
+      <view class="dt-btn dt-btn--outline" bindtap="goBenefitWindow">
+        <text class="dt-btn-text">擦窗</text>
+      </view>
+    </view>
+    <view class="dt-row">
+      <view class="dt-btn dt-btn--outline" bindtap="goBenefitPet">
+        <text class="dt-btn-text">宠物消杀</text>
+      </view>
+      <view class="dt-btn dt-btn--outline" bindtap="goBenefitFormaldehyde">
+        <text class="dt-btn-text">除甲醛</text>
+      </view>
+    </view>
+    <view class="dt-row">
+      <view class="dt-btn dt-btn--outline" bindtap="goBenefitMonthly">
+        <text class="dt-btn-text">月月领券</text>
+      </view>
+      <view class="dt-btn dt-btn--outline" bindtap="goGroupBuy">
+        <text class="dt-btn-text">团长权益tab</text>
+      </view>
+    </view>
+    <view class="dt-btn dt-btn--outline" bindtap="goMine">
+      <text class="dt-btn-text">我的（看券入口）</text>
+    </view>
+  </view>
+
+  <!-- 重置 -->
+  <view class="dt-section">
+    <view class="dt-btn dt-btn--danger" bindtap="clearAll">
+      <text class="dt-btn-text">清除所有券和预约（重新测试）</text>
+    </view>
+  </view>
+
+  <!-- 日志 -->
+  <view class="dt-log">
+    <text class="dt-log-title">操作日志</text>
+    <text class="dt-log-line" wx:for="{{log}}" wx:key="*this">{{item}}</text>
+  </view>
+
+</view>

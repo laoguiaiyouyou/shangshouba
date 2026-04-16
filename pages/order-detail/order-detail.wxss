@@ -1,0 +1,896 @@
+/* ============================================================
+   order-detail  服务旅程页
+   色值：主黄 #F9E12A | 主文 #000000 | 次文 #333333
+         辅助文 #999999 | 分隔线 #EBEBEB | 浅底 #f5f5f5
+   ============================================================ */
+
+/* ─── 页面根：全页黄底（Plan Final） ─── */
+.od-page {
+  min-height: 100vh;
+  background: #f9e12a;
+  box-sizing: border-box;
+}
+
+.od-page--refund .od-body {
+  padding-top: calc(198rpx + constant(safe-area-inset-top));
+  padding-top: calc(198rpx + env(safe-area-inset-top));
+}
+
+/* ─── 主体：顶部让出固定导航高度 ─── */
+.od-body {
+  padding-top: calc(212rpx + constant(safe-area-inset-top));
+  padding-top: calc(212rpx + env(safe-area-inset-top));
+}
+
+/* ─── Hero 黄色区 ─── */
+.od-hero {
+  background: #F9E12A;
+  padding: 28rpx 40rpx 32rpx;
+}
+
+.od-hero-name-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16rpx;
+}
+
+.od-hero-name {
+  flex: 1;
+  font-size: 42rpx;
+  font-weight: 600;
+  color: #000000;
+  line-height: 56rpx;
+  letter-spacing: -0.5rpx;
+}
+
+.od-hero-chip {
+  flex-shrink: 0;
+  margin-top: 4rpx;
+  min-height: 52rpx;
+  padding: 0 20rpx;
+  border-radius: 999rpx;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.34);
+  border: 1rpx solid rgba(17, 17, 17, 0.06);
+}
+
+.od-hero-chip-text {
+  display: block;
+  font-size: 22rpx;
+  font-weight: 500;
+  color: #000000;
+  line-height: 30rpx;
+}
+
+.od-hero-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6rpx;
+  margin-top: 14rpx;
+}
+
+.od-hero-meta-item {
+  font-size: 24rpx;
+  color: rgba(17, 17, 17, 0.58);
+  line-height: 34rpx;
+}
+
+.od-hero-meta-sep {
+  font-size: 22rpx;
+  color: rgba(17, 17, 17, 0.28);
+  line-height: 34rpx;
+}
+
+.od-hero-meta-tag {
+  font-size: 20rpx;
+  font-weight: 500;
+  color: rgba(17, 17, 17, 0.5);
+  line-height: 26rpx;
+  padding: 2rpx 10rpx;
+  margin-left: 4rpx;
+  border-radius: 6rpx;
+  background: rgba(17, 17, 17, 0.06);
+}
+
+.od-hero-guide {
+  display: block;
+  margin-top: 12rpx;
+  font-size: 24rpx;
+  color: rgba(17, 17, 17, 0.5);
+  line-height: 36rpx;
+}
+
+/* ─── 【B层】旅程区 ─── */
+.od-journey {
+  padding: 20rpx 40rpx 0;
+}
+
+.od-journey--refund {
+  padding: 20rpx 40rpx 0;
+}
+
+.od-journey-section-label {
+  display: block;
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #000000;
+  line-height: 38rpx;
+  margin-bottom: 22rpx;
+  padding: 0 4rpx;
+}
+
+/* 行动出口：主按钮态 */
+.od-journey-action {
+  margin-top: 16rpx;
+  padding: 0 4rpx;
+}
+.od-journey-action-btn {
+  height: 84rpx;
+  border-radius: 24rpx;
+  background: #f9e12a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6rpx;
+}
+.od-journey-action-btn-text {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #000000;
+}
+.od-journey-action-btn-arrow {
+  font-size: 32rpx;
+  color: #000000;
+  margin-top: -2rpx;
+}
+
+/* 行动出口：无动作提示态 */
+.od-journey-action-none {
+  margin-top: 14rpx;
+  padding: 16rpx 18rpx;
+  border-radius: 12rpx;
+  background: rgba(17, 17, 17, 0.05);
+  display: flex;
+  align-items: flex-start;
+  gap: 10rpx;
+}
+.od-journey-action-none-icon {
+  font-size: 16rpx;
+  color: #F9E12A;
+  line-height: 36rpx;
+  flex-shrink: 0;
+}
+.od-journey-action-none-text {
+  font-size: 25rpx;
+  color: #999999;
+  line-height: 38rpx;
+  font-weight: 500;
+}
+
+/* 联系客服：次级文字链 */
+.od-journey-contact {
+  margin-top: 14rpx;
+  padding: 8rpx 0;
+  text-align: center;
+}
+.od-journey-contact-text {
+  font-size: 24rpx;
+  color: #999999;
+  text-decoration: underline;
+  text-underline-offset: 3rpx;
+}
+
+/* 当前阶段说明条 */
+.pg-stage-bar {
+  display: flex;
+  align-items: flex-start;
+  gap: 12rpx;
+  margin-top: 18rpx;
+  padding: 14rpx 16rpx;
+  background: #fafafa;
+  border-radius: 12rpx;
+}
+
+.pg-stage-accent {
+  width: 4rpx;
+  min-height: 32rpx;
+  border-radius: 2rpx;
+  background: #F9E12A;
+  flex-shrink: 0;
+  margin-top: 4rpx;
+}
+
+.pg-stage-text {
+  flex: 1;
+  font-size: 23rpx;
+  color: #999999;
+  line-height: 36rpx;
+}
+
+/* ─────────────────────────────────
+   退款进度（progress- 系列保留）
+───────────────────────────────── */
+.od-refund-progress-card {
+  padding: 28rpx 28rpx;
+}
+
+.progress-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8rpx;
+}
+
+.od-page--refund .progress-row {
+  gap: 0;
+  position: relative;
+}
+
+.od-page--refund .progress-row::before {
+  content: '';
+  position: absolute;
+  left: 17%;
+  right: 17%;
+  top: 10rpx;
+  height: 4rpx;
+  background: #EBEBEF;
+  z-index: 0;
+}
+
+.progress-item {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.progress-dot {
+  width: 20rpx;
+  height: 20rpx;
+  border-radius: 50%;
+  background: #e0e0e0;
+  flex-shrink: 0;
+}
+
+.progress-item.done .progress-dot {
+  background: #F9E12A;
+}
+
+.progress-item.active .progress-dot {
+  background: #F9E12A;
+  box-shadow: 0 0 0 6rpx rgba(249, 225, 42, 0.22);
+}
+
+.od-page--refund .progress-item.active .progress-dot {
+  box-shadow: 0 0 0 10rpx rgba(249, 225, 42, 0.16);
+}
+
+.progress-text {
+  margin-top: 10rpx;
+  padding: 0 4rpx;
+  font-size: 20rpx;
+  line-height: 28rpx;
+  color: #bbbbbb;
+  text-align: center;
+  word-break: break-all;
+  white-space: normal;
+  width: 100%;
+}
+
+.progress-item.done .progress-text {
+  color: #999999;
+  font-weight: 500;
+}
+
+.progress-item.active .progress-text {
+  color: #000000;
+  font-weight: 500;
+}
+
+.od-page--refund .progress-text {
+  margin-top: 14rpx;
+  font-size: 22rpx;
+  line-height: 30rpx;
+  letter-spacing: 0;
+}
+
+/* ─────────────────────────────────
+   退款说明卡
+───────────────────────────────── */
+.od-refund-info-card {
+  padding: 28rpx 28rpx;
+}
+
+.od-refund-info-list {
+  margin-top: 16rpx;
+}
+
+.od-refund-info-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14rpx;
+}
+
+.od-refund-info-row:first-child {
+  margin-top: 0;
+}
+
+.od-refund-info-key {
+  font-size: 26rpx;
+  color: #999999;
+  line-height: 36rpx;
+}
+
+.od-refund-info-val {
+  font-size: 26rpx;
+  color: #333333;
+  line-height: 36rpx;
+}
+
+.od-refund-note {
+  margin-top: 20rpx;
+  padding: 14rpx 16rpx 14rpx 18rpx;
+  border-radius: 12rpx;
+  border-left: 4rpx solid #F9E12A;
+  background: #fafafa;
+}
+
+.od-refund-note-text {
+  font-size: 23rpx;
+  color: #999999;
+  line-height: 36rpx;
+}
+
+/* ─────────────────────────────────
+   【C层】费用摘要
+───────────────────────────────── */
+.od-fee-summary {
+  margin: 48rpx 40rpx 0;
+  padding: 28rpx 28rpx;
+  border-radius: 24rpx;
+  background: rgba(255, 252, 244, 0.78);
+  border: 1rpx solid rgba(255, 255, 255, 0.82);
+  box-sizing: border-box;
+  backdrop-filter: blur(18rpx);
+  -webkit-backdrop-filter: blur(18rpx);
+}
+.od-fee-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6rpx 0;
+}
+.od-fee-label {
+  font-size: 26rpx;
+  color: #999999;
+  line-height: 36rpx;
+}
+.od-fee-val {
+  font-size: 26rpx;
+  color: #333333;
+  line-height: 36rpx;
+}
+.od-fee-val--bold {
+  font-size: 30rpx;
+  font-weight: 600;
+}
+.od-fee-val--discount {
+  color: #F9E12A;
+  font-weight: 600;
+}
+.od-fee-rule {
+  margin-top: 10rpx;
+  padding: 8rpx 0;
+}
+.od-fee-rule-text {
+  font-size: 22rpx;
+  color: #999999;
+  line-height: 34rpx;
+}
+.od-fee-expand-trigger {
+  margin-top: 8rpx;
+  text-align: center;
+  padding: 6rpx 0;
+}
+.od-fee-expand-text {
+  font-size: 23rpx;
+  color: #999999;
+  text-decoration: underline;
+  text-underline-offset: 3rpx;
+}
+.od-fee-detail {
+  margin-top: 10rpx;
+  padding-top: 12rpx;
+  border-top: 1rpx solid rgba(17, 17, 17, 0.06);
+}
+/* 退款入口（费用摘要内） */
+.od-fee-refund-entry {
+  margin-top: 16rpx;
+  padding: 16rpx 18rpx;
+  border-radius: 12rpx;
+  box-sizing: border-box;
+}
+.od-fee-refund-entry--active {
+  background: rgba(249, 225, 42, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.od-fee-refund-entry-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2rpx;
+}
+.od-fee-refund-entry-label {
+  font-size: 24rpx;
+  font-weight: 500;
+  color: #333333;
+  line-height: 34rpx;
+}
+.od-fee-refund-entry-countdown {
+  font-size: 22rpx;
+  color: #999999;
+  line-height: 30rpx;
+}
+.od-fee-refund-entry-btn {
+  padding: 8rpx 24rpx;
+  border-radius: 8rpx;
+  background: #F9E12A;
+  flex-shrink: 0;
+}
+.od-fee-refund-entry-btn-text {
+  font-size: 24rpx;
+  font-weight: 500;
+  color: #000000;
+  line-height: 32rpx;
+}
+.od-fee-refund-entry--closed {
+  background: rgba(17, 17, 17, 0.03);
+  text-align: center;
+}
+.od-fee-refund-closed-text {
+  font-size: 22rpx;
+  color: #999999;
+  line-height: 32rpx;
+}
+/* 保障标签行 */
+.od-assurance-tags {
+  display: flex;
+  gap: 8rpx;
+  margin-top: 14rpx;
+  flex-wrap: wrap;
+}
+.od-assurance-tag {
+  font-size: 20rpx;
+  color: #999999;
+  line-height: 26rpx;
+  padding: 4rpx 12rpx;
+  border-radius: 6rpx;
+  background: rgba(17, 17, 17, 0.04);
+}
+
+/* ─────────────────────────────────
+   【D层】推荐入口（底部窄条）
+───────────────────────────────── */
+.od-referral-strip {
+  margin: 48rpx 40rpx 0;
+  padding: 18rpx 20rpx;
+  border-radius: 24rpx;
+  background: rgba(255, 252, 244, 0.78);
+  border: 1rpx solid rgba(255, 255, 255, 0.82);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12rpx;
+  box-sizing: border-box;
+}
+.od-referral-strip-left {
+  flex: 1;
+  min-width: 0;
+}
+.od-referral-strip-main {
+  display: block;
+  font-size: 24rpx;
+  font-weight: 500;
+  color: #333333;
+  line-height: 34rpx;
+}
+.od-referral-strip-sub {
+  display: block;
+  font-size: 21rpx;
+  color: #999999;
+  line-height: 28rpx;
+  margin-top: 2rpx;
+}
+.od-referral-strip-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+  flex-shrink: 0;
+}
+.od-referral-strip-link {
+  font-size: 23rpx;
+  color: #333333;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 3rpx;
+  line-height: 30rpx;
+}
+
+/* （退款入口样式已合并到 od-fee-refund-entry 系列） */
+
+/* ─── 底部安全区 ─── */
+.od-bottom-safe {
+  height: calc(64rpx + constant(safe-area-inset-bottom));
+  height: calc(64rpx + env(safe-area-inset-bottom));
+}
+
+/* 吸底双行（到手价 + 主按钮）需更高留白 */
+.od-page--has-cta .od-bottom-safe {
+  height: calc(200rpx + constant(safe-area-inset-bottom));
+  height: calc(200rpx + env(safe-area-inset-bottom));
+}
+
+/* ─── 券预约吸底（轻玻璃） ─── */
+.od-action-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 16rpx 28rpx;
+  padding-bottom: calc(20rpx + constant(safe-area-inset-bottom));
+  padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
+  background: rgba(255, 252, 244, 0.82);
+  border-top: 1rpx solid rgba(255, 255, 255, 0.9);
+  box-sizing: border-box;
+  z-index: 100;
+  backdrop-filter: blur(24rpx);
+  -webkit-backdrop-filter: blur(24rpx);
+}
+
+/* （Sticky CTA 已移除，主动作并入旅程区行动出口） */
+
+.od-action-bar-btn {
+  height: 92rpx;
+  background: #F9E12A;
+  border-radius: 24rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6rpx;
+}
+
+.od-action-bar-text {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #000000;
+  letter-spacing: 0.3rpx;
+  line-height: 1;
+}
+
+.od-action-bar-arrow {
+  font-size: 36rpx;
+  color: #000000;
+  line-height: 1;
+  margin-top: -2rpx;
+}
+
+/* ─── 订单加载失败兜底 ─── */
+.od-load-error {
+  padding: 120rpx 48rpx 48rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.od-load-error-title {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #000000;
+  line-height: 48rpx;
+}
+
+.od-load-error-desc {
+  margin-top: 16rpx;
+  font-size: 28rpx;
+  color: #333333;
+  line-height: 40rpx;
+}
+
+.od-load-error-btn {
+  margin-top: 48rpx;
+  min-width: 400rpx;
+  height: 88rpx;
+  padding: 0 40rpx;
+  border-radius: 24rpx;
+  background: #F9E12A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #000000;
+  box-sizing: border-box;
+}
+
+/* ─── 优惠券预约（待联系）精简信息卡 ─── */
+.od-coupon-booking-card {
+  padding-bottom: 8rpx;
+}
+
+.od-coupon-booking-line {
+  display: block;
+  font-size: 28rpx;
+  color: #333333;
+  line-height: 44rpx;
+}
+
+.od-coupon-booking-notice {
+  display: block;
+  margin-top: 20rpx;
+  font-size: 26rpx;
+  color: #999999;
+  line-height: 40rpx;
+}
+
+/* =====================================================
+   服务进度蛇形进度条（pg- 前缀，结构保留）
+===================================================== */
+
+.pg-wrap {
+  margin-top: 4rpx;
+  position: relative;
+  padding-bottom: 4rpx;
+}
+
+/* 仅深度开荒：猫头鹰绝对定位不占高，为下方阶段说明预留空间，避免与文案重叠 */
+.pg-wrap--haokang {
+  padding-bottom: 76rpx;
+}
+
+/* 仅深度开荒：阶段说明整体右移，避让左侧吉祥物 */
+.pg-stage-bar--haokang {
+  margin-top: 20rpx;
+  padding-left: 100rpx;
+  box-sizing: border-box;
+}
+
+.pg-row-top,
+.pg-row-bot {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.pg-row-bot {
+  padding-left: 20%;
+  box-sizing: border-box;
+  margin-top: 28rpx;
+}
+
+.pg-node {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: visible;
+}
+
+.pg-dot-wrap {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+}
+
+.pg-dot {
+  width: 20rpx;
+  height: 20rpx;
+  border-radius: 50%;
+  background: #e0e0e0;
+  flex-shrink: 0;
+  z-index: 1;
+}
+
+/* 猫头鹰：绝对定位，列1水平居中，待服务文字下方 */
+.pg-mascot {
+  position: absolute;
+  width: 64rpx;
+  height: 64rpx;
+  top: 62rpx;
+  left: calc(10% - 32rpx);
+  z-index: 2;
+}
+
+.pg-line {
+  flex: 1;
+  height: 4rpx;
+  background: #e0e0e0;
+}
+
+.pg-spacer {
+  flex: 1;
+  height: 4rpx;
+  background: transparent;
+}
+
+/* 服务才开始左侧箭头 */
+.pg-arrow-left {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-left: 16rpx;
+}
+
+.pg-arrow-line {
+  flex: 1;
+  height: 4rpx;
+  background: #e0e0e0;
+}
+
+.pg-arrow-head {
+  font-size: 18rpx;
+  color: #c0c0c0;
+  line-height: 1;
+  margin-left: -2rpx;
+  flex-shrink: 0;
+}
+
+/* 服务才开始：轻提示节点 */
+.pg-node-hint .pg-dot {
+  width: 14rpx;
+  height: 14rpx;
+  background: #c0c0c0;
+}
+
+.pg-node-hint .pg-text {
+  font-size: 19rpx;
+  color: #a8a8a8;
+}
+
+/* 节点文字 */
+.pg-text {
+  margin-top: 10rpx;
+  font-size: 20rpx;
+  line-height: 28rpx;
+  color: #b2b2b2;
+  text-align: center;
+  letter-spacing: 0.5rpx;
+  word-break: break-all;
+  white-space: normal;
+  width: 100%;
+  padding: 0 2rpx;
+  box-sizing: border-box;
+}
+
+/* 已完成节点 */
+.pg-node.pg-done .pg-dot {
+  background: #F9E12A;
+}
+.pg-node.pg-done .pg-line {
+  background: #F9E12A;
+}
+.pg-node.pg-done .pg-text {
+  color: #999999;
+  font-weight: 500;
+}
+
+/* 当前节点 */
+.pg-node.pg-active .pg-dot {
+  background: #F9E12A;
+  box-shadow: 0 0 0 5rpx rgba(249, 225, 42, 0.25);
+}
+.pg-node.pg-active .pg-text {
+  color: #000000;
+  font-weight: 500;
+}
+
+/* 第一排 active：点左侧线已走过 */
+.pg-row-top .pg-node.pg-active .pg-dot-wrap .pg-line:first-child {
+  background: #F9E12A;
+}
+
+/* 第二排 active：点右侧线已走过（蛇形右→左） */
+.pg-row-bot .pg-node.pg-active .pg-dot-wrap .pg-line:last-child {
+  background: #F9E12A;
+}
+
+/* 转折竖线：绝对定位，列5中心 */
+.pg-turn-bar {
+  position: absolute;
+  right: calc(10% - 2rpx);
+  top: 18rpx;
+  width: 4rpx;
+  height: 62rpx;
+}
+
+.pg-turn-line {
+  width: 100%;
+  height: 100%;
+  background: #e0e0e0;
+}
+
+.pg-turn-done {
+  background: #F9E12A;
+}
+
+/* Refund page specific styles */
+
+/* 退款流仍用黑底 Hero，不恢复旧白卡摘要样式 */
+.od-page--refund .od-hero--invert.od-summary-card {
+  margin: 0;
+  border: none;
+  box-shadow: none;
+}
+
+.od-page--refund .od-hero-name {
+  font-size: 34rpx;
+  line-height: 46rpx;
+  letter-spacing: -0.2rpx;
+}
+
+/* 退款态旅程区内退款说明列表 */
+.od-journey--refund .od-refund-info-list {
+  margin-top: 20rpx;
+  padding-top: 16rpx;
+  border-top: 1rpx solid rgba(17, 17, 17, 0.06);
+}
+
+.od-page--refund .od-refund-note {
+  margin-top: 22rpx;
+  padding: 18rpx 18rpx 18rpx 22rpx;
+  border-radius: 18rpx;
+  border-left: 6rpx solid #F9E12A;
+  background: #FAFAFA;
+}
+
+/* ── 团购价 Hero 徽标 ── */
+.od-hero-chip--group {
+  background: #F9E12A;
+}
+.od-hero-chip--group .od-hero-chip-text {
+  color: #000000;
+}
+
+/* （团购身份已收入 Hero meta 行内标签） */
+
+/* ── 费用区：团购折扣行 ── */
+.od-cost-key--group {
+  color: #999999;
+}
+.od-cost-discount--group {
+  color: #F9E12A;
+  font-weight: 600;
+}
+
+/* （旧开团进度入口卡已合并到邀请与成长卡） */
+
+/* ── 费用区：¥/㎡ 口径标签 ── */
+.od-cost-key-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+}
+.od-cost-psm-tag {
+  font-size: 18rpx;
+  font-weight: 500;
+  color: #999999;
+  background: rgba(249, 225, 42, 0.20);
+  border-radius: 6rpx;
+  padding: 2rpx 10rpx;
+  line-height: 1.5;
+}

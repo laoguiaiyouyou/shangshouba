@@ -1,0 +1,55 @@
+.review-list-page {
+  min-height: 100vh;
+  background: #ffffff;
+  box-sizing: border-box;
+}
+
+.review-list-inner {
+  padding: 24rpx 40rpx 48rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.review-card-item {
+  box-sizing: border-box;
+  padding: 28rpx;
+  border-radius: 24rpx;
+  border: 1rpx solid #eeeeee;
+  background: #fafafa;
+}
+
+.review-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.review-username {
+  font-size: 26rpx;
+  line-height: 36rpx;
+  font-weight: 500;
+  color: #333333;
+}
+
+.review-tag {
+  font-size: 20rpx;
+  line-height: 30rpx;
+  color: #999999;
+}
+
+.review-stars {
+  display: block;
+  margin-top: 6rpx;
+  font-size: 22rpx;
+  line-height: 32rpx;
+  color: #f9e12a;
+}
+
+.review-content {
+  display: block;
+  margin-top: 10rpx;
+  font-size: 22rpx;
+  line-height: 34rpx;
+  color: #333333;
+}

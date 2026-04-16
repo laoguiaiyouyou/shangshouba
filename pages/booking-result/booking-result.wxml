@@ -1,0 +1,28 @@
+<view class="result-page">
+
+  <view class="global-top-bar">
+    <view class="global-top-back" bindtap="goBack">
+      <text class="global-top-back-icon">‹</text>
+    </view>
+    <view class="global-brand-wrap">
+      <view class="global-brand-dot"></view>
+      <text class="global-brand-title">安心住·上手吧</text>
+    </view>
+    <view class="global-top-capsule"></view>
+  </view>
+
+  <view class="result-body">
+    <view class="result-card">
+      <view class="result-icon-wrap">
+        <text class="result-icon">✓</text>
+      </view>
+      <text class="result-title">预约已提交</text>
+      <text class="result-desc">{{nodeName}} {{dateLabel}}{{slot}}的预约已提交，具体时间今日内会有工作人员与您联系确认。</text>
+    </view>
+
+    <view class="result-btn" bindtap="goMine">
+      <text class="result-btn-text">返回我的</text>
+    </view>
+  </view>
+
+</view>

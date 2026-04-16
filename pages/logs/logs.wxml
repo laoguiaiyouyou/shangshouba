@@ -1,0 +1,16 @@
+<!--logs.wxml-->
+<view class="global-top-bar">
+  <view class="global-top-back" bindtap="goBack">
+    <text class="global-top-back-icon">‹</text>
+  </view>
+  <view class="global-brand-wrap">
+    <view class="global-brand-dot"></view>
+    <text class="global-brand-title">安心住·上手吧</text>
+  </view>
+  <view class="global-top-capsule"></view>
+</view>
+<scroll-view class="scrollarea" scroll-y type="list">
+  <block wx:for="{{logs}}" wx:key="timeStamp" wx:for-item="log">
+    <view class="log-item">{{index + 1}}. {{log.date}}</view>
+  </block>
+</scroll-view>

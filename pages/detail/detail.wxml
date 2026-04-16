@@ -1,0 +1,365 @@
+<view class="detail-page">
+
+  <!-- 01 顶部导航区（透明覆盖在 hero 上） -->
+  <view class="global-top-bar detail-top-bar">
+    <view class="global-top-back" bindtap="goBack">
+      <text class="global-top-back-icon">‹</text>
+    </view>
+    <view class="global-brand-wrap">
+      <view class="global-brand-dot"></view>
+      <text class="global-brand-title">安心住·上手吧</text>
+    </view>
+    <view class="global-top-capsule"></view>
+  </view>
+
+  <!-- ===== 1. Hero Section (photo-based) ===== -->
+  <view class="dt-hero">
+    <image class="dt-hero-bg" src="/images/hero-detail.jpg" mode="aspectFill"></image>
+    <view class="dt-hero-overlay"></view>
+    <view class="dt-hero-content">
+      <text class="dt-hero-label">PREMIUM CLEANING</text>
+      <text class="dt-hero-title">定制：装修到入住\n真「拎包入住」</text>
+      <text class="dt-hero-subtitle">分四阶段 · 四次上门 · 真正保障「洁净」</text>
+    </view>
+  </view>
+
+  <!-- ===== 2. Guard-level Progress Card ===== -->
+  <view class="dt-progress-card">
+    <view class="dt-section-head">
+      <view class="dt-accent-bar"></view>
+      <text class="dt-section-title">守护级开荒，装修跟到入住</text>
+    </view>
+    <view class="dt-phase-list">
+      <view class="dt-phase">
+        <view class="dt-phase-num">
+          <text class="dt-phase-num-text">01</text>
+        </view>
+        <view class="dt-phase-body">
+          <text class="dt-phase-visit">第一次上门</text>
+          <text class="dt-phase-title">全屋定制前除尘</text>
+          <text class="dt-phase-desc">柜后埋灰不处理，一年返灰。</text>
+        </view>
+      </view>
+      <view class="dt-phase">
+        <view class="dt-phase-num">
+          <text class="dt-phase-num-text">02</text>
+        </view>
+        <view class="dt-phase-body">
+          <text class="dt-phase-visit">第二次上门</text>
+          <text class="dt-phase-title">全屋定制后 12-16 小时细致开荒</text>
+          <text class="dt-phase-desc">深度清洁硬装残留，处理装修废料及死角灰尘。</text>
+        </view>
+      </view>
+      <view class="dt-phase">
+        <view class="dt-phase-num">
+          <text class="dt-phase-num-text">03</text>
+        </view>
+        <view class="dt-phase-body">
+          <text class="dt-phase-visit">第三次上门</text>
+          <text class="dt-phase-title">入住前除尘</text>
+          <text class="dt-phase-desc">不怕积灰，无尘拎包入住。</text>
+        </view>
+      </view>
+      <view class="dt-phase">
+        <view class="dt-phase-num">
+          <text class="dt-phase-num-text">04</text>
+        </view>
+        <view class="dt-phase-body">
+          <text class="dt-phase-visit">第四次上门</text>
+          <text class="dt-phase-title">搬家收尾保洁</text>
+          <text class="dt-phase-desc">搬家后脏乱收尾，彻底清洁收尾，新生活从净开始。</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- ===== 3. Recording Section ===== -->
+  <view class="dt-recording">
+    <view class="dt-recording-inner">
+      <view class="dt-recording-bg"></view>
+      <view class="dt-recording-overlay"></view>
+      <view class="dt-recording-content">
+        <text class="dt-recording-icon">📹</text>
+        <text class="dt-recording-title">全程佩戴记录仪</text>
+        <text class="dt-recording-desc">可视化透明管理，每一步操作皆可溯源，真正让业主放心。</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- ===== 4. Safety Section ===== -->
+  <view class="dt-safety">
+    <view class="dt-section-head">
+      <view class="dt-accent-bar"></view>
+      <text class="dt-section-title">家居安全保障 / 0 划痕保障</text>
+    </view>
+    <view class="dt-safety-body">
+      <view class="dt-safety-list">
+        <view class="dt-safety-item">
+          <text class="dt-safety-mark dt-safety-mark--x">✕</text>
+          <text class="dt-safety-text">禁用金属铲刀</text>
+        </view>
+        <view class="dt-safety-item">
+          <text class="dt-safety-mark dt-safety-mark--x">✕</text>
+          <text class="dt-safety-text">禁用钢丝球</text>
+        </view>
+        <view class="dt-safety-item">
+          <text class="dt-safety-mark dt-safety-mark--x">✕</text>
+          <text class="dt-safety-text">禁用腐蚀清洁剂</text>
+        </view>
+        <view class="dt-safety-item">
+          <text class="dt-safety-mark dt-safety-mark--check">✓</text>
+          <text class="dt-safety-text">工序无遗漏</text>
+        </view>
+      </view>
+      <view class="dt-safety-photo">
+        <view class="dt-safety-photo-placeholder"></view>
+      </view>
+    </view>
+  </view>
+
+  <!-- ===== 5. Comparison Table ===== -->
+  <view class="dt-compare">
+    <text class="dt-compare-heading">服务品质对比</text>
+    <view class="dt-compare-card">
+      <view class="dt-compare-header">
+        <text class="dt-compare-col dt-compare-col--dim">服务维度</text>
+        <text class="dt-compare-col dt-compare-col--ours">上手吧</text>
+        <text class="dt-compare-col dt-compare-col--old">其他</text>
+      </view>
+      <view class="dt-compare-row" wx:for="{{compareVsRows}}" wx:key="label">
+        <text class="dt-compare-col dt-compare-col--dim">{{item.label}}</text>
+        <text class="dt-compare-col dt-compare-col--ours">{{item.ours}}</text>
+        <text class="dt-compare-col dt-compare-col--old">{{item.old}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- ===== 6. Commitment Black Card ===== -->
+  <view class="dt-commit">
+    <view class="dt-commit-inner">
+      <view class="dt-commit-text">
+        <text class="dt-commit-badge">COMMITMENT</text>
+        <text class="dt-commit-title">勘察盖章敢承诺\n口号就是行动</text>
+        <text class="dt-commit-desc">实地现场勘察，出具专属方案。拒绝宣传与实际脱节，每一份合同都盖有法律效力章。</text>
+      </view>
+      <view class="dt-commit-photo">
+        <view class="dt-commit-photo-placeholder"></view>
+      </view>
+    </view>
+  </view>
+
+  <!-- ===== 7. Certified Cleaner ===== -->
+  <view class="dt-certified">
+    <view class="dt-certified-avatar">
+      <view class="dt-certified-avatar-inner"></view>
+    </view>
+    <text class="dt-certified-badge">CERTIFIED</text>
+    <text class="dt-certified-title">实名开荒师傅</text>
+    <view class="dt-certified-tags">
+      <text class="dt-certified-tag">杜绝派单中介</text>
+      <text class="dt-certified-tag">质量可靠落地</text>
+      <text class="dt-certified-tag">实名安全保障</text>
+    </view>
+  </view>
+
+  <!-- ===== 8. Service List (card style) ===== -->
+  <view class="dt-svc-section">
+    <view class="dt-svc-head">
+      <text class="dt-svc-head-title">服务清单</text>
+      <text class="dt-svc-head-meta">INVENTORY</text>
+    </view>
+
+    <view class="dt-svc-cards">
+      <view class="dt-svc-card" wx:for="{{serviceOverviewGroups}}" wx:key="id" wx:for-item="grp">
+        <text class="dt-svc-card-title">{{grp.title}}</text>
+        <view class="dt-svc-card-items">
+          <view class="dt-svc-card-item" wx:for="{{grp.lines}}" wx:for-item="line" wx:key="idx">
+            <view class="dt-svc-check-icon"></view>
+            <text class="dt-svc-card-item-text">
+              <block wx:for="{{line.segs}}" wx:for-item="seg" wx:key="si">{{seg.t}}</block>
+            </text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 价格优惠 -->
+  <view class="dt-price-section">
+    <text class="dt-price-section-title">价格优惠</text>
+    <view class="dt-price-lines">
+      <view class="dt-price-line">
+        <text class="dt-price-line-name">锁档专享礼</text>
+        <text class="dt-price-line-off">-¥1/m²</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 其他优惠 -->
+  <view class="dt-qualify-section">
+    <view class="dt-qualify-head">
+      <text class="dt-qualify-title-en">Exclusive Offers</text>
+      <text class="dt-qualify-title-cn">其他优惠</text>
+    </view>
+
+    <view class="dt-qualify-cards">
+      <!-- 老客户邀请 -->
+      <view class="dt-qc {{selectedQualify === 'invite' ? 'dt-qc--on' : ''}}"
+        bindtap="selectQualify" data-type="invite">
+        <view class="dt-qc-icon-box {{selectedQualify === 'invite' ? 'dt-qc-icon-box--on' : ''}}">
+          <text class="dt-qc-icon-glyph">+✦</text>
+        </view>
+        <view class="dt-qc-info">
+          <text class="dt-qc-name">老客户邀请</text>
+          <text class="dt-qc-sub">Existing Customer</text>
+        </view>
+        <view class="dt-qc-right">
+          <view class="dt-qc-price {{selectedQualify === 'invite' ? 'dt-qc-price--on' : ''}}">
+            <text class="dt-qc-price-text">-¥2/m²</text>
+          </view>
+          <view class="dt-qc-radio {{selectedQualify === 'invite' ? 'dt-qc-radio--on' : ''}}">
+            <view class="dt-qc-radio-dot" wx:if="{{selectedQualify === 'invite'}}"></view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 三人成团 / 一键推荐（已下单时切换） -->
+      <view class="dt-qc {{selectedQualify === 'group' ? 'dt-qc--on' : ''}}"
+        bindtap="{{hasActiveOrder ? 'handleRecommend' : 'selectQualify'}}" data-type="group">
+        <view class="dt-qc-icon-box {{selectedQualify === 'group' ? 'dt-qc-icon-box--on' : ''}}">
+          <text class="dt-qc-icon-glyph">{{hasActiveOrder ? '📤' : '⧉'}}</text>
+        </view>
+        <view class="dt-qc-info">
+          <text class="dt-qc-name">{{hasActiveOrder ? '一键推荐' : '三人成团'}}</text>
+          <text class="dt-qc-sub">{{hasActiveOrder ? '推荐邻居，每户赚现金' : 'Group Buy (3 People)'}}</text>
+        </view>
+        <view class="dt-qc-right">
+          <view class="dt-qc-price {{selectedQualify === 'group' ? 'dt-qc-price--on' : ''}}">
+            <text class="dt-qc-price-text">{{hasActiveOrder ? '赚¥15起' : '-¥2/m²'}}</text>
+          </view>
+          <view class="dt-qc-radio {{selectedQualify === 'group' ? 'dt-qc-radio--on' : ''}}" wx:if="{{!hasActiveOrder}}">
+            <view class="dt-qc-radio-dot" wx:if="{{selectedQualify === 'group'}}"></view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 提前60天 -->
+      <view class="dt-qc {{selectedQualify === 'early' ? 'dt-qc--on' : ''}}"
+        bindtap="selectQualify" data-type="early">
+        <view class="dt-qc-icon-box {{selectedQualify === 'early' ? 'dt-qc-icon-box--on' : ''}}">
+          <text class="dt-qc-icon-glyph">◷</text>
+        </view>
+        <view class="dt-qc-info">
+          <text class="dt-qc-name">提前60天预订</text>
+          <text class="dt-qc-sub">Early Bird (60 Days)</text>
+        </view>
+        <view class="dt-qc-right">
+          <view class="dt-qc-price {{selectedQualify === 'early' ? 'dt-qc-price--on' : ''}}">
+            <text class="dt-qc-price-text">-¥2/m²</text>
+          </view>
+          <view class="dt-qc-radio {{selectedQualify === 'early' ? 'dt-qc-radio--on' : ''}}">
+            <view class="dt-qc-radio-dot" wx:if="{{selectedQualify === 'early'}}"></view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 不拼团不提前 -->
+      <view class="dt-qc {{selectedQualify === 'none' ? 'dt-qc--on' : ''}}"
+        bindtap="selectQualify" data-type="none">
+        <view class="dt-qc-icon-box {{selectedQualify === 'none' ? 'dt-qc-icon-box--on' : ''}}">
+          <text class="dt-qc-icon-glyph">○</text>
+        </view>
+        <view class="dt-qc-info">
+          <text class="dt-qc-name">不拼团不提前</text>
+          <text class="dt-qc-sub">Standard</text>
+        </view>
+        <view class="dt-qc-right">
+          <view class="dt-qc-price {{selectedQualify === 'none' ? 'dt-qc-price--on' : ''}}">
+            <text class="dt-qc-price-text">无优惠</text>
+          </view>
+          <view class="dt-qc-radio {{selectedQualify === 'none' ? 'dt-qc-radio--on' : ''}}">
+            <view class="dt-qc-radio-dot" wx:if="{{selectedQualify === 'none'}}"></view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="dt-spacer-sm"></view>
+
+  <!-- ===== 10. 老客户邀约弹窗 ===== -->
+  <view class="inv-mask" wx:if="{{inviteModalStep}}" bindtap="closeInviteModal">
+    <view class="inv-dialog" catchtap="">
+
+      <!-- Step 1: 是否有邀约码 -->
+      <block wx:if="{{inviteModalStep === 'ask'}}">
+        <text class="inv-title">老客户邀请下单</text>
+        <text class="inv-desc">是否已有同小区老客户的邀约二维码？\n扫码后自动享受 -¥2/m² 优惠</text>
+        <view class="inv-actions">
+          <view class="inv-btn inv-btn--primary" bindtap="onInviteHasCode">
+            <text class="inv-btn-text">已经有了</text>
+          </view>
+          <view class="inv-btn inv-btn--secondary" bindtap="onInviteNoCode">
+            <text class="inv-btn-text">还没有</text>
+          </view>
+        </view>
+      </block>
+
+      <!-- Step 2: 没有邀约码的替代选择 -->
+      <block wx:if="{{inviteModalStep === 'noCode'}}">
+        <text class="inv-title">选择下单方式</text>
+        <text class="inv-desc">您也可以通过以下方式下单</text>
+        <view class="inv-actions">
+          <view class="inv-btn inv-btn--primary" bindtap="onInviteNoCodeGroup">
+            <text class="inv-btn-text">开团享优惠</text>
+          </view>
+          <view class="inv-btn inv-btn--secondary" bindtap="onInviteNoCodeOriginal">
+            <text class="inv-btn-text">原价下单</text>
+          </view>
+        </view>
+        <text class="inv-hint">开团满3人同享 -¥2/m² 优惠</text>
+      </block>
+
+    </view>
+  </view>
+
+  <!-- ===== 11. Floor wax modal (preserved) ===== -->
+  <view
+    class="svc-floor-wax-mask"
+    wx:if="{{floorWaxModalVisible}}"
+    bindtap="closeFloorWaxModal"
+  >
+    <view class="svc-floor-wax-dialog" catchtap="noop">
+      <text class="svc-floor-wax-dialog-title">地板打蜡说明</text>
+      <text class="svc-floor-wax-dialog-body">这里放地板打蜡说明内容占位</text>
+      <view class="svc-floor-wax-dialog-btn" bindtap="closeFloorWaxModal">
+        <text class="svc-floor-wax-dialog-btn-text">关闭</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- ===== 推荐二维码弹窗 ===== -->
+  <view wx:if="{{showRecommendQR}}" class="rec-mask" bindtap="closeRecommendQR"></view>
+  <view wx:if="{{showRecommendQR}}" class="rec-modal">
+    <view class="rec-handle"></view>
+    <text class="rec-title">推荐给邻居</text>
+    <text class="rec-desc">邻居扫码下单，你获得现金返佣</text>
+    <view class="rec-qr-box">
+      <image wx:if="{{recommendQRUrl}}" class="rec-qr-img" src="{{recommendQRUrl}}" mode="aspectFit"></image>
+      <text wx:if="{{recommendQRLoading}}" class="rec-qr-loading">生成中...</text>
+      <text wx:if="{{!recommendQRLoading && !recommendQRUrl}}" class="rec-qr-loading">获取失败，请重试</text>
+    </view>
+    <text class="rec-hint">长按二维码可保存或分享给邻居</text>
+  </view>
+
+  <!-- ===== 11. Bottom CTA (floating) ===== -->
+  <view class="dt-bottom-cta">
+    <view class="dt-bottom-cta-btn" bindtap="{{hasActiveOrder ? 'handleRecommend' : 'handleQualifyCTA'}}">
+      <text class="dt-bottom-cta-text">{{hasActiveOrder ? '一键推荐邻居' : '立即下定'}}</text>
+    </view>
+  </view>
+
+  <!-- spacer for fixed CTA -->
+  <view class="dt-bottom-spacer"></view>
+
+</view>

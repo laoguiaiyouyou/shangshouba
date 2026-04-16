@@ -1,0 +1,131 @@
+<view class="welfare-page">
+
+  <view class="global-top-bar">
+    <view class="global-top-back" bindtap="goBack">
+      <text class="global-top-back-icon">‹</text>
+    </view>
+    <view class="global-brand-wrap">
+      <view class="global-brand-dot"></view>
+      <text class="global-brand-title">安心住·上手吧</text>
+    </view>
+    <view class="global-top-capsule"></view>
+  </view>
+
+  <view class="welfare-body">
+
+    <!-- 1. 合并返还主模块：资产区 + 邀请按钮 + 最近已邀请好友目录 -->
+    <view class="welfare-card rebate-main-card">
+      <view class="asset-grid-wrap">
+        <view class="asset-grid">
+          <view class="asset-col">
+            <text class="balance-label">可提现余额</text>
+            <text class="balance-value highlight">¥{{withdrawableBalance}}</text>
+          </view>
+          <view class="asset-divider"></view>
+          <view class="asset-col">
+            <text class="balance-label">待激活返现</text>
+            <text class="balance-value">¥{{pendingActivateAmount}}</text>
+          </view>
+        </view>
+        <view class="asset-withdraw-anchor" bindtap="goWithdraw">
+          <view class="balance-action balance-action--capsule">
+            <text class="balance-action-text">去提现</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="rebate-divider"></view>
+
+      <view class="invite-summary">
+        <text class="invite-summary-line invite-summary-line--strong">返佣 ¥15-50/户，邻居完工后到账</text>
+      </view>
+
+      <view class="invite-btn" bindtap="openInviteModeSheet">
+        <text class="invite-btn-text">邀请好友赚取返现</text>
+      </view>
+
+      <scroll-view
+        class="record-scroll"
+        scroll-y="{{referrals.length > 2}}"
+        wx:if="{{referrals.length > 0}}">
+        <view class="record-list">
+          <view class="record-item" wx:for="{{referrals}}" wx:key="id">
+            <text class="record-name">{{item.name}}</text>
+            <text class="record-mid">{{item.activated ? '已激活' : '待激活'}}</text>
+            <text class="record-amount">+¥{{item.amount}}</text>
+          </view>
+        </view>
+      </scroll-view>
+      <view class="record-empty" wx:else>
+        <text class="record-empty-text">您还没获得返现，点击邀请好友赚取返现</text>
+      </view>
+    </view>
+
+    <!-- 2. 我的权益：无外层大白卡，灰底上标题 + 两入口 -->
+    <view class="equity-section">
+      <text class="equity-title">我的权益</text>
+      <view class="equity-row">
+        <view class="equity-entry" bindtap="goGiftService">
+          <text class="equity-entry-title">赠送服务</text>
+          <text class="equity-entry-desc">{{giftEquityLine}}</text>
+        </view>
+        <view class="equity-entry" bindtap="goCouponList">
+          <text class="equity-entry-title">优惠券</text>
+          <text class="equity-entry-desc">{{couponEquityLine}}</text>
+        </view>
+      </view>
+    </view>
+
+  </view>
+
+  <!-- 选择返还方式：点击“邀请好友赚取返现”后出现 -->
+  <view class="mode-sheet-root" wx:if="{{showInviteModeSheet}}">
+    <view class="mode-sheet-mask" bindtap="closeInviteModeSheet"></view>
+    <view class="mode-sheet-panel">
+      <text class="mode-sheet-title">选择返还方式</text>
+      <text class="mode-sheet-note">1户与3户二选一</text>
+
+      <view class="mode-row mode-row--dual">
+        <view
+          class="mode-option mode-option--single mode-option--{{item.state}}"
+          wx:for="{{modeCardsDual}}"
+          wx:key="key"
+          data-mode="{{item.key}}"
+          bindtap="selectRebateMode">
+          <view class="mode-radio mode-radio--{{item.state === 'selected' || (item.state === 'unselected' && rebateMode === item.key && !cashModeSelected) ? 'on' : 'off'}}"></view>
+          <view class="mode-option-text">
+            <text class="mode-option-main">{{item.title}}</text>
+            <text class="mode-option-sub">{{item.lines[0]}}</text>
+            <text class="mode-option-sub">{{item.lines[1]}}</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="mode-row mode-row--single">
+        <view
+          class="mode-option mode-option--single mode-option--{{item.state}}"
+          wx:for="{{modeCardsSingle}}"
+          wx:key="key"
+          data-mode="{{item.key}}"
+          bindtap="selectRebateMode">
+          <view class="mode-radio mode-radio--{{item.state === 'selected' || (item.state === 'unselected' && rebateMode === item.key && !tenModeSelected) ? 'on' : 'off'}}"></view>
+          <view class="mode-option-text">
+            <text class="mode-option-main">{{item.title}}</text>
+            <text class="mode-option-sub">{{item.lines[0]}}</text>
+            <text class="mode-option-sub">{{item.lines[1]}}</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="mode-sheet-footer">
+        <view class="mode-btn mode-btn--primary" bindtap="confirmInviteMode">
+          <text class="mode-btn-text">确认并邀请</text>
+        </view>
+        <view class="mode-btn mode-btn--secondary" bindtap="closeInviteModeSheet">
+          <text class="mode-btn-text mode-btn-text--secondary">先不了</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+</view>

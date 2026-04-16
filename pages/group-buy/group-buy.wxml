@@ -1,0 +1,422 @@
+<view class="gb-page">
+
+  <!-- 顶部导航栏（黄色，三个内页签贴底） -->
+  <view class="global-top-bar">
+    <view class="global-brand-wrap">
+      <view class="global-brand-dot"></view>
+      <text class="global-brand-title">安心住·上手吧</text>
+    </view>
+    <view class="global-top-capsule"></view>
+    <view class="gb-tabs">
+      <view class="gb-tab {{activeTab === 'rules'  ? 'gb-tab--active' : ''}}"
+            bindtap="switchTab" data-tab="rules">开团规则</view>
+      <view class="gb-tab {{activeTab === 'myteam' ? 'gb-tab--active' : ''}}"
+            bindtap="switchTab" data-tab="myteam">我的开团</view>
+      <view class="gb-tab {{activeTab === 'leader' ? 'gb-tab--active' : ''}}"
+            bindtap="switchTab" data-tab="leader">团长权益</view>
+    </view>
+  </view>
+
+  <!-- ══════════ 页签一：开团规则 ══════════ -->
+  <block wx:if="{{activeTab === 'rules'}}">
+    <view class="gb-scroll-body">
+
+      <!-- Hero -->
+      <view class="gb-hero">
+        <view class="gb-hero-tag">邻里拼团</view>
+        <text class="gb-hero-title">同小区 3 户成团{{"  "}}每㎡返 ¥2 到钱包</text>
+        <text class="gb-hero-sub">发起团，邀邻居，凑满 3 户即成团</text>
+      </view>
+
+      <!-- 开团规则 -->
+      <view class="gb-card">
+        <text class="gb-card-title">开团规则</text>
+        <view class="gb-rule-item">
+          <view class="gb-rule-dot"></view>
+          <text class="gb-rule-text">仅限同小区邻居参团</text>
+        </view>
+        <view class="gb-rule-item">
+          <view class="gb-rule-dot"></view>
+          <text class="gb-rule-text">3户成团（含自己）</text>
+        </view>
+        <view class="gb-rule-item">
+          <view class="gb-rule-dot"></view>
+          <text class="gb-rule-text">成团后，全员 ¥2/㎡ 返到钱包，可提现</text>
+        </view>
+        <view class="gb-rule-item gb-rule-item--warning">
+          <view class="gb-rule-dot gb-rule-dot--warning"></view>
+          <text class="gb-rule-text gb-rule-text--warning">不成团则不享受团价</text>
+        </view>
+      </view>
+
+      <!-- 怎么参与（3步） -->
+      <view class="gb-card gb-card--rule">
+        <text class="gb-card-title">怎么参与</text>
+        <view class="gb-step-item">
+          <view class="gb-step-num">1</view>
+          <text class="gb-step-text">发起团或加入已有团</text>
+        </view>
+        <view class="gb-step-item">
+          <view class="gb-step-num">2</view>
+          <text class="gb-step-text">邀请同小区邻居，凑满 3 户（含自己）</text>
+        </view>
+        <view class="gb-step-item">
+          <view class="gb-step-num">3</view>
+          <text class="gb-step-text">成团后，全员 ¥2/㎡ 返到钱包</text>
+        </view>
+      </view>
+
+      <!-- 主 CTA -->
+      <view class="gb-cta" bindtap="showGroupCreateModal">立即开团</view>
+      <view class="gb-bottom-spacer"></view>
+
+    </view>
+  </block>
+
+  <!-- ══════════ 页签二：我的开团 ══════════ -->
+  <block wx:if="{{activeTab === 'myteam'}}">
+    <view class="gb-scroll-body">
+
+      <!-- ① 进度卡（黑色，聚焦结论） -->
+      <block wx:if="{{hasTeam}}">
+        <view class="gb-team-card gb-team-card--compact">
+          <view class="gb-team-head">
+            <text class="gb-team-name">我的邻里团</text>
+            <view class="gb-team-status-badge gb-team-status-badge--{{teamStatus}}">{{teamStatusLabel}}</view>
+          </view>
+          <view class="gb-team-count-row">
+            <text class="gb-team-count-num">{{teamCount}}</text>
+            <text class="gb-team-count-sep">/{{teamTarget}} 户</text>
+          </view>
+          <view class="gb-team-progress-bar">
+            <view class="gb-team-progress-fill" style="width: {{teamPct}}%"></view>
+          </view>
+          <text class="gb-team-gap-tip" wx:if="{{!teamFormed}}">还差 {{teamGap}} 户成团，成团后团内成员按 ¥2/㎡ 下单</text>
+          <view class="gb-team-formed-tip" wx:else>
+            <text class="gb-team-formed-icon">🎉</text>
+            <text class="gb-team-formed-text">已成团！团内成员可按 ¥2/㎡ 下单</text>
+          </view>
+        </view>
+
+        <!-- ② 主动作区：查看开团码（工具动作收到弹窗内） -->
+        <view class="gb-cta" bindtap="showShareQR">查看开团码</view>
+
+        <!-- ③ 团成员记录 -->
+        <view class="gb-card">
+          <text class="gb-card-title">团成员记录</text>
+          <text class="gb-card-subtitle">同小区邻居加入后在此显示</text>
+          <view wx:if="{{teamMemberList.length === 0}}" class="gb-record-empty">
+            <text class="gb-record-empty-text">还没有成员加入，快去发团码吧</text>
+          </view>
+          <view wx:else>
+            <view class="gb-record-item" wx:for="{{teamMemberList}}" wx:key="id">
+              <view class="gb-record-left">
+                <text class="gb-record-name">{{item.name}}</text>
+                <text class="gb-record-date">{{item.date}}</text>
+              </view>
+              <view class="gb-record-status gb-record-status--{{item.statusKey}}">{{item.statusLabel}}</view>
+            </view>
+          </view>
+
+        </view>
+
+        <!-- ④ 数据概览（已移除：三格收益卡不在此页展示）-->
+
+        <!-- ⑤ 团长招募令（权益入口，弱于顶部主卡、强于提示文字） -->
+        <view class="gb-recruit-card" bindtap="switchTab" data-tab="leader">
+          <view class="gb-recruit-top">
+            <view class="gb-recruit-tag">团长招募令</view>
+          </view>
+          <text class="gb-recruit-headline">荣誉团长 · 全年 10 次免费日常保洁</text>
+          <text class="gb-recruit-rule">累计完工 3 户升准团长，30 户升荣誉团长</text>
+          <view class="gb-recruit-entry">
+            <text class="gb-recruit-entry-text">查看团长权益</text>
+            <text class="gb-recruit-entry-arrow">›</text>
+          </view>
+        </view>
+
+      </block>
+
+      <!-- 还没开团 -->
+      <block wx:else>
+        <view class="gb-hero">
+          <view class="gb-hero-tag">还没有邻里团</view>
+          <text class="gb-hero-title">发起团，邀请邻居{{"  "}}3户成团后享 ¥2/㎡</text>
+          <text class="gb-hero-sub">开团后还可继续邀请，邻居完工后返佣到账</text>
+        </view>
+        <view class="gb-cta" bindtap="showGroupCreateModal">立即开团</view>
+      </block>
+
+      <view class="gb-bottom-spacer"></view>
+    </view>
+  </block>
+
+  <!-- ══════════ 页签三：团长权益 ══════════ -->
+  <block wx:if="{{activeTab === 'leader'}}">
+    <view class="gb-scroll-body">
+
+      <!-- ① 等级选择器（圆形+连线） -->
+      <view class="gb-lv-switcher">
+        <view class="gb-lv-line"></view>
+        <view class="gb-lv-node {{swiperCurrent === 0 ? 'gb-lv-node--on' : ''}}" bindtap="switchTierTab" data-idx="0">
+          <text class="gb-lv-node-text">S1</text>
+        </view>
+        <view class="gb-lv-node {{swiperCurrent === 1 ? 'gb-lv-node--on' : ''}}" bindtap="switchTierTab" data-idx="1">
+          <text class="gb-lv-node-text">S2</text>
+        </view>
+        <view class="gb-lv-node {{swiperCurrent === 2 ? 'gb-lv-node--on' : ''}}" bindtap="switchTierTab" data-idx="2">
+          <text class="gb-lv-node-text">S3</text>
+        </view>
+      </view>
+
+      <!-- ② 黑卡（大字等级+进度条一体） -->
+      <view class="gb-premium-card">
+        <view class="gb-premium-card-blur"></view>
+        <view class="gb-premium-card-inner">
+          <view class="gb-premium-left">
+            <text class="gb-premium-code">{{tierCards[swiperCurrent].tier}}</text>
+          </view>
+          <view class="gb-premium-right">
+            <text class="gb-premium-label">{{tierCards[swiperCurrent].label}}</text>
+            <view class="gb-premium-bar">
+              <view class="gb-premium-bar-fill" style="width: {{progressPct}}%"></view>
+            </view>
+            <text class="gb-premium-hint">{{leaderProgressHint}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- ③ 可享 6 项福利 -->
+      <text class="gb-benefit-title">可享 6 项福利</text>
+
+      <!-- ④ 权益网格 2×3 -->
+      <view class="gb-benefit-grid">
+        <view class="gb-benefit-card" bindtap="goMonthlyCoupons">
+          <view class="gb-benefit-card-icon-wrap">
+            <image class="gb-benefit-card-icon" src="/images/icons/monthly_coupon.png" mode="aspectFit"></image>
+          </view>
+          <text class="gb-benefit-card-name">月月领券</text>
+          <text class="gb-benefit-card-sub">最高省¥20</text>
+        </view>
+        <view class="gb-benefit-card" bindtap="goBenefitDetail" data-id="daily_cleaning">
+          <view class="gb-benefit-card-icon-wrap">
+            <image class="gb-benefit-card-icon" src="/images/icons/daily_cleaning.png" mode="aspectFit"></image>
+          </view>
+          <text class="gb-benefit-card-name">日常保洁</text>
+          <text class="gb-benefit-card-sub">低至¥10/次</text>
+        </view>
+        <view class="gb-benefit-card" bindtap="goBenefitDetail" data-id="window">
+          <view class="gb-benefit-card-icon-wrap">
+            <image class="gb-benefit-card-icon" src="/images/icons/window.png" mode="aspectFit"></image>
+          </view>
+          <text class="gb-benefit-card-name">擦窗服务</text>
+          <text class="gb-benefit-card-sub">最高省¥120</text>
+        </view>
+        <view class="gb-benefit-card" bindtap="goBenefitDetail" data-id="pet_sanitize">
+          <view class="gb-benefit-card-icon-wrap">
+            <image class="gb-benefit-card-icon" src="/images/icons/pet_sanitize.png" mode="aspectFit"></image>
+          </view>
+          <text class="gb-benefit-card-name">宠物消杀</text>
+          <text class="gb-benefit-card-sub">低至¥29/时</text>
+        </view>
+        <view class="gb-benefit-card" bindtap="goBenefitDetail" data-id="formaldehyde">
+          <view class="gb-benefit-card-icon-wrap">
+            <image class="gb-benefit-card-icon" src="/images/icons/formaldehyde.png" mode="aspectFit"></image>
+          </view>
+          <text class="gb-benefit-card-name">除甲醛</text>
+          <text class="gb-benefit-card-sub">最高省¥500</text>
+        </view>
+        <view class="gb-benefit-card" bindtap="goRebateDetail">
+          <view class="gb-benefit-card-icon-wrap">
+            <image class="gb-benefit-card-icon" src="/images/icons/rebate.png" mode="aspectFit"></image>
+          </view>
+          <text class="gb-benefit-card-name">返佣权益</text>
+          <text class="gb-benefit-card-sub">每户最高¥50</text>
+        </view>
+      </view>
+
+      <view class="gb-bottom-spacer"></view>
+    </view>
+  </block>
+
+  <!-- ══════════ 底部 TabBar ══════════ -->
+  <view class="tabbar">
+    <view class="tab-item" bindtap="goIndex">
+      <view class="tab-icon"></view>
+      <text class="tab-text">开荒</text>
+    </view>
+    <view class="tab-item">
+      <view class="tab-icon tab-icon--active"></view>
+      <text class="tab-text active">我的社区我的团</text>
+    </view>
+    <view class="tab-item" bindtap="goMine">
+      <view class="tab-icon"></view>
+      <text class="tab-text">我的</text>
+    </view>
+  </view>
+
+
+  <!-- ══════════ 开团弹窗（遮罩与 sheet 平级，防止 input tap 冒泡关闭）══════════ -->
+  <block wx:if="{{showCreateModal}}">
+    <!-- 遮罩：仅 form 步骤点背景可关闭（QR 步骤不允许误关） -->
+    <view class="gc-overlay"
+          bindtap="{{createStep === 'form' ? 'closeCreateModal' : 'noop'}}"></view>
+    <!-- Sheet 主体：独立于遮罩，tap 不传导到遮罩 -->
+    <view class="gc-sheet">
+
+      <!-- Step 1：填写信息 -->
+      <block wx:if="{{createStep === 'form'}}">
+        <text class="gc-sheet-title">发起邻里团</text>
+        <text class="gc-sheet-sub">同小区 3 户成团，成团后各自选服务享 ¥2/㎡</text>
+
+        <!-- 小区名称 -->
+        <view class="gc-field-group">
+          <view class="gc-field-label-row">
+            <text class="gc-field-label">小区名称</text>
+            <text class="gc-field-required">*</text>
+          </view>
+          <input class="gc-field-input"
+                 placeholder="如：燕语"
+                 value="{{formCommunity}}"
+                 bindinput="onCommunityInput"
+                 maxlength="30" />
+        </view>
+
+        <!-- 房屋类型 -->
+        <view class="gc-field-group">
+          <view class="gc-field-label-row">
+            <text class="gc-field-label">房屋类型</text>
+            <text class="gc-field-required">*</text>
+          </view>
+          <view class="gc-house-type-row">
+            <view class="gc-house-type-btn {{formHouseType === 'villa_single' ? 'gc-house-type-btn--active' : ''}}"
+                  bindtap="onHouseTypeChange" data-type="villa_single">
+              <text>独栋别墅</text>
+            </view>
+            <view class="gc-house-type-btn {{formHouseType === 'villa_row' ? 'gc-house-type-btn--active' : ''}}"
+                  bindtap="onHouseTypeChange" data-type="villa_row">
+              <text>联排/叠墅</text>
+            </view>
+            <view class="gc-house-type-btn {{formHouseType === 'apartment' ? 'gc-house-type-btn--active' : ''}}"
+                  bindtap="onHouseTypeChange" data-type="apartment">
+              <text>公寓住宅</text>
+            </view>
+          </view>
+        </view>
+
+        <!-- 房号信息（按类型联动） -->
+        <view class="gc-field-group" wx:if="{{formHouseType}}">
+          <view class="gc-field-label-row">
+            <text class="gc-field-label">房号信息</text>
+            <text class="gc-field-required">*</text>
+          </view>
+          <view class="gc-room-row">
+            <view class="gc-room-col">
+              <input class="gc-room-input" placeholder="栋号" value="{{formBuilding}}"
+                     bindinput="onBuildingInput" type="number" maxlength="10" />
+              <text class="gc-room-suffix">栋</text>
+            </view>
+            <view class="gc-room-col" wx:if="{{formHouseType === 'apartment'}}">
+              <input class="gc-room-input" placeholder="单元" value="{{formUnit}}"
+                     bindinput="onUnitInput" type="number" maxlength="10" />
+              <text class="gc-room-suffix">单元</text>
+            </view>
+            <view class="gc-room-col" wx:if="{{formHouseType === 'villa_row' || formHouseType === 'apartment'}}">
+              <input class="gc-room-input" placeholder="房号" value="{{formRoom}}"
+                     bindinput="onRoomInput" type="number" maxlength="10" />
+              <text class="gc-room-suffix">室</text>
+            </view>
+          </view>
+        </view>
+
+        <!-- 建筑面积 -->
+        <view class="gc-field-group">
+          <view class="gc-field-label-row gc-field-label-row--with-unit">
+            <view class="gc-field-label-row">
+              <text class="gc-field-label">建筑面积</text>
+              <text class="gc-field-required">*</text>
+            </view>
+            <text class="gc-field-unit">m²</text>
+          </view>
+          <input class="gc-field-input"
+                 placeholder="填写建筑/房本面积，如：100"
+                 type="number"
+                 value="{{formArea}}"
+                 bindinput="onAreaInput"
+                 maxlength="6" />
+        </view>
+
+        <view class="gc-submit-btn {{createCanSubmit ? '' : 'gc-submit-btn--disabled'}}"
+              bindtap="submitCreateGroup">
+          {{createLoading ? '创建中…' : '立即创建并生成二维码'}}
+        </view>
+        <view class="gc-cancel-btn" bindtap="closeCreateModal">取消</view>
+      </block>
+
+      <!-- Step 2：成功 + 二维码 -->
+      <block wx:if="{{createStep === 'qr'}}">
+        <view class="gc-success-tag">🎉 开团成功</view>
+        <text class="gc-sheet-title">发给邻居扫码加入</text>
+        <text class="gc-sheet-sub">凑满 3 户即成团，成团后各自享 ¥2/㎡</text>
+        <view class="gc-qr-area">
+          <view wx:if="{{newGroupQrUrl}}" class="gc-qr-img-wrap">
+            <image class="gc-qr-image" src="{{newGroupQrUrl}}" mode="aspectFit"></image>
+          </view>
+          <view wx:else class="gc-qr-placeholder">
+            <text class="gc-qr-hint">二维码暂不可用，可先复制邀请链接发给邻居</text>
+          </view>
+        </view>
+        <view class="gc-submit-btn" bindtap="saveNewQR">保存到相册</view>
+        <view class="gc-cancel-btn" bindtap="copyNewInviteLink">复制邀请链接</view>
+        <view class="gc-cancel-btn" bindtap="closeCreateModal">完成</view>
+      </block>
+
+    </view>
+  </block>
+
+  <!-- ══════════ 团码弹窗（四态：idle / loading / success / error）══════════ -->
+  <view wx:if="{{showQRModal}}" class="gb-modal-mask" bindtap="closeQRModal">
+    <view class="gb-modal" catchtap="">
+      <text class="gb-modal-title">团码</text>
+      <text class="gb-modal-sub">邻居扫码加入你的团，凑满 3 户即成团</text>
+
+      <!-- 状态 A：未生成 -->
+      <block wx:if="{{qrState === 'idle'}}">
+        <view class="gb-qr-empty">
+          <text class="gb-qr-empty-text">团码还没有生成</text>
+        </view>
+        <view class="gb-modal-btn gb-modal-btn--primary" bindtap="retryGenerateQR">立即生成团码</view>
+        <view class="gb-modal-btn gb-modal-btn--ghost" bindtap="closeQRModal">关闭</view>
+      </block>
+
+      <!-- 状态 B：生成中（最长 3 秒，超时自动切换失败态） -->
+      <block wx:elif="{{qrState === 'loading'}}">
+        <view class="gb-qr-loading">
+          <view class="gb-qr-spinner"></view>
+          <text class="gb-qr-loading-text">生成中…</text>
+        </view>
+      </block>
+
+      <!-- 状态 C：已生成成功 -->
+      <block wx:elif="{{qrState === 'success'}}">
+        <image class="gb-qr-image-modal" src="{{qrCodeUrl}}" mode="aspectFit"></image>
+        <view class="gb-modal-btn gb-modal-btn--primary" bindtap="saveQRCode">保存到相册</view>
+        <button class="gb-modal-btn gb-modal-btn--wechat" open-type="share">去微信分享</button>
+        <view class="gb-modal-btn gb-modal-btn--ghost" bindtap="copyInviteLink">复制邀请链接</view>
+        <view class="gb-modal-btn gb-modal-btn--ghost" bindtap="closeQRModal">完成</view>
+      </block>
+
+      <!-- 状态 D：生成失败 -->
+      <block wx:else>
+        <view class="gb-qr-error">
+          <text class="gb-qr-error-title">团码暂时生成失败</text>
+          <text class="gb-qr-error-hint">你仍可复制邀请链接发给邻居</text>
+        </view>
+        <view class="gb-modal-btn gb-modal-btn--primary" bindtap="retryGenerateQR">重新生成</view>
+        <view class="gb-modal-btn gb-modal-btn--ghost" bindtap="copyInviteLink">复制邀请链接</view>
+        <view class="gb-modal-btn gb-modal-btn--ghost" bindtap="closeQRModal">关闭</view>
+      </block>
+    </view>
+  </view>
+
+</view>

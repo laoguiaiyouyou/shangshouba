@@ -1,0 +1,298 @@
+<view class="co-page">
+
+  <!-- 顶栏（不变） -->
+  <view class="global-top-bar">
+    <view class="global-top-back" bindtap="goBack">
+      <text class="global-top-back-icon">‹</text>
+    </view>
+    <view class="global-brand-wrap">
+      <view class="global-brand-dot"></view>
+      <text class="global-brand-title">安心住·上手吧</text>
+    </view>
+    <view class="global-top-capsule"></view>
+  </view>
+
+  <!-- 服务卡 -->
+  <view class="co-service-sticky">
+    <view class="co-service-card">
+      <view class="co-service-cover"></view>
+      <view class="co-service-info">
+        <view class="co-service-name-row">
+          <text class="co-service-name">深度开荒 Plus</text>
+          <view class="co-service-badge">爆款</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="co-body">
+
+    <!-- ② 房屋信息（白底满宽卡片） -->
+    <view class="co-house-card">
+      <!-- 第一行：小区名称 -->
+      <view class="co-house-field">
+        <text class="co-house-label">小区名称</text>
+        <input class="co-house-input" placeholder="输入小区名称" value="{{estateName}}" bindinput="onEstateInput" />
+        <view class="co-house-underline"></view>
+      </view>
+
+      <!-- 第二行：房屋类型选择 -->
+      <view class="co-house-field">
+        <text class="co-house-label">房屋类型</text>
+        <view class="co-house-type-row">
+          <view class="co-house-type-btn {{houseType === 'villa_single' ? 'co-house-type-btn--active' : ''}}" bindtap="onHouseTypeChange" data-type="villa_single">
+            <text>独栋别墅</text>
+          </view>
+          <view class="co-house-type-btn {{houseType === 'villa_row' ? 'co-house-type-btn--active' : ''}}" bindtap="onHouseTypeChange" data-type="villa_row">
+            <text>联排/叠墅</text>
+          </view>
+          <view class="co-house-type-btn {{houseType === 'apartment' ? 'co-house-type-btn--active' : ''}}" bindtap="onHouseTypeChange" data-type="apartment">
+            <text>公寓住宅</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 第三行：结构化楼栋房号 -->
+      <view class="co-house-room-row" wx:if="{{houseType}}">
+        <!-- 栋号（所有类型都有） -->
+        <view class="co-house-room-col">
+          <input class="co-house-room-input" placeholder="栋号" value="{{buildingNo}}" bindinput="onBuildingInput" type="number" />
+          <text class="co-house-room-suffix">栋</text>
+        </view>
+        <!-- 单元（仅公寓住宅） -->
+        <view class="co-house-room-col" wx:if="{{houseType === 'apartment'}}">
+          <input class="co-house-room-input" placeholder="单元" value="{{unitNo}}" bindinput="onUnitInput" type="number" />
+          <text class="co-house-room-suffix">单元</text>
+        </view>
+        <!-- 房号（联排/叠墅 + 公寓住宅） -->
+        <view class="co-house-room-col" wx:if="{{houseType === 'villa_row' || houseType === 'apartment'}}">
+          <input class="co-house-room-input" placeholder="房号" value="{{flatNo}}" bindinput="onFlatInput" type="number" />
+          <text class="co-house-room-suffix">室</text>
+        </view>
+      </view>
+      <view class="co-house-underline" wx:if="{{houseType}}"></view>
+
+      <!-- 建筑面积 -->
+      <view class="co-house-field" style="margin-bottom:0;">
+        <text class="co-house-label">建筑面积</text>
+        <view class="co-house-area-wrap">
+          <input class="co-house-input" placeholder="输入面积" value="{{area}}" bindinput="onAreaInput" type="digit" />
+          <text class="co-house-unit">m²</text>
+        </view>
+        <view class="co-house-underline"></view>
+      </view>
+    </view>
+
+    <!-- ③ 选择档期 -->
+    <view class="co-schedule-head">
+      <text class="co-section-title">选择档期</text>
+      <view class="co-legend-row">
+        <view class="co-legend-item"><view class="co-day-dot co-day-dot--available"></view><text class="co-legend-text">有位</text></view>
+        <view class="co-legend-item"><view class="co-day-dot co-day-dot--hot"></view><text class="co-legend-text">紧张</text></view>
+        <view class="co-legend-item"><view class="co-day-dot co-day-dot--full"></view><text class="co-legend-text">已满</text></view>
+      </view>
+    </view>
+
+    <!-- 日历白卡 -->
+    <view class="co-calendar-card" bindtap="{{calendarExpanded ? '' : 'toggleCalendar'}}">
+      <!-- 折叠态：显示已选日期，点击展开 -->
+      <view class="co-cal-collapsed" wx:if="{{!calendarExpanded}}">
+        <text class="co-cal-collapsed-date">{{selectedDate || '请选择日期'}}</text>
+        <text class="co-cal-collapsed-arrow">▽</text>
+      </view>
+      <block wx:if="{{calendarExpanded}}">
+      <text class="co-calendar-tip">最早可约 {{area && (area*1 <= 89 || area*1 >= 400) ? '需沟通档期' : '今日起4天后'}}，未来6个月内</text>
+
+        <!-- 月份导航 -->
+        <view class="co-month-nav">
+          <view class="co-month-arrow {{calendarCanPrev ? '' : 'disabled'}}" bindtap="prevMonth">‹</view>
+          <!-- 点击年月打开选择器 -->
+          <text class="co-month-label" bindtap="openDatePicker">{{calendarMonthLabel}} ▾</text>
+          <view class="co-month-arrow {{calendarCanNext ? '' : 'disabled'}}" bindtap="nextMonth">›</view>
+        </view>
+
+        <!-- 星期头 -->
+        <view class="co-week-row">
+          <text class="co-week-item">日</text>
+          <text class="co-week-item">一</text>
+          <text class="co-week-item">二</text>
+          <text class="co-week-item">三</text>
+          <text class="co-week-item">四</text>
+          <text class="co-week-item">五</text>
+          <text class="co-week-item co-week-item--sat">六</text>
+        </view>
+
+        <!-- 日历格 + 滑动手势 -->
+        <view class="co-calendar-grid"
+          bindtouchstart="onCalendarTouchStart"
+          bindtouchend="onCalendarTouchEnd">
+          <block wx:for="{{calendarDays}}" wx:key="index">
+            <!-- 空格 -->
+            <view wx:if="{{item.empty}}" class="co-day co-day--empty"></view>
+            <!-- 禁用 -->
+            <view wx:elif="{{item.disabled}}" class="co-day co-day--disabled">
+              <text class="co-day-num">{{item.day}}</text>
+            </view>
+            <!-- 可选：已选中 -->
+            <view wx:elif="{{selectedDate == item.dateStr}}" class="co-day co-day--selected" bindtap="selectDate" data-date="{{item.dateStr}}">
+              <text class="co-day-num">{{item.day}}</text>
+              <view class="co-day-dot co-day-dot--selected"></view>
+            </view>
+            <!-- 可选：满 -->
+            <view wx:elif="{{item.availability == 'full'}}" class="co-day co-day--full">
+              <text class="co-day-num">{{item.day}}</text>
+              <view class="co-day-dot co-day-dot--full"></view>
+            </view>
+            <!-- 可选：紧张 -->
+            <view wx:elif="{{item.availability == 'hot'}}" class="co-day co-day--hot" bindtap="selectDate" data-date="{{item.dateStr}}">
+              <text class="co-day-num">{{item.day}}</text>
+              <view class="co-day-dot co-day-dot--hot"></view>
+            </view>
+            <!-- 可选：有位 -->
+            <view wx:else class="co-day co-day--available" bindtap="selectDate" data-date="{{item.dateStr}}">
+              <text class="co-day-num">{{item.day}}</text>
+              <view class="co-day-dot co-day-dot--available"></view>
+            </view>
+          </block>
+        </view>
+
+    </block>
+    </view>
+
+    <!-- ④ 费用明细 -->
+    <view class="co-card">
+      <text class="co-card-title">费用明细</text>
+
+      <view class="co-price-row">
+        <text class="co-price-label">面积</text>
+        <text class="co-price-val">{{area ? area + ' ㎡' : '—'}}</text>
+      </view>
+
+      <view class="co-price-row">
+        <text class="co-price-label">标准价</text>
+        <text class="co-price-val">¥15/㎡</text>
+      </view>
+
+      <!-- 第一层：锁档专享礼 -->
+      <view class="co-price-row" wx:if="{{lockGift > 0}}">
+        <text class="co-price-label">锁档专享礼</text>
+        <text class="co-price-off">-¥{{lockGift}}</text>
+      </view>
+      <text class="co-discount-source" wx:if="{{lockGift > 0}}">下定即享 -¥1/㎡</text>
+
+      <!-- 第二层：满足条件再减 -->
+      <view class="co-price-row" wx:if="{{qualifyTotal > 0}}">
+        <text class="co-price-label">满足条件再减</text>
+        <text class="co-price-off">-¥{{qualifyTotal}}</text>
+      </view>
+      <text class="co-discount-source" wx:if="{{discountSource}}">{{discountSource}}</text>
+
+      <view class="co-price-row" wx:if="{{hasCoupon && couponAmount > 0}}">
+        <text class="co-price-label">保洁券抵扣</text>
+        <view class="co-coupon-tag">
+          <text class="co-coupon-tag-text">-¥{{couponAmount}}</text>
+        </view>
+      </view>
+
+      <view class="co-divider"></view>
+
+      <!-- 应付 -->
+      <view class="co-final-row">
+        <text class="co-final-label">应付</text>
+        <view class="co-final-right">
+          <text class="co-final-psm" wx:if="{{perSqm > 0}}">≈ ¥{{perSqm}}/㎡</text>
+          <text class="co-final-price">{{totalPrice > 0 ? '¥' + totalPrice : '¥—'}}</text>
+        </view>
+      </view>
+
+      <!-- 状态 A/B/C -->
+      <view class="co-state-hint" wx:if="{{discountState === 'A' || discountState === 'B' || discountState === 'C'}}">
+        <text class="co-state-hint-text">{{discountLabel}}，自动享受优惠</text>
+      </view>
+
+      <!-- 状态 D -->
+      <view class="co-state-hint" wx:if="{{discountState === 'D' && grossPrice > 0}}">
+        <text class="co-state-hint-text">满足任一条件，再减 ¥2/㎡，到手低至 ¥12/㎡</text>
+        <text class="co-state-link" bindtap="goGroupBuy">发起团购 ›</text>
+      </view>
+
+      <!-- 状态 E：锁档礼 + 待成团 -->
+      <view class="co-state-hint" wx:if="{{discountState === 'E'}}">
+        <text class="co-state-hint-text">已参加团购（当前 {{teamCount}}/3 户），成团后可减 ¥{{potentialDiscount}}</text>
+        <text class="co-state-link" bindtap="goGroupBuyMyTeam">查看我的团 ›</text>
+      </view>
+    </view>
+
+
+  </view><!-- /co-body -->
+
+  <!-- 年月选择器弹层 -->
+  <view class="co-picker-mask" wx:if="{{showDatePicker}}" bindtap="closeDatePicker"></view>
+  <view class="co-picker-sheet" wx:if="{{showDatePicker}}">
+    <view class="co-picker-header">
+      <text class="co-picker-cancel" bindtap="closeDatePicker">取消</text>
+      <text class="co-picker-title">选择月份</text>
+      <text class="co-picker-confirm" bindtap="confirmDatePicker">确定</text>
+    </view>
+    <picker-view class="co-picker-view" value="{{pickerValue}}" bindchange="onPickerChange" indicator-style="height:88rpx;">
+      <picker-view-column>
+        <view class="co-picker-item" wx:for="{{pickerYears}}" wx:key="index">{{item}}</view>
+      </picker-view-column>
+      <picker-view-column>
+        <view class="co-picker-item" wx:for="{{pickerMonths}}" wx:key="index">{{item}}</view>
+      </picker-view-column>
+    </picker-view>
+  </view>
+
+  <!-- 沟通档期遮罩 -->
+  <view wx:if="{{showContactModal}}" class="contact-mask" bindtap="closeContactModal"></view>
+  <view wx:if="{{showContactModal}}" class="contact-modal">
+    <view class="contact-handle"></view>
+    <text class="contact-title">沟通档期</text>
+    <view class="contact-card contact-reason-card">
+      <text class="contact-card-title">为什么需要沟通</text>
+      <view class="contact-reason-item"><view class="contact-reason-dot"></view><text class="contact-reason-text">面积较小或较大，服务排班与工时安排不同</text></view>
+      <view class="contact-reason-item"><view class="contact-reason-dot"></view><text class="contact-reason-text">需要人工评估现场情况与服务节奏</text></view>
+      <view class="contact-reason-item"><view class="contact-reason-dot"></view><text class="contact-reason-text">部分时段需要协调服务资源后再确认</text></view>
+    </view>
+    <view class="contact-card contact-service-card">
+      <text class="contact-card-title">服务承诺</text>
+      <view class="contact-service-row"><text class="contact-service-label">响应时间</text><text class="contact-service-value">30分钟内联系您</text></view>
+      <view class="contact-service-row"><text class="contact-service-label">沟通方式</text><text class="contact-service-value">企业微信人工沟通</text></view>
+      <view class="contact-service-row"><text class="contact-service-label">确认内容</text><text class="contact-service-value">确认服务时间安排</text></view>
+    </view>
+    <view class="contact-card contact-date-card">
+      <text class="contact-date-label">已选日期</text>
+      <text class="contact-date-value">{{contactDate || '待选择'}}</text>
+    </view>
+    <text class="contact-confirm-btn" bindtap="confirmContact">确认联系客服</text>
+    <text class="contact-note">点击后将添加客服企业微信，我们将在30分钟内主动联系您确认服务时间安排</text>
+  </view>
+
+  <!-- 重复下单提示弹窗 -->
+  <view wx:if="{{showDupOrderModal}}" class="dup-mask" bindtap="closeDupOrderModal"></view>
+  <view wx:if="{{showDupOrderModal}}" class="dup-modal">
+    <view class="dup-handle"></view>
+    <text class="dup-title">该地址已有订单</text>
+    <text class="dup-desc">同一小区同一房号只能下一单，如需重新下单请先取消原订单。</text>
+    <view class="dup-actions">
+      <text class="dup-btn-secondary" bindtap="closeDupOrderModal">返回修改</text>
+      <text class="dup-btn-primary" bindtap="goToExistingOrder">查看订单</text>
+    </view>
+  </view>
+
+  <!-- 底部提交栏 -->
+  <view class="co-bar">
+    <view class="co-bar-left">
+      <text class="co-bar-label">应付</text>
+      <text class="co-bar-price">{{totalPrice > 0 ? '¥' + totalPrice : '¥—'}}</text>
+      <text class="co-bar-psm" wx:if="{{perSqm > 0}}">≈ ¥{{perSqm}}/㎡</text>
+    </view>
+    <view class="co-bar-right">
+      <view class="co-bar-btn {{canSubmit ? '' : 'disabled'}}" bindtap="submitOrder">
+        <text class="co-bar-btn-text">{{canSubmit ? '立即预约' : '请完善信息'}}</text>
+      </view>
+    </view>
+  </view>
+
+</view>

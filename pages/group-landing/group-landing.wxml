@@ -1,0 +1,156 @@
+<view class="gl-page">
+
+  <!-- ══ 顶部导航 ══ -->
+  <view class="gl-nav">
+    <view class="gl-nav-back" bindtap="goBack">
+      <text class="gl-nav-back-icon">‹</text>
+    </view>
+    <text class="gl-nav-title">邻里拼团优惠</text>
+    <view class="gl-nav-placeholder"></view>
+  </view>
+
+  <!-- ══ 加载中 ══ -->
+  <view wx:if="{{pageState === 'loading'}}" class="gl-center-box">
+    <view class="gl-spinner"></view>
+    <text class="gl-center-hint">读取拼团信息…</text>
+  </view>
+
+  <!-- ══ 链接失效 ══ -->
+  <view wx:elif="{{pageState === 'error'}}" class="gl-center-box">
+    <text class="gl-error-emoji">⚠️</text>
+    <text class="gl-error-title">团链接已失效</text>
+    <text class="gl-error-hint">请联系邻居重新发送邀请</text>
+    <view class="gl-ghost-btn" bindtap="goBack">返回首页</view>
+  </view>
+
+  <!-- ══ 主体：ready ══ -->
+  <block wx:elif="{{pageState === 'ready'}}">
+
+    <!-- ─────────────────────────────────────────
+         上半部分：团规则 + 当前进度
+    ───────────────────────────────────────── -->
+
+    <!-- 团规则 Hero -->
+    <view class="gl-hero">
+      <view class="gl-hero-head">
+        <view class="gl-hero-tag">邻里团</view>
+        <text class="gl-hero-community">{{communityName}}</text>
+      </view>
+
+      <!-- 核心规则 -->
+      <view class="gl-rule-row">
+        <view class="gl-rule-item">
+          <text class="gl-rule-num">3</text>
+          <text class="gl-rule-label">户成团</text>
+        </view>
+        <view class="gl-rule-divider"></view>
+        <view class="gl-rule-item">
+          <text class="gl-rule-num">¥{{discountPerSqm}}/㎡</text>
+          <text class="gl-rule-label">成团返钱包</text>
+        </view>
+        <view class="gl-rule-divider"></view>
+        <view class="gl-rule-item">
+          <text class="gl-rule-num">{{targetCount}} 户</text>
+          <text class="gl-rule-label">各自选服务下单</text>
+        </view>
+      </view>
+
+      <!-- 当前团进度 -->
+      <view class="gl-progress-card {{status === 'formed' ? 'gl-progress-card--formed' : ''}}">
+        <!-- 成团状态 -->
+        <view wx:if="{{status === 'formed'}}" class="gl-formed-row">
+          <text class="gl-formed-icon">🎉</text>
+          <text class="gl-formed-text">已成团！¥{{discountPerSqm}}/㎡ 已返到钱包</text>
+        </view>
+
+        <!-- 进行中 -->
+        <block wx:elif="{{status === 'open'}}">
+          <view class="gl-gap-row">
+            <text class="gl-gap-pre">当前还差</text>
+            <text class="gl-gap-num">{{gapCount}}</text>
+            <text class="gl-gap-suf">户成团</text>
+          </view>
+
+          <!-- 进度条 -->
+          <view class="gl-progress-track">
+            <view class="gl-progress-fill" style="width: {{progressPct}}%"></view>
+          </view>
+
+          <!-- 成员槽 -->
+          <view class="gl-slots">
+            <block wx:for="{{members}}" wx:key="nickname">
+              <view class="gl-slot gl-slot--joined">
+                <text class="gl-slot-initial">{{item.nickname[0]}}</text>
+                <text class="gl-slot-name">{{item.isOrg ? '团长' : '已加入'}}</text>
+              </view>
+            </block>
+            <block wx:for="{{gapCount}}" wx:key="*this">
+              <view class="gl-slot gl-slot--empty">
+                <text class="gl-slot-plus">+</text>
+                <text class="gl-slot-name gl-slot-name--empty">待加入</text>
+              </view>
+            </block>
+          </view>
+
+          <!-- 倒计时 -->
+          <view wx:if="{{remainHours > 0 || remainMinutes > 0}}" class="gl-expire">
+            <text class="gl-expire-text">⏱ 剩余 {{remainHours}} 小时 {{remainMinutes}} 分钟</text>
+          </view>
+        </block>
+
+        <!-- 已过期 -->
+        <view wx:elif="{{status === 'expired'}}" class="gl-expired-row">
+          <text class="gl-expired-text">此团已过期，无法参与</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- ─────────────────────────────────────────
+         下半部分：选择服务
+    ───────────────────────────────────────── -->
+    <view class="gl-services-section">
+      <view class="gl-services-head">
+        <text class="gl-services-title">选择你要参与的服务</text>
+        <text class="gl-services-sub">三户可以选不同服务，各自下单</text>
+      </view>
+
+      <view class="gl-service-list">
+        <view
+          wx:for="{{services}}"
+          wx:key="key"
+          class="gl-service-card"
+          data-service-key="{{item.key}}"
+          data-service-name="{{item.name}}"
+          data-product-type="{{item.productType}}"
+          bindtap="selectService"
+        >
+          <!-- 卡头：名称 + 徽标 + 右上角 CTA -->
+          <view class="gl-sc-head">
+            <view class="gl-sc-head-left">
+              <text class="gl-sc-name">{{item.name}}</text>
+              <view wx:if="{{item.badge}}" class="gl-sc-badge">
+                <text class="gl-sc-badge-text">{{item.badge}}</text>
+              </view>
+            </view>
+            <view class="gl-sc-cta {{status === 'expired' ? 'gl-sc-cta--disabled' : ''}}">
+              <text class="gl-sc-cta-text">参与拼团</text>
+            </view>
+          </view>
+
+          <!-- 场景 -->
+          <text class="gl-sc-scene">{{item.scene}}</text>
+
+          <!-- 核心价值 -->
+          <text class="gl-sc-tagline">{{item.tagline}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 底部说明 -->
+    <view class="gl-footer">
+      <text class="gl-footer-text">加入即同意参与本次邻里拼团 · 成团后各自下单付款 · 不成团不扣费</text>
+    </view>
+
+  </block>
+
+</view>

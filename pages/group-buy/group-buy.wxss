@@ -1,0 +1,2246 @@
+/* ================================================================
+   group-buy.wxss
+   颜色：黄 #f9e12a · 黑 #000000 · 白 #FFFFFF · 灰底 #F2F2F7
+   ================================================================ */
+
+page { background: #F2F2F7; }
+
+.gb-page {
+  min-height: 100vh;
+  background: #F2F2F7;
+  box-sizing: border-box;
+}
+
+/* 可滚动内容区：
+   顶栏黄色部分高度 280rpx + safe-area，再加 16rpx 间距 */
+.gb-scroll-body {
+  padding-top: calc(296rpx + env(safe-area-inset-top));
+  padding-bottom: calc(100rpx + env(safe-area-inset-bottom));
+}
+
+/* ── 顶栏：黄色，高度加高以容纳 tab 条 ── */
+.global-top-bar {
+  background: #f9e12a;
+  border-bottom: none;
+  /* 在默认 212rpx 基础上再加 68rpx 给 tab 条 */
+  height: calc(280rpx + env(safe-area-inset-top));
+}
+
+/* brand dot 在黄底上用黑色 */
+.global-top-bar .global-brand-dot {
+  background: #000000;
+}
+
+/* ── 3个内页签：绝对贴底，白色条 ── */
+.gb-tabs {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 24rpx;
+  gap: 0;
+  background: #FFFFFF;
+  border-top: 1rpx solid rgba(17,17,17,0.08);
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.06);
+}
+.gb-tab {
+  flex: 1;
+  text-align: center;
+  font-size: 26rpx;
+  color: #999999;
+  font-weight: 400;
+  padding: 18rpx 0;
+  position: relative;
+}
+.gb-tab--active {
+  color: #000000;
+  font-weight: 500;
+}
+.gb-tab--active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40rpx;
+  height: 4rpx;
+  background: #f9e12a;
+  border-radius: 2rpx;
+}
+
+/* ── 开团规则：条目列表 ── */
+.gb-rule-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14rpx;
+  padding: 14rpx 0;
+  border-bottom: 1rpx solid #F2F2F7;
+}
+.gb-rule-item:last-child { border-bottom: none; }
+.gb-rule-dot {
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 50%;
+  background: #000000;
+  flex-shrink: 0;
+  margin-top: 8rpx;
+}
+.gb-rule-dot--warning { background: #f9e12a; }
+.gb-rule-text {
+  font-size: 26rpx;
+  color: #333333;
+  line-height: 40rpx;
+  flex: 1;
+}
+.gb-rule-text--warning { font-weight: 500; color: #333333; }
+
+/* ── 我的开团：团状态卡 ── */
+.gb-team-card {
+  background: #111111;
+  border-radius: 24rpx;
+  margin: 0 40rpx 20rpx;
+  padding: 32rpx 28rpx;
+}
+/* 压矮版：只看进度结论 */
+.gb-team-card--compact {
+  padding: 28rpx 28rpx 24rpx;
+}
+.gb-team-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24rpx;
+}
+.gb-team-name {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+.gb-team-status-badge {
+  font-size: 20rpx;
+  font-weight: 500;
+  padding: 4rpx 16rpx;
+  border-radius: 999rpx;
+}
+.gb-team-status-badge--recruiting { background: rgba(249,225,42,0.2); color: #f9e12a; }
+.gb-team-status-badge--formed     { background: #f9e12a; color: #000000; }
+.gb-team-status-badge--expired    { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.4); }
+
+.gb-team-body { }
+.gb-team-count-row {
+  display: flex;
+  align-items: baseline;
+  gap: 4rpx;
+  margin-bottom: 16rpx;
+}
+.gb-team-count-num {
+  font-size: 52rpx;
+  font-weight: 600;
+  color: #f9e12a;
+  line-height: 60rpx;
+}
+.gb-team-count-sep {
+  font-size: 28rpx;
+  color: rgba(255,255,255,0.5);
+}
+.gb-team-progress-bar {
+  height: 10rpx;
+  background: rgba(255,255,255,0.15);
+  border-radius: 5rpx;
+  overflow: hidden;
+  margin-bottom: 16rpx;
+}
+.gb-team-progress-fill {
+  height: 100%;
+  background: #f9e12a;
+  border-radius: 5rpx;
+  transition: width 0.4s;
+}
+.gb-team-gap-tip {
+  font-size: 24rpx;
+  color: rgba(255,255,255,0.6);
+  line-height: 36rpx;
+}
+.gb-team-formed-tip {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+}
+.gb-team-formed-icon { font-size: 28rpx; }
+.gb-team-formed-text {
+  font-size: 26rpx;
+  font-weight: 500;
+  color: #f9e12a;
+}
+
+/* ── Hero ── */
+.gb-hero {
+  background: #111111;
+  margin: 0 40rpx 20rpx;
+  border-radius: 24rpx;
+  padding: 40rpx 32rpx 36rpx;
+}
+.gb-hero-tag {
+  display: inline-block;
+  background: #f9e12a;
+  color: #000000;
+  font-size: 22rpx;
+  font-weight: 500;
+  padding: 4rpx 16rpx;
+  border-radius: 6rpx;
+  margin-bottom: 20rpx;
+}
+.gb-hero-title {
+  display: block;
+  font-size: 44rpx;
+  font-weight: 600;
+  color: #FFFFFF;
+  line-height: 60rpx;
+  letter-spacing: -1rpx;
+  margin-bottom: 24rpx;
+}
+.gb-hero-sub {
+  display: block;
+  font-size: 24rpx;
+  color: rgba(255,255,255,0.55);
+  margin-top: 12rpx;
+  line-height: 36rpx;
+}
+.gb-community-pill {
+  display: flex;
+  align-items: baseline;
+  gap: 2rpx;
+}
+.gb-community-num {
+  font-size: 52rpx;
+  font-weight: 600;
+  color: #f9e12a;
+  line-height: 60rpx;
+}
+.gb-community-label {
+  font-size: 26rpx;
+  color: rgba(255,255,255,0.65);
+}
+
+/* ── 通用卡片 ── */
+.gb-card {
+  background: #FFFFFF;
+  border-radius: 24rpx;
+  margin: 0 40rpx 20rpx;
+  padding: 28rpx;
+  box-sizing: border-box;
+}
+.gb-card--rule { border: 2rpx solid #f9e12a; }
+.gb-card-title {
+  display: block;
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #333333;
+  margin-bottom: 12rpx;
+}
+.gb-card-subtitle {
+  display: block;
+  font-size: 22rpx;
+  color: #999999;
+  margin-bottom: 20rpx;
+}
+.gb-card-note {
+  display: block;
+  font-size: 22rpx;
+  color: #999999;
+  margin-top: 16rpx;
+}
+.gb-card-body {
+  display: block;
+  font-size: 26rpx;
+  color: #333333;
+  line-height: 42rpx;
+}
+
+/* （团购档位样式已移除，改用邻里拼团3户成团模型） */
+
+/* ── 各服务优惠 ── */
+.gb-service-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16rpx 0;
+}
+.gb-service-name {
+  font-size: 26rpx;
+  color: #333333;
+  font-weight: 400;
+}
+.gb-service-saving {
+  font-size: 26rpx;
+  font-weight: 500;
+  color: #333333;
+}
+.gb-service-divider {
+  height: 1rpx;
+  background: #F2F2F7;
+}
+
+/* ── 价格表 ── */
+.gb-price-table { width: 100%; }
+.gb-price-row {
+  display: flex;
+  padding: 14rpx 0;
+  border-bottom: 1rpx solid #F2F2F7;
+}
+.gb-price-row--head .gb-col {
+  font-size: 22rpx;
+  font-weight: 500;
+  color: #999999;
+}
+.gb-price-row--last { border-bottom: none; }
+.gb-col {
+  flex: 1;
+  font-size: 26rpx;
+  color: #333333;
+  text-align: center;
+}
+.gb-col--save { font-weight: 500; }
+
+/* ── 怎么参与（步骤） ── */
+.gb-step-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16rpx;
+  margin-bottom: 18rpx;
+}
+.gb-step-item:last-of-type { margin-bottom: 0; }
+.gb-step-num {
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 50%;
+  background: #111111;
+  color: #f9e12a;
+  font-size: 22rpx;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 4rpx;
+}
+.gb-step-text {
+  font-size: 26rpx;
+  color: #333333;
+  line-height: 40rpx;
+  flex: 1;
+}
+.gb-key-rule {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+  background: #111111;
+  border-radius: 10rpx;
+  padding: 14rpx 20rpx;
+  margin: 4rpx 0 18rpx;
+}
+.gb-key-rule-icon { font-size: 26rpx; }
+.gb-key-rule-text {
+  font-size: 26rpx;
+  font-weight: 500;
+  color: #f9e12a;
+  line-height: 38rpx;
+}
+
+/* ── 主动作区：查看团码 + 复制链接 ── */
+.gb-action-row {
+  display: flex;
+  gap: 12rpx;
+  margin: 0 40rpx 20rpx;
+}
+.gb-action-btn {
+  flex: 1;
+  height: 84rpx;
+  border-radius: 14rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  font-weight: 500;
+}
+.gb-action-btn--primary {
+  background: #111111;
+  color: #FFFFFF;
+}
+.gb-action-btn--ghost {
+  background: transparent;
+  border: 2rpx solid #C6C6C8;
+  color: #333333;
+  font-weight: 500;
+}
+
+/* ── 主 CTA ── */
+.gb-cta {
+  margin: 8rpx 40rpx 28rpx;
+  height: 96rpx;
+  background: #f9e12a;
+  border-radius: 16rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32rpx;
+  font-weight: 500;
+  color: #000000;
+}
+
+/* ── 分段标题 ── */
+.gb-section-title {
+  font-size: 22rpx;
+  font-weight: 500;
+  color: #999999;
+  text-transform: uppercase;
+  letter-spacing: 2rpx;
+  padding: 8rpx 40rpx;
+}
+
+/* ── 里程碑横轴 ── */
+.gb-milestone-row {
+  display: flex;
+  align-items: center;
+  margin-top: 24rpx;
+}
+.gb-milestone-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6rpx;
+}
+.gb-milestone-dot {
+  width: 20rpx;
+  height: 20rpx;
+  border-radius: 50%;
+  background: #000000;
+}
+.gb-milestone-dot--gold { background: #f9e12a; }
+.gb-milestone-num {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #000000;
+}
+.gb-milestone-label {
+  font-size: 22rpx;
+  color: #999999;
+}
+.gb-milestone-line {
+  flex: 1;
+  height: 3rpx;
+  background: #E5E5EA;
+  margin: 0 12rpx;
+  margin-bottom: 30rpx;
+}
+
+/* ── 团长权益卡 ── */
+.gb-leader-card {
+  background: #FFFFFF;
+  border-radius: 24rpx;
+  margin: 0 40rpx 20rpx;
+  padding: 8rpx 0;
+}
+.gb-leader-tier { padding: 24rpx 28rpx; }
+.gb-leader-tier-head {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin-bottom: 16rpx;
+}
+.gb-leader-badge {
+  background: #F2F2F7;
+  color: #000000;
+  font-size: 22rpx;
+  font-weight: 500;
+  padding: 4rpx 16rpx;
+  border-radius: 8rpx;
+}
+.gb-leader-badge--gold {
+  background: #f9e12a;
+  color: #000000;
+}
+.gb-leader-threshold {
+  font-size: 24rpx;
+  color: #999999;
+}
+.gb-leader-benefit {
+  display: block;
+  font-size: 26rpx;
+  color: #333333;
+  line-height: 42rpx;
+}
+.gb-leader-benefit--star {
+  font-weight: 500;
+  color: #333333;
+}
+.gb-leader-divider {
+  height: 1rpx;
+  background: #F2F2F7;
+  margin: 0 28rpx;
+
+}
+
+/* ── 数据看板 ── */
+.gb-stats-card {
+  background: #FFFFFF;
+  border-radius: 24rpx;
+  margin: 0 40rpx 20rpx;
+  padding: 28rpx 24rpx 32rpx;
+}
+.gb-stats-grid {
+  display: flex;
+  align-items: center;
+  margin-bottom: 28rpx;
+}
+.gb-stat-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6rpx;
+}
+.gb-stat-num {
+  font-size: 44rpx;
+  font-weight: 600;
+  color: #000000;
+  line-height: 52rpx;
+}
+.gb-stat-label {
+  font-size: 20rpx;
+  color: #999999;
+  text-align: center;
+}
+.gb-stat-divider {
+  width: 1rpx;
+  height: 56rpx;
+  background: #E5E5EA;
+}
+
+/* ── 进度条 ── */
+.gb-progress-wrap { padding: 0 4rpx; }
+.gb-progress-bar {
+  height: 12rpx;
+  background: #E5E5EA;
+  border-radius: 6rpx;
+  overflow: hidden;
+  margin-bottom: 10rpx;
+  position: relative;
+}
+.gb-progress-fill {
+  height: 100%;
+  background: #f9e12a;
+  border-radius: 6rpx;
+  transition: width 0.4s;
+}
+.gb-progress-milestone-mark {
+  position: absolute;
+  left: 20%;
+  top: 0;
+  width: 3rpx;
+  height: 100%;
+  background: #FFFFFF;
+  opacity: 0.6;
+}
+.gb-progress-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12rpx;
+}
+.gb-progress-left,
+.gb-progress-mid,
+.gb-progress-right {
+  font-size: 20rpx;
+  color: #999999;
+}
+.gb-progress-hint {
+  display: block;
+  font-size: 24rpx;
+  color: #333333;
+  text-align: center;
+  margin-top: 8rpx;
+}
+.gb-progress-hint--mid { color: #333333; }
+.gb-progress-hint--done { color: #333333; font-weight: 500; }
+
+/* ── 分享按钮 ── */
+.gb-share-btn {
+  margin: 0 40rpx 28rpx;
+  height: 88rpx;
+  border: 2rpx solid #000000;
+  border-radius: 16rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #333333;
+}
+
+.gb-bottom-spacer { height: calc(120rpx + env(safe-area-inset-bottom)); }
+
+/* ── 二维码弹窗 ── */
+.gb-modal-mask {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: flex-end;
+  z-index: 999;
+}
+.gb-modal {
+  width: 100%;
+  background: #FFFFFF;
+  border-radius: 24rpx 24rpx 0 0;
+  padding: 32rpx 40rpx calc(40rpx + env(safe-area-inset-bottom));
+  box-sizing: border-box;
+}
+.gb-modal-title {
+  display: block;
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #000000;
+  text-align: center;
+  margin-bottom: 8rpx;
+}
+.gb-modal-sub {
+  display: block;
+  font-size: 24rpx;
+  color: #999999;
+  text-align: center;
+  margin-bottom: 28rpx;
+}
+.gb-qr-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48rpx 0;
+  gap: 16rpx;
+}
+.gb-qr-spinner {
+  width: 60rpx;
+  height: 60rpx;
+  border: 6rpx solid #E5E5EA;
+  border-top-color: #000000;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.gb-qr-loading-text { font-size: 26rpx; color: #999999; }
+
+/* 团码弹窗 — 未生成态 */
+.gb-qr-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48rpx 0;
+}
+.gb-qr-empty-text {
+  font-size: 26rpx;
+  color: #999999;
+}
+
+/* 团码弹窗 — 失败态 */
+.gb-qr-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 36rpx 0 28rpx;
+  gap: 10rpx;
+}
+.gb-qr-error-title {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #333333;
+}
+.gb-qr-error-hint {
+  font-size: 22rpx;
+  color: #999999;
+  text-align: center;
+}
+.gb-qr-image {
+  width: 280rpx;
+  height: 280rpx;
+  display: block;
+  margin: 0 auto 28rpx;
+}
+.gb-link-box {
+  background: #F2F2F7;
+  border-radius: 12rpx;
+  padding: 20rpx;
+  margin-bottom: 24rpx;
+}
+.gb-link-text {
+  font-size: 22rpx;
+  color: #333333;
+  word-break: break-all;
+}
+.gb-modal-btn {
+  height: 88rpx;
+  border-radius: 16rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30rpx;
+  font-weight: 500;
+  margin-bottom: 12rpx;
+}
+.gb-modal-btn--primary { background: #f9e12a; color: #000000; }
+.gb-modal-btn--ghost { color: #999999; font-weight: 400; }
+/* 去微信分享：<button open-type="share"> 需重置微信默认样式 */
+.gb-modal-btn--wechat {
+  background: transparent;
+  color: #333333;
+  font-weight: 500;
+  border: 2rpx solid #E5E5EA;
+  box-sizing: border-box;
+  padding: 0;
+  line-height: 88rpx;
+}
+.gb-modal-btn--wechat::after { border: none; }
+
+/* ── 底部 TabBar ── */
+.tabbar {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: calc(96rpx + env(safe-area-inset-bottom));
+  padding-bottom: env(safe-area-inset-bottom);
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(40rpx);
+  -webkit-backdrop-filter: blur(40rpx);
+  display: flex;
+  align-items: center;
+  padding-bottom: env(safe-area-inset-bottom);
+  z-index: 100;
+}
+.tab-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4rpx;
+}
+.tab-icon {
+  width: 10rpx;
+  height: 10rpx;
+  border-radius: 50%;
+  background: #CCCCCC;
+}
+.tab-icon--active { background: #F9E12A; }
+.tab-text {
+  font-size: 20rpx;
+  font-weight: 400;
+  color: #CCCCCC;
+  letter-spacing: 0.5rpx;
+}
+.tab-text.active { color: #000000; font-weight: 500; }
+
+/* ── 我的邀请页专用 ── */
+.gb-invite-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32rpx 0 8rpx;
+  gap: 20rpx;
+}
+.gb-invite-empty-text { font-size: 26rpx; color: #999999; }
+.gb-cta--sm {
+  margin: 0;
+  padding: 0 40rpx;
+  height: 72rpx;
+  font-size: 26rpx;
+  border-radius: 12rpx;
+}
+.gb-qr-area {
+  display: flex;
+  justify-content: center;
+  margin: 20rpx 0;
+}
+.gb-qr-img-wrap { width: 200rpx; height: 200rpx; }
+.gb-qr-image { width: 200rpx; height: 200rpx; }
+.gb-qr-image-modal {
+  width: 280rpx;
+  height: 280rpx;
+  display: block;
+  margin: 0 auto 28rpx;
+}
+.gb-qr-placeholder {
+  width: 200rpx;
+  height: 200rpx;
+  background: #F2F2F7;
+  border-radius: 16rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12rpx;
+}
+.gb-qr-placeholder-icon { font-size: 60rpx; }
+.gb-qr-placeholder-text { font-size: 22rpx; color: #999999; }
+.gb-invite-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+  margin-top: 4rpx;
+}
+.gb-invite-btn {
+  height: 80rpx;
+  background: #f9e12a;
+  border-radius: 12rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #000000;
+}
+.gb-invite-btn--ghost {
+  background: transparent;
+  border: 2rpx solid #E5E5EA;
+  color: #333333;
+  font-weight: 500;
+}
+.gb-stats-row2 {
+  padding-top: 12rpx;
+  border-top: 1rpx solid #F2F2F7;
+  margin-top: 4rpx;
+}
+.gb-stats-pending-tip { font-size: 22rpx; color: #999999; }
+.gb-record-empty { padding: 24rpx 0; text-align: center; }
+.gb-record-empty-text { font-size: 26rpx; color: #999999; }
+.gb-record-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16rpx 0;
+  border-bottom: 1rpx solid #F2F2F7;
+}
+.gb-record-item:last-child { border-bottom: none; }
+.gb-record-left { display: flex; flex-direction: column; gap: 4rpx; }
+.gb-record-name { font-size: 26rpx; color: #333333; }
+.gb-record-date { font-size: 20rpx; color: #999999; }
+.gb-record-status {
+  font-size: 22rpx;
+  font-weight: 500;
+  padding: 4rpx 14rpx;
+  border-radius: 999rpx;
+  background: #F2F2F7;
+  color: #999999;
+}
+.gb-record-status--settled   { background: #fffdf0; color: #333333; }
+.gb-record-status--finished  { background: #F2F2F7; color: #333333; }
+.gb-record-status--paid      { background: #F2F2F7; color: #333333; }
+.gb-record-status--ordered   { background: #F2F2F7; color: #999999; }
+.gb-record-status--joined    { background: rgba(249,225,42,0.15); color: #333333; }
+.gb-record-status--invited   { background: #F2F2F7; color: #C6C6C8; }
+.gb-record-status--expired    { background: #F2F2F7; color: #C6C6C8; }
+.gb-record-status--completed  { background: rgba(249,225,42,0.12); color: #000000; }
+
+/* ── 升级激励提示（团长权益 tab 复用，黑底黄字）── */
+.gb-upgrade-hint {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 40rpx 20rpx;
+  padding: 20rpx 24rpx;
+  background: #111111;
+  border-radius: 16rpx;
+}
+.gb-upgrade-hint-left {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  flex: 1;
+}
+.gb-upgrade-hint-icon { font-size: 28rpx; }
+.gb-upgrade-hint-text {
+  font-size: 26rpx;
+  font-weight: 500;
+  color: #f9e12a;
+  flex: 1;
+}
+.gb-upgrade-hint-link {
+  font-size: 22rpx;
+  color: rgba(255,255,255,0.5);
+  flex-shrink: 0;
+}
+
+/* ── 我的开团：团长招募令入口卡（弱于黑色主卡、强于提示文字）── */
+.gb-recruit-card {
+  margin: 12rpx 40rpx 24rpx;
+  padding: 28rpx 28rpx 24rpx;
+  background: #FFFFFF;
+  border-radius: 24rpx;
+  display: flex;
+  flex-direction: column;
+}
+.gb-recruit-top {
+  display: flex;
+  align-items: center;
+  margin-bottom: 18rpx;
+}
+.gb-recruit-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 6rpx 18rpx;
+  border-radius: 999rpx;
+  background: #F9E12A;
+  font-size: 22rpx;
+  line-height: 32rpx;
+  font-weight: 500;
+  color: #000000;
+  letter-spacing: 0.5rpx;
+}
+.gb-recruit-headline {
+  font-size: 30rpx;
+  line-height: 44rpx;
+  font-weight: 500;
+  color: #000000;
+  letter-spacing: -0.3rpx;
+}
+.gb-recruit-rule {
+  margin-top: 10rpx;
+  font-size: 22rpx;
+  line-height: 34rpx;
+  color: #999999;
+}
+.gb-recruit-entry {
+  margin-top: 20rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4rpx;
+}
+.gb-recruit-entry-text {
+  font-size: 24rpx;
+  line-height: 34rpx;
+  font-weight: 500;
+  color: #333333;
+}
+.gb-recruit-entry-arrow {
+  font-size: 28rpx;
+  font-weight: 300;
+  color: #333333;
+  margin-top: -2rpx;
+}
+
+/* ── 正式团长核心锚点卡 ── */
+.gb-anchor-card {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  background: #f9e12a;
+  border-radius: 24rpx;
+  margin: 0 40rpx 20rpx;
+  padding: 28rpx;
+}
+.gb-anchor-icon { font-size: 44rpx; }
+.gb-anchor-body { display: flex; flex-direction: column; gap: 4rpx; }
+.gb-anchor-title {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #000000;
+  line-height: 44rpx;
+}
+.gb-anchor-sub {
+  font-size: 22rpx;
+  color: rgba(17,17,17,0.55);
+}
+
+/* ── 省钱示例（下沉，轻样式） ── */
+.gb-card--example {
+  opacity: 0.9;
+  margin-bottom: 20rpx;
+}
+
+/* ── 团长权益页专用 ── */
+.gb-hero--dark {
+  background: #111111;
+  margin: 0 40rpx 20rpx;
+  border-radius: 24rpx;
+  padding: 32rpx;
+}
+.gb-identity-row {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin-bottom: 24rpx;
+}
+.gb-identity-badge {
+  font-size: 22rpx;
+  font-weight: 500;
+  padding: 4rpx 16rpx;
+  border-radius: 999rpx;
+  background: rgba(255,255,255,0.15);
+  color: #FFFFFF;
+}
+.gb-identity-badge--gold   { background: #f9e12a; color: #000000; }
+.gb-identity-badge--trial  { background: rgba(249,225,42,0.3); color: #f9e12a; }
+.gb-identity-badge--referrer { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); }
+.gb-identity-count { font-size: 24rpx; color: rgba(255,255,255,0.6); }
+
+/* ── 团长权益页：已支付 / 已完工 双状态行 ── */
+.gb-leader-stats-row {
+  display: flex;
+  align-items: center;
+  margin: 20rpx 0 28rpx;
+  gap: 0;
+}
+.gb-leader-stat-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6rpx;
+}
+.gb-leader-stat-num {
+  font-size: 56rpx;
+  line-height: 64rpx;
+  font-weight: 600;
+  color: #FFFFFF;
+  letter-spacing: -1rpx;
+}
+.gb-leader-stat-label {
+  font-size: 22rpx;
+  line-height: 30rpx;
+  color: rgba(255,255,255,0.5);
+}
+.gb-leader-stat-divider {
+  width: 1rpx;
+  height: 60rpx;
+  background: rgba(255,255,255,0.15);
+  flex-shrink: 0;
+}
+
+/* ── 团长权益页：成长摘要卡（紧凑黑卡） ── */
+.gb-summary-card {
+  margin: 0 40rpx 20rpx;
+  padding: 24rpx 28rpx 20rpx;
+  background: #111111;
+  border-radius: 24rpx;
+  box-sizing: border-box;
+}
+.gb-summary-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20rpx;
+}
+.gb-summary-stats {
+  display: flex;
+  align-items: center;
+}
+.gb-summary-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rpx;
+  min-width: 96rpx;
+}
+.gb-summary-stat-num {
+  font-size: 40rpx;
+  line-height: 48rpx;
+  font-weight: 600;
+  color: #FFFFFF;
+  letter-spacing: -1rpx;
+}
+.gb-summary-stat-label {
+  font-size: 20rpx;
+  color: rgba(255,255,255,0.5);
+}
+.gb-summary-stat-divider {
+  width: 1rpx;
+  height: 44rpx;
+  background: rgba(255,255,255,0.2);
+  flex-shrink: 0;
+  margin: 0 14rpx;
+}
+/* 进度条区 */
+.gb-summary-progress { padding: 0 2rpx; }
+.gb-summary-bar {
+  height: 8rpx;
+  background: rgba(255,255,255,0.15);
+  border-radius: 4rpx;
+  position: relative;
+  margin-bottom: 8rpx;
+}
+.gb-summary-fill {
+  height: 100%;
+  background: #f9e12a;
+  border-radius: 4rpx;
+  transition: width 0.4s;
+}
+.gb-summary-milestone {
+  position: absolute;
+  left: 20%;
+  top: 0;
+  width: 2rpx;
+  height: 100%;
+  background: rgba(255,255,255,0.5);
+}
+.gb-summary-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10rpx;
+}
+.gb-summary-label {
+  font-size: 18rpx;
+  color: rgba(255,255,255,0.4);
+}
+.gb-summary-hint {
+  display: block;
+  font-size: 22rpx;
+  line-height: 32rpx;
+  color: rgba(255,255,255,0.8);
+  text-align: center;
+  margin-top: 2rpx;
+}
+.gb-summary-hint--done {
+  color: #f9e12a;
+  font-weight: 500;
+}
+
+/* ── 团长权益页：白色进度卡（上） ── */
+.gb-leader-progress-card {
+  margin: 0 40rpx 20rpx;
+  padding: 20rpx 24rpx 16rpx;
+  background: #FFFFFF;
+  border-radius: 24rpx;
+  box-sizing: border-box;
+}
+.gb-lpc-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14rpx;
+}
+.gb-lpc-stats {
+  display: flex;
+  align-items: center;
+}
+.gb-lpc-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rpx;
+  min-width: 88rpx;
+}
+.gb-lpc-stat-num {
+  font-size: 32rpx;
+  line-height: 40rpx;
+  font-weight: 600;
+  color: #000000;
+  letter-spacing: -0.5rpx;
+}
+.gb-lpc-stat-label {
+  font-size: 20rpx;
+  color: #999999;
+}
+.gb-lpc-stat-divider {
+  width: 1rpx;
+  height: 40rpx;
+  background: #E5E5EA;
+  flex-shrink: 0;
+  margin: 0 14rpx;
+}
+.gb-lpc-bar-wrap { padding: 0 2rpx; }
+.gb-lpc-bar {
+  height: 8rpx;
+  background: #F2F2F7;
+  border-radius: 4rpx;
+  position: relative;
+  margin-bottom: 8rpx;
+}
+.gb-lpc-fill {
+  height: 100%;
+  background: #111111;
+  border-radius: 4rpx;
+  transition: width 0.4s;
+}
+.gb-lpc-milestone {
+  position: absolute;
+  left: 20%;
+  top: 0;
+  width: 2rpx;
+  height: 100%;
+  background: rgba(17,17,17,0.2);
+}
+.gb-lpc-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10rpx;
+}
+.gb-lpc-label {
+  font-size: 18rpx;
+  color: #C6C6C8;
+}
+/* 下一目标行：数字大、文字小，给白卡清晰存在感 */
+.gb-lpc-target {
+  display: flex;
+  align-items: baseline;
+  gap: 6rpx;
+  margin-top: 10rpx;
+  padding: 10rpx 16rpx;
+  background: #F2F2F7;
+  border-radius: 10rpx;
+}
+.gb-lpc-target--done {
+  align-items: center;
+  justify-content: center;
+}
+.gb-lpc-target-num {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #000000;
+  line-height: 38rpx;
+  letter-spacing: -0.5rpx;
+}
+.gb-lpc-target-pre {
+  font-size: 22rpx;
+  color: #999999;
+  line-height: 44rpx;
+}
+.gb-lpc-target-desc {
+  font-size: 22rpx;
+  color: #999999;
+  line-height: 44rpx;
+}
+.gb-lpc-target-tick {
+  font-size: 20rpx;
+  font-weight: 500;
+  color: #333333;
+  line-height: 44rpx;
+  margin-right: 4rpx;
+}
+.gb-lpc-target-done {
+  font-size: 24rpx;
+  font-weight: 500;
+  color: #333333;
+  line-height: 40rpx;
+}
+
+/* ── 团长权益页：轮播滑动提示 ── */
+/* ── 团长权益页：参考设计稿 ── */
+
+/* ① 等级选择器（圆形+连线） */
+.gb-lv-switcher {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 80rpx;
+  position: relative;
+  margin-bottom: 28rpx;
+  padding: 8rpx 60rpx;
+}
+.gb-lv-line {
+  position: absolute;
+  top: 50%;
+  left: 20%;
+  right: 20%;
+  height: 2rpx;
+  background: #F5F5F5;
+  z-index: 0;
+}
+.gb-lv-node {
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: 50%;
+  background: #F5F5F5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+  transition: all 0.3s;
+}
+.gb-lv-node--on {
+  width: 80rpx;
+  height: 80rpx;
+  background: #F9E12A;
+  box-shadow: 0 0 0 8rpx #FFFFFF, 0 8rpx 24rpx rgba(0,0,0,0.06);
+}
+.gb-lv-node-text {
+  font-size: 20rpx;
+  font-weight: 700;
+  color: #999999;
+}
+.gb-lv-node--on .gb-lv-node-text {
+  font-size: 24rpx;
+  color: #111111;
+}
+
+/* ② 黑卡 */
+.gb-premium-card {
+  position: relative;
+  background: #111111;
+  border-radius: 32rpx;
+  padding: 40rpx 36rpx;
+  margin-bottom: 40rpx;
+  overflow: hidden;
+}
+.gb-premium-card-blur {
+  position: absolute;
+  top: -80rpx;
+  right: -80rpx;
+  width: 320rpx;
+  height: 320rpx;
+  background: rgba(249, 225, 42, 0.05);
+  border-radius: 50%;
+  filter: blur(60px);
+}
+.gb-premium-card-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 32rpx;
+}
+.gb-premium-left {
+  flex-shrink: 0;
+}
+.gb-premium-code {
+  font-size: 80rpx;
+  font-weight: 800;
+  font-style: italic;
+  color: #F9E12A;
+  line-height: 1;
+  letter-spacing: -4rpx;
+}
+.gb-premium-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+.gb-premium-label {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #FFFFFF;
+  letter-spacing: -1rpx;
+}
+.gb-premium-bar {
+  height: 6rpx;
+  background: rgba(255,255,255,0.1);
+  border-radius: 3rpx;
+  overflow: hidden;
+}
+.gb-premium-bar-fill {
+  height: 100%;
+  background: #F9E12A;
+  border-radius: 3rpx;
+}
+.gb-premium-hint {
+  font-size: 22rpx;
+  color: rgba(255,255,255,0.5);
+}
+
+/* ③ 标题 */
+.gb-benefit-title {
+  display: block;
+  text-align: center;
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #111111;
+  letter-spacing: -1rpx;
+  margin-bottom: 28rpx;
+}
+
+/* ④ 权益网格 2列3行 */
+.gb-benefit-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20rpx;
+  margin: 0 0 48rpx;
+}
+.gb-benefit-card {
+  background: #FFFFFF;
+  border-radius: 24rpx;
+  padding: 28rpx 16rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0,0,0,0.03);
+}
+.gb-benefit-card-icon-wrap {
+  width: 56rpx;
+  height: 56rpx;
+  background: #F5F5F5;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4rpx;
+}
+.gb-benefit-card-icon {
+  width: 32rpx;
+  height: 32rpx;
+}
+.gb-benefit-card-name {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #111111;
+}
+.gb-benefit-card-sub {
+  font-size: 20rpx;
+  color: #999999;
+}
+
+.gb-swiper-hint {
+  display: block;
+  text-align: center;
+  font-size: 24rpx;
+  font-weight: 500;
+  color: #333333;
+  margin: 0 0 12rpx;
+  letter-spacing: 0.5rpx;
+}
+
+/* ── 团长权益页：权益卡轮播 ── */
+.gb-tier-swiper {
+  width: 100%;
+  height: 296rpx;
+  margin-bottom: 4rpx;
+}
+/* 每张卡：swiper-item 内部 */
+.gb-tsc {
+  height: 100%;
+  margin: 0 40rpx;
+  padding: 24rpx 24rpx 20rpx;
+  background: #111111;
+  border-radius: 24rpx;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+/* 卡头 */
+.gb-tsc-head {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  margin-bottom: 10rpx;
+}
+.gb-tsc-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 8rpx;
+  font-size: 18rpx;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+.gb-tsc-badge--s1, .gb-tsc-badge--S1 { background: #E5E5EA; color: #000000; }
+.gb-tsc-badge--s2, .gb-tsc-badge--S2 { background: rgba(249,225,42,0.4); color: #000000; }
+.gb-tsc-badge--s3, .gb-tsc-badge--S3 { background: #f9e12a; color: #000000; }
+.gb-tsc-name {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #FFFFFF;
+}
+.gb-tsc-unlock {
+  margin-left: auto;
+  font-size: 20rpx;
+  color: rgba(255,255,255,0.35);
+}
+/* 核心价值句 */
+.gb-tsc-value {
+  font-size: 22rpx;
+  line-height: 32rpx;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 10rpx;
+}
+/* 权益列表 */
+.gb-tsc-benefit {
+  display: block;
+  font-size: 24rpx;
+  line-height: 38rpx;
+  color: rgba(255,255,255,0.85);
+}
+.gb-tsc-benefit--star {
+  color: #f9e12a;
+  font-weight: 500;
+}
+/* S3 最强锚点：独立高亮块，不埋在列表里 */
+.gb-tsc-anchor {
+  margin: 6rpx 0 10rpx;
+  padding: 12rpx 16rpx;
+  background: rgba(249,225,42,0.12);
+  border-radius: 10rpx;
+  border-left: 4rpx solid #f9e12a;
+  font-size: 26rpx;
+  font-weight: 500;
+  color: #f9e12a;
+  line-height: 38rpx;
+  box-sizing: border-box;
+}
+/* 底部查看入口 */
+.gb-tsc-entry {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4rpx;
+  margin-top: auto;
+  padding-top: 12rpx;
+  border-top: 1rpx solid rgba(255,255,255,0.1);
+}
+.gb-tsc-entry-text {
+  font-size: 22rpx;
+  font-weight: 500;
+  color: #f9e12a;
+}
+.gb-tsc-entry-arrow {
+  font-size: 26rpx;
+  font-weight: 300;
+  color: #f9e12a;
+  margin-top: -2rpx;
+}
+/* A 版黑卡新增样式 */
+.gb-tsc-summary {
+  display: block;
+  font-size: 22rpx;
+  color: rgba(255,255,255,0.55);
+  line-height: 34rpx;
+  margin-bottom: 16rpx;
+}
+/* 权益横排：一行四个，无背景 */
+.gb-tsc-row {
+  display: flex;
+  margin-bottom: 20rpx;
+}
+.gb-tsc-row-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6rpx;
+}
+.gb-tsc-row-icon {
+  width: 48rpx;
+  height: 48rpx;
+  margin-bottom: 6rpx;
+}
+.gb-tsc-row-label {
+  font-size: 22rpx;
+  color: rgba(255,255,255,0.7);
+}
+.gb-tsc-row-price {
+  font-size: 22rpx;
+  font-weight: 500;
+  color: rgba(255,255,255,0.4);
+}
+.gb-tsc-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+  padding-top: 12rpx;
+  border-top: 1rpx solid rgba(255,255,255,0.1);
+}
+.gb-tsc-rebate {
+  font-size: 20rpx;
+  color: rgba(255,255,255,0.45);
+}
+.gb-tsc-bonus {
+  font-size: 20rpx;
+  font-weight: 500;
+  color: #F9E12A;
+}
+
+/* ── 分页点 ── */
+.gb-swiper-dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8rpx;
+  margin: 0 0 12rpx;
+}
+.gb-swiper-dot {
+  width: 10rpx;
+  height: 10rpx;
+  border-radius: 50%;
+  background: #D1D1D6;
+  transition: all 0.25s;
+}
+.gb-swiper-dot--active {
+  width: 22rpx;
+  border-radius: 5rpx;
+  background: #111111;
+}
+
+/* ── 团长权益页：黑色 S1 权益卡（下） ── */
+.gb-s1-dark-card {
+  margin: 0 40rpx 20rpx;
+  padding: 28rpx 28rpx 24rpx;
+  background: #111111;
+  border-radius: 24rpx;
+  box-sizing: border-box;
+}
+.gb-s1-head {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  margin-bottom: 20rpx;
+}
+.gb-s1-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44rpx;
+  height: 44rpx;
+  border-radius: 10rpx;
+  background: #f9e12a;
+  font-size: 20rpx;
+  font-weight: 500;
+  color: #000000;
+  flex-shrink: 0;
+}
+.gb-s1-name {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #FFFFFF;
+}
+.gb-s1-unlock {
+  margin-left: auto;
+  font-size: 22rpx;
+  color: rgba(255,255,255,0.4);
+}
+.gb-s1-benefit {
+  display: block;
+  font-size: 26rpx;
+  line-height: 46rpx;
+  color: rgba(255,255,255,0.85);
+}
+.gb-s1-detail-btn {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4rpx;
+  margin-top: 16rpx;
+  padding-top: 16rpx;
+  border-top: 1rpx solid rgba(255,255,255,0.1);
+}
+.gb-s1-detail-text {
+  font-size: 24rpx;
+  font-weight: 500;
+  color: #f9e12a;
+}
+.gb-s1-detail-arrow {
+  font-size: 28rpx;
+  font-weight: 300;
+  color: #f9e12a;
+  margin-top: -2rpx;
+}
+
+/* ── 团长权益页：S1/S2/S3 分级区块 ── */
+.gb-tier-section-title {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  margin: 8rpx 40rpx 10rpx;
+  padding: 0 4rpx;
+}
+.gb-tier-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44rpx;
+  height: 44rpx;
+  border-radius: 10rpx;
+  font-size: 20rpx;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+.gb-tier-badge--s1 { background: #E5E5EA; color: #000000; }
+.gb-tier-badge--s2 { background: rgba(249,225,42,0.35); color: #000000; }
+.gb-tier-badge--s3 { background: #f9e12a; color: #000000; }
+.gb-tier-section-name {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #333333;
+}
+.gb-tier-section-unlock {
+  margin-left: auto;
+  font-size: 22rpx;
+  color: #999999;
+}
+/* S1 完整权益卡 */
+.gb-tier-card {
+  margin: 0 40rpx 20rpx;
+  padding: 24rpx 28rpx 20rpx;
+  background: #FFFFFF;
+  border-radius: 24rpx;
+}
+.gb-tier-benefit {
+  display: block;
+  font-size: 26rpx;
+  line-height: 46rpx;
+  color: #333333;
+}
+.gb-tier-detail-btn {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4rpx;
+  margin-top: 14rpx;
+  padding-top: 16rpx;
+  border-top: 1rpx solid #F2F2F7;
+}
+.gb-tier-detail-text {
+  font-size: 24rpx;
+  font-weight: 500;
+  color: #333333;
+}
+.gb-tier-detail-arrow {
+  font-size: 28rpx;
+  font-weight: 300;
+  color: #333333;
+  margin-top: -2rpx;
+}
+/* S2 / S3 轻预告卡 */
+.gb-tier-teaser {
+  margin: 0 40rpx 16rpx;
+  padding: 24rpx 28rpx;
+  background: #FFFFFF;
+  border-radius: 24rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.gb-tier-teaser--s3 {
+  border: 2rpx solid rgba(249,225,42,0.5);
+  background: rgba(249,225,42,0.05);
+  box-sizing: border-box;
+}
+.gb-tier-teaser-left {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  flex: 1;
+  min-width: 0;
+}
+.gb-tier-teaser-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+  min-width: 0;
+}
+.gb-tier-teaser-name {
+  font-size: 26rpx;
+  font-weight: 500;
+  color: #333333;
+}
+.gb-tier-teaser-hint {
+  font-size: 22rpx;
+  color: #999999;
+}
+.gb-tier-teaser-anchor {
+  font-size: 24rpx;
+  font-weight: 500;
+  color: #333333;
+}
+.gb-tier-teaser-arrow {
+  font-size: 32rpx;
+  font-weight: 300;
+  color: #C6C6C8;
+  flex-shrink: 0;
+}
+.gb-tier-teaser-arrow--s3 { color: #333333; }
+
+/* ── 团成员记录 badge 补色 ── */
+.gb-record-status--leader  { background: rgba(249,225,42,0.2); color: #333333; font-weight: 500; }
+
+/* ── 累计与返佣：团长进度行 ── */
+.gb-stats-leader-row {
+  display: flex;
+  align-items: center;
+  padding-top: 20rpx;
+  border-top: 1rpx solid #F2F2F7;
+  margin-top: 4rpx;
+}
+.gb-stats-gap-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6rpx;
+}
+.gb-stats-gap-label {
+  font-size: 20rpx;
+  color: #999999;
+}
+.gb-stats-gap-val {
+  font-size: 26rpx;
+  font-weight: 500;
+  color: #333333;
+}
+.gb-stats-gap-val--done { color: #F9E12A; }
+.gb-stats-gap-divider {
+  width: 1rpx;
+  height: 48rpx;
+  background: #E5E5EA;
+}
+
+/* ── 团长权益页：权益入口卡片 3列×2行 ── */
+.gb-benefit-section {
+  margin: 24rpx 40rpx 0;
+}
+.gb-benefit-section-title {
+  display: block;
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #333333;
+  line-height: 40rpx;
+  margin-bottom: 16rpx;
+}
+/* ── 权益横滑标题栏 ── */
+.gb-benefit-tabs {
+  display: flex;
+  flex-direction: row;
+  white-space: nowrap;
+  margin-top: 24rpx;
+  padding-bottom: 8rpx;
+}
+.gb-benefit-tab {
+  display: inline-flex;
+  align-items: center;
+  padding: 8rpx 0;
+  margin-right: 32rpx;
+  flex-shrink: 0;
+  background: transparent;
+}
+.gb-benefit-tab--on {
+  background: transparent;
+}
+.gb-benefit-tab-text {
+  font-size: 24rpx;
+  font-weight: 400;
+  color: #999999;
+  white-space: nowrap;
+}
+.gb-benefit-tab--on .gb-benefit-tab-text {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #000000;
+}
+
+/* ── 权益内容区 ── */
+.gb-bc {
+  margin-top: 24rpx;
+  background: #ffffff;
+  border-radius: 24rpx;
+  padding: 28rpx;
+}
+.gb-bc-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20rpx;
+}
+.gb-bc-label {
+  font-size: 24rpx;
+  font-weight: 400;
+  color: #999999;
+}
+.gb-bc-badge {
+  padding: 4rpx 16rpx;
+  border-radius: 8rpx;
+}
+.gb-bc-badge--normal { background: #f3f3f3; }
+.gb-bc-badge--trial  { background: #F9E12A; }
+.gb-bc-badge--senior { background: #F9E12A; }
+.gb-bc-badge--honor  { background: #F9E12A; }
+.gb-bc-badge-text {
+  font-size: 20rpx;
+  font-weight: 500;
+  color: #000000;
+}
+.gb-bc-badge--normal .gb-bc-badge-text {
+  color: #999999;
+}
+
+/* 月月领券列表 */
+.gb-bc-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+.gb-bc-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16rpx 0;
+}
+.gb-bc-row + .gb-bc-row {
+  border-top: 1rpx solid #f3f3f3;
+}
+.gb-bc-row-name {
+  font-size: 26rpx;
+  font-weight: 400;
+  color: #333333;
+  flex: 1;
+}
+.gb-bc-btn {
+  padding: 6rpx 24rpx;
+  border-radius: 8rpx;
+  flex-shrink: 0;
+}
+.gb-bc-btn--claim {
+  background: #F9E12A;
+}
+.gb-bc-btn--done {
+  background: #f3f3f3;
+}
+.gb-bc-btn-text {
+  font-size: 22rpx;
+  font-weight: 500;
+  color: #000000;
+}
+.gb-bc-btn-text--muted {
+  color: #CCCCCC;
+}
+
+/* 券型权益额度 */
+.gb-bc-quota {
+  display: block;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #000000;
+  line-height: 44rpx;
+  margin-bottom: 20rpx;
+}
+
+/* 原价说明 */
+.gb-bc-original {
+  display: block;
+  font-size: 24rpx;
+  color: #999999;
+  margin-bottom: 20rpx;
+  padding: 12rpx 16rpx;
+  background: #F5F5F5;
+  border-radius: 12rpx;
+}
+.gb-bc-section-label {
+  display: block;
+  font-size: 26rpx;
+  font-weight: 500;
+  color: #000000;
+  margin-bottom: 16rpx;
+}
+
+/* 三档对比 */
+.gb-bc-tiers {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+  margin-bottom: 24rpx;
+}
+.gb-bc-tier {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx;
+  border-radius: 16rpx;
+  background: #F5F5F5;
+}
+.gb-bc-tier-left {
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+  flex: 1;
+  min-width: 0;
+}
+.gb-bc-tier-right {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  flex-shrink: 0;
+}
+.gb-bc-tier-level {
+  font-size: 24rpx;
+  font-weight: 600;
+  color: #000000;
+}
+.gb-bc-tier-freq {
+  font-size: 22rpx;
+  color: #999999;
+}
+.gb-bc-tier-price {
+  font-size: 26rpx;
+  color: #000000;
+  font-weight: 600;
+}
+.gb-bc-tier-tag {
+  font-size: 20rpx;
+  font-weight: 500;
+  color: #000000;
+  background: #F9E12A;
+  padding: 2rpx 10rpx;
+  border-radius: 6rpx;
+}
+
+/* 状态行 */
+.gb-bc-status-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12rpx 0;
+}
+.gb-bc-status-row + .gb-bc-status-row {
+  border-top: 1rpx solid #f3f3f3;
+}
+.gb-bc-status-label {
+  font-size: 24rpx;
+  font-weight: 400;
+  color: #999999;
+}
+.gb-bc-status-val {
+  font-size: 24rpx;
+  font-weight: 500;
+  color: #333333;
+}
+.gb-bc-detail-rows {
+  margin-bottom: 16rpx;
+}
+
+/* 规则说明 */
+.gb-bc-rules {
+  margin-top: 24rpx;
+  padding-top: 20rpx;
+  border-top: 1rpx solid #f3f3f3;
+}
+.gb-bc-rules-title {
+  display: block;
+  font-size: 24rpx;
+  font-weight: 500;
+  color: #333333;
+  margin-bottom: 12rpx;
+}
+.gb-bc-rules-text {
+  display: block;
+  font-size: 22rpx;
+  font-weight: 400;
+  color: #999999;
+  line-height: 36rpx;
+}
+
+/* ══ 开团弹窗：遮罩 + Sheet 平级结构（防 input tap 穿透）══ */
+
+/* 遮罩：全屏半透明，z-index 低于 sheet */
+.gc-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 900;
+}
+
+/* Sheet：底部弹出，z-index 高于遮罩，独立层不影响遮罩点击 */
+.gc-sheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 901;
+  background: #FFFFFF;
+  border-radius: 28rpx 28rpx 0 0;
+  padding: 32rpx 40rpx calc(48rpx + env(safe-area-inset-bottom));
+  box-sizing: border-box;
+  max-height: 85vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.gc-sheet-title {
+  display: block;
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #000000;
+  text-align: center;
+  margin-bottom: 8rpx;
+  width: 100%;
+}
+.gc-sheet-sub {
+  display: block;
+  font-size: 24rpx;
+  color: #999999;
+  text-align: center;
+  line-height: 36rpx;
+  margin-bottom: 28rpx;
+  width: 100%;
+}
+
+/* 表单字段组 */
+.gc-field-group {
+  width: 100%;
+  margin-bottom: 20rpx;
+}
+.gc-field-label-row {
+  display: flex;
+  align-items: center;
+  gap: 4rpx;
+  margin-bottom: 10rpx;
+}
+.gc-field-label-row--with-unit {
+  justify-content: space-between;
+}
+.gc-field-label {
+  font-size: 26rpx;
+  font-weight: 500;
+  color: #333333;
+}
+.gc-field-required {
+  font-size: 24rpx;
+  color: #000000;
+}
+/* 字段行内辅助提示，如"无单元请填 1" */
+.gc-field-hint {
+  margin-left: 10rpx;
+  font-size: 20rpx;
+  color: #999999;
+  font-weight: 400;
+}
+.gc-field-unit {
+  font-size: 24rpx;
+  color: #999999;
+}
+.gc-field-input {
+  width: 100%;
+  height: 88rpx;
+  background: #F2F2F7;
+  border-radius: 12rpx;
+  padding: 0 20rpx;
+  box-sizing: border-box;
+  font-size: 28rpx;
+  color: #333333;
+}
+
+/* ── 房屋类型横排按钮组 ── */
+.gc-house-type-row {
+  display: flex;
+  gap: 16rpx;
+  margin-top: 8rpx;
+}
+.gc-house-type-btn {
+  flex: 1;
+  height: 64rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12rpx;
+  background: #F5F5F5;
+  font-size: 24rpx;
+  font-weight: 400;
+  color: #333333;
+}
+.gc-house-type-btn--active {
+  background: #111111;
+  color: #FFFFFF;
+  font-weight: 500;
+}
+
+/* ── 结构化楼栋房号输入 ── */
+.gc-room-row {
+  display: flex;
+  gap: 20rpx;
+  margin-top: 8rpx;
+}
+.gc-room-col {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 6rpx;
+  min-width: 0;
+}
+.gc-room-input {
+  flex: 1;
+  height: 88rpx;
+  background: #F2F2F7;
+  border-radius: 12rpx;
+  padding: 0 20rpx;
+  box-sizing: border-box;
+  font-size: 28rpx;
+  font-weight: 400;
+  color: #333333;
+  min-width: 0;
+}
+.gc-room-suffix {
+  font-size: 24rpx;
+  font-weight: 400;
+  color: #999999;
+  flex-shrink: 0;
+}
+
+/* 提交按钮 */
+.gc-submit-btn {
+  width: 100%;
+  height: 96rpx;
+  background: #f9e12a;
+  border-radius: 16rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #000000;
+  margin-top: 8rpx;
+  margin-bottom: 12rpx;
+}
+.gc-submit-btn--disabled {
+  background: #E5E5EA;
+  color: rgba(17,17,17,0.35);
+}
+
+/* 取消 / 次要按钮 */
+.gc-cancel-btn {
+  width: 100%;
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  color: #999999;
+  margin-bottom: 4rpx;
+}
+
+/* QR 成功区 */
+.gc-qr-area {
+  width: 240rpx;
+  height: 240rpx;
+  background: #F2F2F7;
+  border-radius: 16rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 12rpx auto 24rpx;
+  overflow: hidden;
+}
+.gc-qr-img-wrap { width: 100%; height: 100%; }
+.gc-qr-image    { width: 100%; height: 100%; }
+.gc-qr-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12rpx;
+}
+.gc-qr-hint { font-size: 22rpx; color: #999999; }
+
+/* 成功标签 */
+.gc-success-tag {
+  background: rgba(249,225,42,0.12);
+  color: #F9E12A;
+  font-size: 24rpx;
+  font-weight: 500;
+  padding: 6rpx 20rpx;
+  border-radius: 20rpx;
+  margin-bottom: 12rpx;
+  align-self: center;
+}

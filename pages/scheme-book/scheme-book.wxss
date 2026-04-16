@@ -1,0 +1,493 @@
+/* scheme-book 页面样式
+   顶部导航栏所有 .global-* 类全部走 app.wxss 全局定义（高度 212rpx + safe-area），
+   此处不做任何本地覆盖，避免与全局样式冲突导致重叠。
+*/
+
+.scheme-page {
+  min-height: 100vh;
+  background: #f5f5f5;
+  box-sizing: border-box;
+}
+
+/* 滚动区：margin-top 与 order-detail 的 padding-top 保持一致 */
+.scheme-scroll {
+  margin-top: calc(212rpx + constant(safe-area-inset-top));
+  margin-top: calc(212rpx + env(safe-area-inset-top));
+  height: calc(100vh - 212rpx - constant(safe-area-inset-top));
+  height: calc(100vh - 212rpx - env(safe-area-inset-top));
+  padding: 10rpx 40rpx calc(280rpx + env(safe-area-inset-bottom));
+  background: #f5f5f5;
+  box-sizing: border-box;
+}
+
+/* 页面标题说明区（非卡片） */
+.scheme-page-header {
+  padding: 4rpx 0rpx 20rpx;
+}
+
+.scheme-step-chip {
+  display: inline-flex;
+  align-items: center;
+  height: 40rpx;
+  padding: 0 14rpx;
+  border-radius: 999rpx;
+  background: rgba(17, 17, 17, 0.06);
+  font-size: 20rpx;
+  font-weight: 500;
+  color: #999999;
+  letter-spacing: 0.3rpx;
+  margin-bottom: 14rpx;
+}
+
+.scheme-page-title {
+  display: block;
+  font-size: 40rpx;
+  font-weight: 600;
+  color: #000000;
+  line-height: 56rpx;
+  letter-spacing: -0.3rpx;
+}
+
+.scheme-page-desc {
+  display: block;
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  color: #999999;
+  line-height: 38rpx;
+}
+
+/* 卡片通用 */
+.scheme-card {
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 24rpx;
+  padding: 26rpx 28rpx;
+  margin-bottom: 48rpx;
+  border: 1rpx solid rgba(17, 17, 17, 0.06);
+  box-shadow: 0 8rpx 32rpx rgba(17, 17, 17, 0.04);
+  box-sizing: border-box;
+}
+
+.card-title {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #000000;
+  display: block;
+  margin-bottom: 22rpx;
+}
+
+/* 基础信息 */
+.info-card .info-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 12rpx;
+  font-size: 24rpx;
+  min-height: 40rpx;
+}
+
+.info-card .info-row:last-child {
+  margin-bottom: 0;
+}
+
+.info-label {
+  width: 84rpx;
+  font-size: 20rpx;
+  color: #a0a0a0;
+  margin-right: 12rpx;
+  flex-shrink: 0;
+  text-align: left;
+}
+
+.info-value {
+  flex: 1;
+  min-width: 0;
+  font-size: 24rpx;
+  font-weight: 400;
+  color: #333333;
+  text-align: left;
+}
+
+.info-row--split {
+  justify-content: space-between;
+  gap: 24rpx;
+}
+
+.info-cell {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.info-cell--end {
+  justify-content: flex-end;
+}
+
+/* 确认卡顶：标题 + 进度 */
+.confirm-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16rpx;
+  margin-bottom: 8rpx;
+}
+
+.confirm-card-head .section-title-row {
+  margin-bottom: 0;
+  flex: 1;
+  min-width: 0;
+}
+
+.confirm-progress {
+  flex-shrink: 0;
+  font-size: 24rpx;
+  font-weight: 500;
+  color: #333333;
+  letter-spacing: 0.5rpx;
+}
+
+/* 确认事项 */
+.confirm-item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 22rpx 0;
+  border-bottom: 1rpx solid #eaeaea;
+}
+
+.confirm-item:last-of-type {
+  border-bottom: none;
+}
+
+.confirm-item-extra {
+  width: 100%;
+  margin-top: 12rpx;
+}
+
+/* 安装项目友好提醒 */
+.install-hint {
+  width: 100%;
+  margin-top: 8rpx;
+  padding: 14rpx 16rpx 14rpx 18rpx;
+  background: #f5f5f5;
+  border-radius: 12rpx;
+  border-left: 3rpx solid #F9E12A;
+  box-sizing: border-box;
+}
+
+.install-hint-text {
+  font-size: 22rpx;
+  color: #999999;
+  line-height: 34rpx;
+  display: block;
+}
+
+.confirm-item-main {
+  flex: 1;
+  min-width: 0;
+  padding-right: 12rpx;
+}
+
+.confirm-label {
+  font-size: 24rpx;
+  font-weight: 500;
+  color: #333333;
+  display: block;
+  margin-bottom: 6rpx;
+}
+
+.confirm-detail-row {
+  display: flex;
+  align-items: center;
+  margin-top: 10rpx;
+  min-width: 0;
+}
+
+.confirm-detail-prefix {
+  margin-right: 8rpx;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.confirm-detail {
+  font-size: 22rpx;
+  color: #999999;
+  display: block;
+  line-height: 34rpx;
+}
+
+/* "请选择有或无" 占位提示：明显比已填内容更浅，让用户一眼知道该项未完成 */
+.confirm-detail-hint {
+  color: #c8c8c8 !important;
+  font-size: 21rpx;
+}
+
+.confirm-detail-input {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  padding: 0 0 6rpx;
+  border: none;
+  border-bottom: 1rpx solid #eaeaea;
+  background: transparent;
+  font-size: 22rpx;
+  color: #333333;
+  line-height: 32rpx;
+  box-sizing: border-box;
+}
+
+.confirm-detail-input--inline {
+  flex: 1;
+  width: auto;
+}
+
+.confirm-toggle {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  flex-shrink: 0;
+  margin-left: 20rpx;
+  gap: 24rpx;
+}
+
+.toggle-option {
+  min-width: 58rpx;
+  padding: 10rpx 18rpx;
+  font-size: 24rpx;
+  color: #999999;
+  background: #ffffff;
+  border: 1rpx solid #eaeaea;
+  border-radius: 14rpx;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.toggle-option.active {
+  background: #f9e12a;
+  color: #000000;
+  font-weight: 500;
+  border-color: #f9e12a;
+}
+
+/* ─── 标题行 accent 竖线 ─── */
+.section-title-row {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  margin-bottom: 22rpx;
+}
+
+.section-title-row .card-title {
+  margin-bottom: 0;
+}
+
+.section-title-accent {
+  width: 4rpx;
+  height: 26rpx;
+  border-radius: 2rpx;
+  background: #F9E12A;
+  flex-shrink: 0;
+}
+
+.section-title-row--compact {
+  margin-bottom: 0;
+}
+
+/* 特别说明确认 */
+.radio-group-inline {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  padding: 6rpx 14rpx;
+  border-radius: 999rpx;
+  border: 1.5rpx solid transparent;
+}
+
+.radio-active {
+  background: rgba(249, 225, 42, 0.15);
+  border-color: rgba(249, 225, 42, 0.6);
+}
+
+.radio-active-warn {
+  background: rgba(17, 17, 17, 0.04);
+  border-color: rgba(17, 17, 17, 0.14);
+}
+
+.radio-dot {
+  width: 26rpx;
+  height: 26rpx;
+  border-radius: 50%;
+  border: 2rpx solid #d9d9d9;
+  background: #ffffff;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.radio-dot-active {
+  background: #F9E12A;
+  border-color: #F9E12A;
+}
+
+.radio-dot-active-warn {
+  background: #111111;
+  border-color: #111111;
+}
+
+.radio-label {
+  font-size: 23rpx;
+  color: #999999;
+  line-height: 1.5;
+}
+
+.radio-active .radio-label {
+  color: #333333;
+  font-weight: 500;
+}
+
+.radio-active-warn .radio-label {
+  color: #333333;
+  font-weight: 500;
+}
+
+/* 分隔线 */
+.scheme-divider {
+  height: 1rpx;
+  background: #eaeaea;
+  margin: 24rpx 0;
+}
+
+/* 特别说明正文 */
+.special-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12rpx;
+  margin-bottom: 0;
+}
+
+.special-list {
+  background: #f5f5f5;
+  border-radius: 14rpx;
+  border-left: 3rpx solid #F9E12A;
+  padding: 16rpx 18rpx 16rpx 20rpx;
+  margin-top: 16rpx;
+}
+
+.special-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10rpx;
+  margin-bottom: 14rpx;
+}
+
+.special-item:last-child {
+  margin-bottom: 0;
+}
+
+.special-item-dot {
+  width: 6rpx;
+  height: 6rpx;
+  border-radius: 50%;
+  background: #F9E12A;
+  flex-shrink: 0;
+  margin-top: 12rpx;
+}
+
+.special-text {
+  flex: 1;
+  font-size: 24rpx;
+  color: #333333;
+  line-height: 38rpx;
+}
+
+/* 您的要求-我们的重点 */
+.extra-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 14rpx;
+  font-size: 22rpx;
+  color: #333333;
+  line-height: 1.65;
+}
+
+.extra-item:last-child {
+  margin-bottom: 0;
+}
+
+.extra-bullet {
+  flex-shrink: 0;
+  margin-right: 10rpx;
+  color: #999999;
+}
+
+.extra-text {
+  flex: 1;
+}
+
+/* 提交前引导提示（所有项选完前显示） */
+.scheme-submit-hint {
+  text-align: center;
+  margin-bottom: 8rpx;
+}
+.scheme-submit-hint-text {
+  font-size: 22rpx;
+  color: #c4c4c4;
+  line-height: 34rpx;
+  letter-spacing: 0.2rpx;
+}
+
+/* 底部固定操作区 */
+.scheme-footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 16rpx 28rpx;
+  padding-bottom: calc(20rpx + constant(safe-area-inset-bottom));
+  padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
+  background: rgba(255, 255, 255, 0.94);
+  border-top: 1rpx solid rgba(17, 17, 17, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+  box-sizing: border-box;
+  z-index: 100;
+}
+
+.scheme-footer .btn {
+  height: 92rpx;
+  border-radius: 24rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30rpx;
+  font-weight: 500;
+  letter-spacing: 0.3rpx;
+  box-sizing: border-box;
+}
+
+.btn-primary {
+  background: #F9E12A;
+  color: #000000;
+}
+
+.btn-secondary {
+  background: #ffffff;
+  color: #333333;
+  border: 1rpx solid #e8e8e8;
+}
+
+.btn-disabled {
+  background: #f5f5f5;
+  color: #c4c4c4;
+  border: none;
+  pointer-events: none;
+}

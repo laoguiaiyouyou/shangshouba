@@ -1,0 +1,25 @@
+{
+  "envId": "cloud1-8ge14816fe785add",
+  "functionRoot": "cloudfunctions",
+  "functions": [
+    { "name": "getOpenId",               "runtime": "Nodejs10.15", "handler": "index.main", "installDependency": true },
+    { "name": "unifiedOrder",            "runtime": "Nodejs10.15", "handler": "index.main", "installDependency": true },
+    { "name": "paymentCallback",         "runtime": "Nodejs10.15", "handler": "index.main", "installDependency": true },
+    { "name": "applyRefund",             "runtime": "Nodejs10.15", "handler": "index.main", "installDependency": true },
+    { "name": "saveDocFlow",             "runtime": "Nodejs10.15", "handler": "index.main", "installDependency": true },
+    { "name": "listMyOrders",            "runtime": "Nodejs10.15", "handler": "index.main", "installDependency": true },
+    { "name": "getOrderDetail",          "runtime": "Nodejs10.15", "handler": "index.main", "installDependency": true },
+    { "name": "saveOrderSchedule",       "runtime": "Nodejs10.15", "handler": "index.main", "installDependency": true },
+    { "name": "createOrderAfterPayment", "runtime": "Nodejs10.15", "handler": "index.main", "installDependency": true },
+    { "name": "ensureInviteProfile",     "runtime": "Nodejs10.15", "handler": "index.main", "installDependency": true },
+    { "name": "resolveInviteToken",      "runtime": "Nodejs10.15", "handler": "index.main", "installDependency": true },
+    { "name": "manageGroup",            "runtime": "Nodejs10.15", "handler": "index.main", "installDependency": true },
+    { "name": "getWalletBalance",       "runtime": "Nodejs10.15", "handler": "index.main", "installDependency": true },
+    { "name": "requestWithdrawal",      "runtime": "Nodejs10.15", "handler": "index.main", "installDependency": true },
+    { "name": "saveInviteRelation",     "runtime": "Nodejs10.15", "handler": "index.main", "installDependency": true },
+    { "name": "generateInviteQR",       "runtime": "Nodejs10.15", "handler": "index.main", "installDependency": true },
+    { "name": "createGroup",            "runtime": "Nodejs16.13", "handler": "index.main", "installDependency": true },
+    { "name": "generateGroupQR",        "runtime": "Nodejs16.13", "handler": "index.main", "installDependency": true },
+    { "name": "getReferralStats",       "runtime": "Nodejs16.13", "handler": "index.main", "installDependency": true }
+  ]
+}

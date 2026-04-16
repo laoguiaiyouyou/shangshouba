@@ -1,0 +1,177 @@
+/* ================================================================
+   group-invite.wxss
+   颜色系统：黄 #f9e12a · 黑 #111111 · Apple 灰阶 · 白 #ffffff
+   扁平化，无 liquid glass，无蓝色，无橙色，无绿色，无红色
+   ================================================================ */
+
+.gi-page {
+  min-height: 100vh;
+  background: #F2F2F7;
+  padding-top: calc(212rpx + env(safe-area-inset-top) + 16rpx);
+  padding-bottom: 60rpx;
+  box-sizing: border-box;
+}
+
+/* loading */
+.gi-loading {
+  padding: 80rpx;
+  text-align: center;
+  color: #999999;
+  font-size: 28rpx;
+}
+
+/* ── 通用卡片 ── */
+.gi-card {
+  background: #FFFFFF;
+  border-radius: 24rpx;
+  margin: 0 40rpx 56rpx;
+  padding: 28rpx;
+  box-sizing: border-box;
+}
+.gi-card-title {
+  display: block;
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #333333;
+  margin-bottom: 20rpx;
+}
+.gi-card-sub {
+  display: block;
+  font-size: 26rpx;
+  color: #999999;
+  margin-bottom: 24rpx;
+  line-height: 40rpx;
+}
+
+/* ── 规则卡（白底，黄色强调） ── */
+.gi-rule-card {
+  background: #FFFFFF;
+  border: 2rpx solid #f9e12a;
+}
+.gi-rule-title {
+  display: block;
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #333333;
+  margin-bottom: 20rpx;
+}
+.gi-rule-rows { display: flex; flex-direction: column; gap: 10rpx; }
+.gi-rule-row  { display: flex; align-items: flex-start; gap: 10rpx; }
+.gi-rule-dot  {
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 50%;
+  background: #f9e12a;
+  flex-shrink: 0;
+  margin-top: 13rpx;
+}
+.gi-rule-text { font-size: 26rpx; color: #333333; line-height: 40rpx; }
+
+/* ── 团状态卡 ── */
+.gi-status-label {
+  display: block;
+  font-size: 26rpx;
+  color: #999999;
+  margin-bottom: 20rpx;
+}
+.gi-member-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12rpx;
+}
+.gi-member-dot {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.gi-member-dot.filled { background: #111111; }
+.gi-member-dot.empty  { background: #E5E5EA; }
+.gi-member-dot-text   { font-size: 22rpx; color: #FFFFFF; font-weight: 500; }
+.gi-member-line {
+  flex: 1;
+  height: 3rpx;
+  background: #E5E5EA;
+}
+.gi-member-line.filled { background: #111111; }
+.gi-member-count {
+  display: block;
+  font-size: 26rpx;
+  color: #999999;
+  margin-bottom: 20rpx;
+}
+
+/* 倒计时行 */
+.gi-countdown-row {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  padding: 14rpx 18rpx;
+  background: #F2F2F7;
+  border-radius: 12rpx;
+}
+.gi-countdown-label { font-size: 26rpx; color: #999999; }
+.gi-countdown-value { font-size: 32rpx; font-weight: 600; color: #333333; flex: 1; }
+.gi-countdown-refresh { font-size: 24rpx; color: #999999; text-decoration: underline; }
+
+/* 成团/过期状态 */
+.gi-formed-row {
+  padding: 16rpx 20rpx;
+  background: #fffdf0;
+  border: 1rpx solid #f9e12a;
+  border-radius: 12rpx;
+}
+.gi-formed-text { font-size: 28rpx; color: #333333; font-weight: 500; }
+.gi-expired-row { padding: 16rpx 20rpx; background: #F2F2F7; border-radius: 12rpx; }
+.gi-expired-text { font-size: 26rpx; color: #999999; }
+
+/* ── 无订单卡 ── */
+.gi-no-order-card { text-align: center; }
+.gi-no-order-text { display: block; font-size: 30rpx; font-weight: 500; color: #333333; margin-bottom: 20rpx; }
+.gi-no-order-sub  { display: block; font-size: 24rpx; color: #999999; margin-bottom: 30rpx; }
+
+/* ── 收益卡 ── */
+.gi-reward-top { display: flex; align-items: flex-start; gap: 16rpx; margin-bottom: 20rpx; }
+.gi-reward-icon { font-size: 44rpx; line-height: 1.2; flex-shrink: 0; }
+.gi-reward-texts { flex: 1; }
+.gi-reward-title { display: block; font-size: 30rpx; font-weight: 500; color: #333333; }
+.gi-reward-sub   { display: block; font-size: 24rpx; color: #999999; margin-top: 4rpx; }
+.gi-reward-rule  {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+  padding-top: 16rpx;
+  border-top: 1rpx solid #E5E5EA;
+}
+.gi-reward-rule-item { font-size: 25rpx; color: #999999; line-height: 38rpx; }
+
+/* ── 邀请链接框 ── */
+.gi-invite-box {
+  background: #F2F2F7;
+  border-radius: 12rpx;
+  padding: 16rpx 20rpx;
+  margin-bottom: 20rpx;
+  word-break: break-all;
+}
+.gi-invite-text { font-size: 24rpx; color: #999999; line-height: 36rpx; }
+
+/* ── 按钮 ── */
+.gi-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 84rpx;
+  border-radius: 16rpx;
+  font-size: 30rpx;
+  font-weight: 500;
+  margin-bottom: 16rpx;
+}
+.gi-btn-primary { background: #111111; color: #FFFFFF; }
+.gi-btn-primary.disabled { background: #C6C6C8; }
+.gi-btn-secondary {
+  background: #F2F2F7;
+  color: #333333;
+}

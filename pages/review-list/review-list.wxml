@@ -1,0 +1,12 @@
+<view class="review-list-page">
+  <view class="review-list-inner">
+    <view class="review-card-item" wx:for="{{reviews}}" wx:key="id">
+      <view class="review-header">
+        <text class="review-username">{{item.userName}}</text>
+        <text class="review-tag">{{item.tag}}</text>
+      </view>
+      <text class="review-stars">{{item.stars}}</text>
+      <text class="review-content">{{item.content}}</text>
+    </view>
+  </view>
+</view>

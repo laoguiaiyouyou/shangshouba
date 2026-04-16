@@ -1,0 +1,100 @@
+<view class="fb-page {{showActionButtons ? 'fb-page--has-cta' : ''}}">
+
+  <!-- 顶部自定义导航 -->
+  <view class="global-top-bar">
+    <view class="global-top-back" bindtap="goBack">
+      <text class="global-top-back-icon">‹</text>
+    </view>
+    <view class="global-brand-wrap">
+      <view class="global-brand-dot"></view>
+      <text class="global-brand-title">安心住·上手吧</text>
+    </view>
+    <view class="global-top-capsule"></view>
+  </view>
+
+  <scroll-view class="fb-scroll {{showActionButtons ? 'fb-scroll--has-cta' : ''}}" scroll-y="true">
+
+    <view class="fb-hero">
+      <view class="fb-hero-inner">
+        <view class="fb-step-chip" wx:if="{{docMode === 'confirm_book'}}">确认 · 第 2 步</view>
+        <text class="fb-hero-title">最终确认</text>
+        <text class="fb-hero-desc" wx:if="{{docMode === 'confirm_book'}}">请确认以下内容后完成最后一步</text>
+        <text class="fb-hero-desc" wx:else>{{heroDesc}}</text>
+        <view class="fb-hero-status {{pageReadonly && !hasPdf ? 'fb-hero-status--draft' : ''}}" wx:if="{{heroStatusChip}}">{{heroStatusChip}}</view>
+      </view>
+    </view>
+
+    <view class="fb-content">
+
+      <!-- 1 订单摘要 -->
+      <view class="fb-card fb-card--summary">
+        <text class="fb-card-title">订单摘要</text>
+        <view class="fb-card-row fb-summary-row1">
+          <text class="fb-summary-name">{{info.customerName}}</text>
+          <view class="fb-dot-sep"></view>
+          <text class="fb-summary-service">{{info.serviceType}}</text>
+        </view>
+        <view class="fb-card-row fb-summary-row2">
+          <text class="fb-summary-addr">{{info.community}}{{info.building}}</text>
+          <view class="fb-dot-sep"></view>
+          <text class="fb-summary-area">{{info.area}}</text>
+          <view class="fb-dot-sep"></view>
+          <text class="fb-summary-price">{{info.price}}</text>
+        </view>
+        <view class="fb-card-row fb-summary-row3">
+          <text class="fb-summary-date">{{info.serviceDate}}</text>
+        </view>
+      </view>
+
+      <!-- 查看态底稿提示：不占独立「第5卡」，紧接订单摘要一行 -->
+      <view class="fb-hero-hint" wx:if="{{pageReadonly && !hasPdf}}">
+        <text class="fb-hero-hint-text">当前为已确认底稿，正式盖章版生成后将支持 PDF 查看</text>
+      </view>
+
+      <!-- 2 现场确认摘要 -->
+      <view class="fb-card">
+        <text class="fb-card-title">现场确认摘要</text>
+        <view class="fb-site-item" wx:for="{{siteItems}}" wx:key="index">
+          <text class="fb-site-label">{{item.label}}</text>
+          <text class="fb-site-value">{{item.value}}</text>
+        </view>
+        <view class="fb-custom-block" wx:if="{{showCustomNeeds}}">
+          <text class="fb-subsection-title">重点要求</text>
+          <view class="fb-custom-item" wx:for="{{customNeeds}}" wx:key="index">
+            <text class="fb-custom-prefix">{{item.prefix}}</text>
+            <text class="fb-custom-text">{{item.text}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 3 服务承诺 -->
+      <view class="fb-card">
+        <text class="fb-card-title">服务承诺</text>
+        <view class="fb-promise-tags">
+          <view class="fb-promise-pill" wx:for="{{promises}}" wx:key="index">
+            <text class="fb-promise-pill-tag">{{item.tag}}</text>
+            <text class="fb-promise-pill-text">{{item.text}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 4 关键条款摘要 -->
+      <view class="fb-card">
+        <text class="fb-card-title">关键条款摘要</text>
+        <view class="fb-key-item" wx:for="{{keyTermsBrief}}" wx:key="index">
+          <text class="fb-key-num">{{index + 1}}.</text>
+          <text class="fb-key-text">{{item}}</text>
+        </view>
+      </view>
+
+      <view class="fb-bottom-safe"></view>
+    </view>
+  </scroll-view>
+
+  <!-- 固定底栏：confirm_book 专用 -->
+  <view class="fb-footer-bar" wx:if="{{showActionButtons}}">
+    <view class="fb-footer-btn fb-footer-btn-primary" bindtap="onConfirmBook">{{primaryActionText}}</view>
+    <view class="fb-footer-btn fb-footer-btn-secondary" bindtap="onNeedTalk">{{secondaryActionText}}</view>
+  </view>
+
+</view>

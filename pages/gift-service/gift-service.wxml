@@ -1,0 +1,172 @@
+<view class="gift-page">
+  <view class="gift-shell">
+    <view class="gift-overview">
+      <view class="gift-stat">
+        <text class="gift-stat-num">{{countPendingClaim}}</text>
+        <text class="gift-stat-label">待领取</text>
+      </view>
+      <view class="gift-stat">
+        <text class="gift-stat-num">{{countPendingBook}}</text>
+        <text class="gift-stat-label">待预约</text>
+      </view>
+      <view class="gift-stat">
+        <text class="gift-stat-num">{{countBooked}}</text>
+        <text class="gift-stat-label">已预约</text>
+      </view>
+      <view class="gift-stat">
+        <text class="gift-stat-num">{{countUsed}}</text>
+        <text class="gift-stat-label">已使用</text>
+      </view>
+    </view>
+
+    <view class="gift-rules-entry" bindtap="openRules">
+      <text class="gift-rules-entry-text">查看使用规则</text>
+    </view>
+
+    <view class="gift-empty" wx:if="{{cards.length === 0}}">
+      <text class="gift-empty-title">暂无赠送服务</text>
+      <text class="gift-empty-desc">参与社群活动抽中后，可通过领取链接添加权益</text>
+      <view class="gift-empty-btn" bindtap="goWelfareCenter">
+        <text class="gift-empty-btn-text">返回福利中心</text>
+      </view>
+    </view>
+
+    <view class="gift-list" wx:else>
+      <view
+        class="gift-card {{item.showExpiredStyle ? 'gift-card--expired' : ''}}"
+        wx:for="{{cards}}"
+        wx:key="id"
+        data-id="{{item.id}}"
+        bindtap="onCardTapSelectForRules">
+        <text class="gift-card-name">{{item.serviceName}}</text>
+        <text class="gift-card-source">{{item.sourceText}}</text>
+        <text class="gift-card-expire" wx:if="{{item.expireLine}}">{{item.expireLine}}</text>
+        <view class="gift-card-row">
+          <text class="gift-card-status">{{item.statusText}}</text>
+        </view>
+        <text class="gift-card-booked-line" wx:if="{{item.bookedResultLine}}">{{item.bookedResultLine}}</text>
+        <view
+          class="gift-card-btn {{item.btnDisabled ? 'gift-card-btn--disabled' : ''}}"
+          data-id="{{item.id}}"
+          data-status="{{item.status}}"
+          catchtap="onCardAction">
+          <text class="gift-card-btn-text">{{item.btnText}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 领取：内容随当前卡动态 -->
+  <view class="gift-modal-root" wx:if="{{showClaimModal}}">
+    <view class="gift-modal-mask" bindtap="onClaimLater"></view>
+    <view class="gift-modal-box" catchtap="">
+      <text class="gift-modal-title">领取赠送服务</text>
+      <block wx:if="{{claimModalCard}}">
+        <text class="gift-modal-subtitle">当前赠送服务：{{claimModalCard.serviceName}}</text>
+        <text class="gift-modal-expire" wx:if="{{claimModalCard.expireLine}}">{{claimModalCard.expireLine}}</text>
+        <text class="gift-modal-ruletext">{{claimModalCard.ruleText}}</text>
+        <text class="gift-modal-line gift-modal-line--fix">· 服务完成后自动核销</text>
+      </block>
+      <view class="gift-modal-actions">
+        <view class="gift-modal-btn gift-modal-btn--primary" bindtap="confirmClaim">
+          <text class="gift-modal-btn-text">确认领取</text>
+        </view>
+        <view class="gift-modal-btn gift-modal-btn--ghost" bindtap="onClaimLater">
+          <text class="gift-modal-btn-text ghost">稍后再说</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 使用规则：当前点击卡 → 最近操作卡；不默认第一张 -->
+  <view class="gift-modal-root" wx:if="{{showRulesModal}}">
+    <view class="gift-modal-mask" bindtap="closeRules"></view>
+    <view class="gift-modal-box gift-modal-box--compact" catchtap="">
+      <text class="gift-modal-title">使用规则</text>
+      <block wx:if="{{rulesModalEmpty}}">
+        <text class="gift-modal-line">请先轻点列表中一张权益卡，再查看对应规则；或先进行领取/预约操作。</text>
+      </block>
+      <block wx:else>
+        <text class="gift-modal-subtitle">{{rulesModalCard.serviceName}}</text>
+        <text class="gift-modal-expire" wx:if="{{rulesModalCard.expireLine}}">{{rulesModalCard.expireLine}}</text>
+        <text class="gift-modal-ruletext">{{rulesModalCard.ruleText}}</text>
+        <text class="gift-modal-line gift-modal-line--fix">· 服务完成后自动核销</text>
+      </block>
+      <view class="gift-modal-actions">
+        <view class="gift-modal-btn gift-modal-btn--primary" bindtap="closeRules">
+          <text class="gift-modal-btn-text">知道了</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 预约：同页底部面板 -->
+  <view class="gift-sheet-root" wx:if="{{showBookPanel}}">
+    <view class="gift-sheet-mask" bindtap="closeBookPanel"></view>
+    <view class="gift-sheet-panel" catchtap="">
+      <view class="gift-sheet-handle"></view>
+      <text class="gift-sheet-title">预约服务</text>
+      <text class="gift-sheet-hint">{{bookPanelHint}}</text>
+
+      <block wx:if="{{bookingType === 'contact_service'}}">
+        <text class="gift-contact-desc">本权益需联系客服预约，请在微信中按活动指引与客服确认时间。</text>
+        <view class="gift-sheet-actions">
+          <view class="gift-modal-btn gift-modal-btn--primary" bindtap="confirmBook">
+            <text class="gift-modal-btn-text">我知道了</text>
+          </view>
+        </view>
+      </block>
+
+      <block wx:else>
+        <picker mode="date" value="{{bookDate}}" start="{{minBookDate}}" bindchange="onBookDateChange">
+          <view class="gift-picker-row">
+            <text class="gift-picker-label">日期</text>
+            <text class="gift-picker-value">{{bookDate}}</text>
+          </view>
+        </picker>
+        <text class="gift-slot-label">时段</text>
+        <view class="gift-slot-row">
+          <view
+            class="gift-slot-chip {{bookSlot === 'morning' ? 'gift-slot-chip--on' : ''}}"
+            data-slot="morning"
+            bindtap="onBookSlotTap">
+            <text class="gift-slot-chip-text">上午</text>
+          </view>
+          <view
+            class="gift-slot-chip {{bookSlot === 'afternoon' ? 'gift-slot-chip--on' : ''}}"
+            data-slot="afternoon"
+            bindtap="onBookSlotTap">
+            <text class="gift-slot-chip-text">下午</text>
+          </view>
+        </view>
+        <view class="gift-sheet-actions">
+          <view class="gift-modal-btn gift-modal-btn--primary" bindtap="confirmBook">
+            <text class="gift-modal-btn-text">确认预约</text>
+          </view>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <view class="gift-modal-root" wx:if="{{showViewBookModal}}">
+    <view class="gift-modal-mask" bindtap="closeViewBookModal"></view>
+    <view class="gift-modal-box gift-modal-box--compact" catchtap="">
+      <text class="gift-modal-title">预约信息</text>
+      <view class="gift-view-block" wx:if="{{viewBookCard}}">
+        <text class="gift-view-line">服务：{{viewBookCard.serviceName}}</text>
+        <block wx:if="{{viewBookCard.showContactPending}}">
+          <text class="gift-view-line">状态：待联系确认</text>
+        </block>
+        <block wx:else>
+          <text class="gift-view-line">日期：{{viewBookCard.bookedDate}}</text>
+          <text class="gift-view-line">时段：{{viewBookCard.slotLabel}}</text>
+        </block>
+      </view>
+      <view class="gift-modal-actions">
+        <view class="gift-modal-btn gift-modal-btn--primary" bindtap="closeViewBookModal">
+          <text class="gift-modal-btn-text">关闭</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

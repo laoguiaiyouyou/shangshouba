@@ -1,0 +1,60 @@
+.drt-page {
+  min-height: 100vh;
+  background: #F2F2F7;
+  padding: 40rpx 32rpx;
+  box-sizing: border-box;
+}
+.drt-title {
+  font-size: 40rpx;
+  font-weight: 900;
+  color: #111111;
+  margin-bottom: 8rpx;
+}
+.drt-hint {
+  display: block;
+  font-size: 24rpx;
+  color: #8E8E93;
+  margin-bottom: 32rpx;
+}
+.drt-card {
+  padding: 28rpx 24rpx;
+  border-radius: 20rpx;
+  margin-bottom: 20rpx;
+  background: #ffffff;
+  border-left: 8rpx solid #8E8E93;
+}
+.drt-card--ok {
+  border-left-color: #F9E12A;
+}
+.drt-card--no {
+  border-left-color: #000000;
+}
+.drt-card--ing {
+  border-left-color: #F9E12A;
+}
+.drt-card--done {
+  border-left-color: #CCCCCC;
+}
+.drt-card-label {
+  display: block;
+  font-size: 30rpx;
+  font-weight: 800;
+  color: #111111;
+  margin-bottom: 10rpx;
+}
+.drt-card-desc {
+  display: block;
+  font-size: 24rpx;
+  color: #636366;
+  line-height: 38rpx;
+}
+.drt-clean {
+  margin-top: 40rpx;
+  padding: 20rpx;
+  text-align: center;
+}
+.drt-clean-text {
+  font-size: 26rpx;
+  color: #000000;
+  text-decoration: underline;
+}

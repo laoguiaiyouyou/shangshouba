@@ -1,0 +1,117 @@
+<view class="cl-page">
+  <view class="cl-shell">
+
+    <!-- 概览：四态互斥计数 -->
+    <view class="cl-overview">
+      <view class="cl-stat">
+        <text class="cl-stat-num">{{countAvailable}}</text>
+        <text class="cl-stat-label">可用</text>
+      </view>
+      <view class="cl-stat">
+        <text class="cl-stat-num cl-stat-num--warn">{{countExpiringSoon}}</text>
+        <text class="cl-stat-label">即将过期</text>
+      </view>
+      <view class="cl-stat">
+        <text class="cl-stat-num cl-stat-num--muted">{{countUsed}}</text>
+        <text class="cl-stat-label">已使用</text>
+      </view>
+      <view class="cl-stat">
+        <text class="cl-stat-num cl-stat-num--muted">{{countExpired}}</text>
+        <text class="cl-stat-label">已失效</text>
+      </view>
+    </view>
+
+    <!-- 空状态 -->
+    <view class="cl-empty" wx:if="{{isEmpty}}">
+      <text class="cl-empty-title">暂无优惠券</text>
+      <text class="cl-empty-desc">参与活动或完成转介绍可获得优惠券权益</text>
+      <view class="cl-empty-btn" bindtap="goBack">
+        <text class="cl-empty-btn-text">返回福利中心</text>
+      </view>
+    </view>
+
+    <!-- 券列表 -->
+    <view class="cl-list" wx:else>
+      <view
+        wx:for="{{coupons}}"
+        wx:key="couponId"
+        id="cid-{{item.couponId}}"
+        class="cl-card {{item.btnDisabled ? 'cl-card--dim' : ''}} {{highlightCouponId === item.couponId ? 'cl-card--highlight' : ''}}">
+
+        <!-- 左侧：金额/力度 -->
+        <view class="cl-card-left">
+          <text class="cl-benefit">{{item.benefitText}}</text>
+          <text class="cl-threshold" wx:if="{{item.thresholdText}}">{{item.thresholdText}}</text>
+          <text class="cl-threshold" wx:else>无门槛</text>
+        </view>
+
+        <!-- 右侧：信息 + 按钮 -->
+        <view class="cl-card-right">
+          <view class="cl-card-header">
+            <text class="cl-card-title">{{item.couponTitle}}</text>
+            <view class="cl-status-tag cl-status-tag--warn" wx:if="{{item.isExpiringSoon}}">
+              <text class="cl-status-tag-text">即将过期</text>
+            </view>
+          <view class="cl-status-tag cl-status-tag--muted" wx:elif="{{item.status === 'locked'}}">
+            <text class="cl-status-tag-text">已提交预约</text>
+          </view>
+            <view class="cl-status-tag cl-status-tag--muted" wx:elif="{{item.btnDisabled}}">
+              <text class="cl-status-tag-text">{{item.statusText}}</text>
+            </view>
+          </view>
+          <text class="cl-scope">{{item.scopeText}}</text>
+          <text class="cl-source">{{item.sourceText}}</text>
+          <text class="cl-expire">{{item.expireLine}}</text>
+          <view
+            class="cl-btn {{item.btnDisabled ? 'cl-btn--disabled' : ''}}"
+            data-id="{{item.couponId}}"
+            data-status="{{item.status}}"
+            bindtap="onCouponAction">
+            <text class="cl-btn-text">{{item.btnText}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 去使用：底部轻弹层 -->
+  <view class="cl-modal-root" wx:if="{{showUseModal}}">
+    <view class="cl-modal-mask" bindtap="closeUseModal"></view>
+    <view class="cl-modal-box" catchtap="">
+      <text class="cl-modal-title">{{useModalCoupon.couponTitle}}</text>
+      <text class="cl-modal-benefit">{{useModalCoupon.benefitText}}</text>
+      <view class="cl-modal-info">
+        <text class="cl-modal-info-line">{{useModalCoupon.scopeText}}</text>
+        <text class="cl-modal-info-line">{{useModalCoupon.expireLine}}</text>
+      </view>
+      <view class="cl-modal-actions">
+        <view class="cl-modal-btn cl-modal-btn--primary" bindtap="goConsult">
+          <text class="cl-modal-btn-text">去了解/联系客服</text>
+        </view>
+        <view class="cl-modal-btn cl-modal-btn--ghost" bindtap="closeUseModal">
+          <text class="cl-modal-btn-text cl-ghost-text">关闭</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 下单预约确认层 -->
+  <view class="cl-modal-root" wx:if="{{showSubmitModal}}">
+    <view class="cl-modal-mask" bindtap="closeSubmitModal"></view>
+    <view class="cl-modal-box" catchtap="">
+      <text class="cl-modal-title">确认使用优惠券预约</text>
+      <view class="cl-modal-info">
+        <text class="cl-modal-info-line">您正在使用：{{submitCoupon.couponTitle}}</text>
+        <text class="cl-modal-info-line">提交后，30分钟内会有工作人员与您联系确认时间</text>
+      </view>
+      <view class="cl-modal-actions">
+        <view class="cl-modal-btn cl-modal-btn--primary" bindtap="confirmSubmitBooking">
+          <text class="cl-modal-btn-text">确认下单预约</text>
+        </view>
+        <view class="cl-modal-btn cl-modal-btn--ghost" bindtap="closeSubmitModal">
+          <text class="cl-modal-btn-text cl-ghost-text">取消</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

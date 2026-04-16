@@ -1,0 +1,27 @@
+<view class="upgrade-page">
+
+  <view class="global-top-bar">
+    <view class="global-top-back" bindtap="goBack">
+      <text class="global-top-back-icon">‹</text>
+    </view>
+    <view class="global-brand-wrap">
+      <view class="global-brand-dot"></view>
+      <text class="global-brand-title">安心住·上手吧</text>
+    </view>
+    <view class="global-top-capsule"></view>
+  </view>
+
+  <view class="upgrade-body">
+    <view class="upgrade-card">
+      <text class="upgrade-title">升级服务</text>
+      <text class="upgrade-desc" wx:if="{{nodeName}}">您正在了解「{{nodeName}}」的升级与激活方式。</text>
+      <text class="upgrade-desc" wx:else>从深度开荒升级至守护计划，可解锁藏灰处理、入住除尘、搬家清洁等完整服务节点，享受全流程保障。</text>
+      <text class="upgrade-note">如需了解升级方案，请联系客服，我们将在 30 分钟内为您说明。</text>
+    </view>
+
+    <view class="upgrade-btn" bindtap="contactService">
+      <text class="upgrade-btn-text">联系客服</text>
+    </view>
+  </view>
+
+</view>

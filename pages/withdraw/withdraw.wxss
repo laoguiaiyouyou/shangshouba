@@ -1,0 +1,440 @@
+
+.withdraw-page {
+  min-height: 100vh;
+  background: #F5F5F5;
+  padding-top: calc(212rpx + env(safe-area-inset-top) + 20rpx);
+  padding-bottom: 60rpx;
+  box-sizing: border-box;
+}
+
+.withdraw-section {
+  padding: 0 40rpx 24rpx;
+}
+
+.withdraw-card {
+  background: #ffffff;
+  border-radius: 24rpx;
+  margin-bottom: 48rpx;
+  padding: 28rpx 28rpx;
+  box-sizing: border-box;
+}
+
+.withdraw-balance-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28rpx 32rpx;
+}
+
+.withdraw-balance-left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.balance-value {
+  font-size: 44rpx;
+  font-weight: 600;
+  color: #000000;
+  line-height: 56rpx;
+  letter-spacing: 2rpx;
+}
+
+.balance-label {
+  font-size: 22rpx;
+  color: #999999;
+  line-height: 34rpx;
+  margin-top: 8rpx;
+}
+
+.withdraw-action-box {
+  width: 144rpx;
+  height: 84rpx;
+  border-radius: 20rpx;
+  background: #F9E12A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-left: 20rpx;
+}
+
+.withdraw-action-text {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #000000;
+}
+
+.stats-card {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 28rpx;
+}
+
+.stats-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rpx;
+}
+
+.stats-value {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #333333;
+  line-height: 36rpx;
+}
+
+.stats-label {
+  font-size: 20rpx;
+  color: #999999;
+  line-height: 30rpx;
+}
+
+.stats-divider {
+  width: 2rpx;
+  height: 40rpx;
+  background: #eeeeee;
+  flex-shrink: 0;
+}
+
+.withdraw-record-card {
+  background: #ffffff;
+  border-radius: 24rpx;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.withdraw-record-scroll {
+  height: 220rpx;
+}
+
+.withdraw-record-row {
+  display: flex;
+  align-items: center;
+  padding: 16rpx 28rpx;
+  margin-bottom: 2rpx;
+  box-sizing: border-box;
+  min-height: 72rpx;
+}
+
+.withdraw-record-row:last-child {
+  border-bottom: none;
+}
+
+.withdraw-col-type {
+  width: 28%;
+  font-size: 24rpx;
+  color: #333333;
+  line-height: 36rpx;
+}
+
+.withdraw-col-date {
+  width: 24%;
+  font-size: 22rpx;
+  color: #999999;
+  line-height: 34rpx;
+  text-align: center;
+}
+
+.withdraw-col-amount {
+  width: 24%;
+  font-size: 24rpx;
+  color: #333333;
+  line-height: 36rpx;
+  text-align: center;
+}
+
+.withdraw-col-status {
+  width: 24%;
+  font-size: 22rpx;
+  line-height: 34rpx;
+  text-align: right;
+}
+
+.status-arrived {
+  color: #999999;
+  background: transparent;
+  border: none;
+  padding: 0;
+  border-radius: 0;
+}
+
+.status-other {
+  color: #999999;
+  background: transparent;
+  border: none;
+  padding: 0;
+  border-radius: 0;
+}
+
+.withdraw-status-check {
+  display: none;
+}
+
+.status-processing-text {
+  color: #F9E12A;
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+.refund-name {
+  width: 28%;
+  font-size: 24rpx;
+  color: #333333;
+  line-height: 32rpx;
+}
+
+.refund-date {
+  width: 24%;
+  font-size: 22rpx;
+  color: #999999;
+  line-height: 34rpx;
+  text-align: center;
+}
+
+.refund-section {
+  padding: 0 40rpx 24rpx;
+  margin-top: 56rpx;
+}
+
+.refund-divider {
+  height: 1px;
+  background: #EAEAEA;
+  margin: 8rpx 0 32rpx;
+}
+
+.refund-section-title {
+  display: block;
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #000000;
+  margin-bottom: 24rpx;
+}
+
+.refund-section-title-center {
+  text-align: center;
+}
+
+.refund-record-card {
+  background: #FFFFFF;
+  border-radius: 24rpx;
+  padding: 28rpx 28rpx;
+  box-sizing: border-box;
+}
+
+.refund-record-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 72rpx;
+  margin-bottom: 2rpx;
+}
+
+.refund-record-row:last-child {
+  border-bottom: none;
+}
+
+.refund-col {
+  font-size: 24rpx;
+  color: #333333;
+  line-height: 36rpx;
+}
+
+.refund-col-name {
+  width: 28%;
+  text-align: left;
+}
+
+.refund-col-date {
+  width: 24%;
+  text-align: center;
+  color: #999999;
+}
+
+.refund-amount {
+  width: 24%;
+  font-size: 22rpx;
+  color: #333333;
+  line-height: 34rpx;
+  text-align: center;
+}
+
+.refund-status {
+  width: 24%;
+  text-align: right;
+  font-weight: 500;
+  font-size: 22rpx;
+  line-height: 34rpx;
+}
+
+.status-processing {
+  color: #F9E12A;
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+.status-done {
+  color: #999999;
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+.withdraw-mask {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 98;
+}
+
+.withdraw-modal {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #ffffff;
+  border-top-left-radius: 32rpx;
+  border-top-right-radius: 32rpx;
+  padding: 20rpx 32rpx calc(env(safe-area-inset-bottom) + 32rpx);
+  z-index: 99;
+  box-sizing: border-box;
+}
+
+.withdraw-modal-handle {
+  width: 72rpx;
+  height: 8rpx;
+  border-radius: 999rpx;
+  background: #d9d9d9;
+  margin: 0 auto 28rpx;
+}
+
+.withdraw-modal-title {
+  display: block;
+  text-align: center;
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #000000;
+  margin-bottom: 28rpx;
+}
+
+.withdraw-modal-amount-card {
+  background: #f8f8f8;
+  border-radius: 20rpx;
+  padding: 32rpx 24rpx;
+  text-align: center;
+  margin-bottom: 28rpx;
+}
+
+.withdraw-modal-amount-label {
+  display: block;
+  font-size: 24rpx;
+  color: #999999;
+  margin-bottom: 16rpx;
+}
+
+.withdraw-modal-amount {
+  display: block;
+  font-size: 60rpx;
+  font-weight: 600;
+  color: #000000;
+}
+
+.withdraw-modal-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20rpx;
+}
+
+.withdraw-modal-row-label {
+  font-size: 28rpx;
+  color: #999999;
+}
+
+.withdraw-modal-row-value {
+  font-size: 28rpx;
+  color: #333333;
+}
+
+.withdraw-modal-confirm-btn {
+  display: block;
+  margin-top: 36rpx;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  border-radius: 999rpx;
+  background: #F9E12A;
+  color: #000000;
+  font-size: 30rpx;
+  font-weight: 500;
+}
+
+.withdraw-modal-cancel {
+  display: block;
+  text-align: center;
+  margin-top: 28rpx;
+  font-size: 28rpx;
+  color: #999999;
+}
+
+.refund-list {
+  background: #ffffff;
+  border-radius: 24rpx;
+  padding: 8rpx 28rpx;
+  box-sizing: border-box;
+}
+
+.refund-row {
+  display: flex;
+  align-items: center;
+  min-height: 72rpx;
+  margin-bottom: 2rpx;
+  box-sizing: border-box;
+}
+
+.refund-row:last-child {
+  border-bottom: none;
+}
+
+.refund-name {
+  width: 28%;
+  font-size: 24rpx;
+  color: #333333;
+  line-height: 32rpx;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.refund-date {
+  width: 24%;
+  font-size: 22rpx;
+  color: #999999;
+  line-height: 34rpx;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.refund-amount {
+  width: 24%;
+  font-size: 22rpx;
+  color: #333333;
+  line-height: 34rpx;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.refund-status {
+  width: 24%;
+  font-size: 22rpx;
+  line-height: 34rpx;
+  text-align: right;
+  white-space: nowrap;
+}

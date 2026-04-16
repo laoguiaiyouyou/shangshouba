@@ -1,0 +1,39 @@
+<view class="drt-page">
+  <view class="drt-title">退款链路测试</view>
+  <text class="drt-hint">点击场景按钮注入 mock 订单并跳转订单详情</text>
+
+  <!-- 场景 A -->
+  <view class="drt-card drt-card--ok" bindtap="goScenarioA">
+    <text class="drt-card-label">场景 A：可退款订单</text>
+    <text class="drt-card-desc">状态：待服务</text>
+    <text class="drt-card-desc">服务日期：{{scenarioA_date}}（10天后）</text>
+    <text class="drt-card-desc">预期：橙色倒计时 + 申请退款入口</text>
+  </view>
+
+  <!-- 场景 B -->
+  <view class="drt-card drt-card--no" bindtap="goScenarioB">
+    <text class="drt-card-label">场景 B：不可退款订单</text>
+    <text class="drt-card-desc">状态：待服务</text>
+    <text class="drt-card-desc">服务日期：{{scenarioB_date}}（明天）</text>
+    <text class="drt-card-desc">预期：无退款按钮</text>
+  </view>
+
+  <!-- 场景 C -->
+  <view class="drt-card drt-card--ing" bindtap="goScenarioC">
+    <text class="drt-card-label">场景 C：退款中订单</text>
+    <text class="drt-card-desc">状态：{{scenarioC_status}}</text>
+    <text class="drt-card-desc">预期：退款进度卡 + 退款说明卡</text>
+  </view>
+
+  <!-- 场景 D -->
+  <view class="drt-card drt-card--done" bindtap="goScenarioD">
+    <text class="drt-card-label">场景 D：已退款订单</text>
+    <text class="drt-card-desc">状态：已退款</text>
+    <text class="drt-card-desc">预期：退款进度全完成 + 已退金额</text>
+  </view>
+
+  <!-- 清理 -->
+  <view class="drt-clean" bindtap="cleanUp">
+    <text class="drt-clean-text">清除测试订单</text>
+  </view>
+</view>

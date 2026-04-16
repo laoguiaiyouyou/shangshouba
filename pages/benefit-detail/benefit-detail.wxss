@@ -1,0 +1,325 @@
+/* ================================================================
+   benefit-detail.wxss — 参考滴滴 V3 会员权益布局
+   颜色：黄 #F9E12A · 黑 #111 · 白 #FFF · 灰 #F5F5F5
+   ================================================================ */
+
+.bd-page {
+  min-height: 100vh;
+  background: #F5F5F5;
+  box-sizing: border-box;
+}
+
+/* ── 权益卡片轮播 ── */
+.bd-swiper-wrap {
+  padding-top: calc(180rpx + env(safe-area-inset-top));
+  background: #FFFFFF;
+  padding-bottom: 24rpx;
+}
+.bd-swiper {
+  height: 120rpx;
+}
+.bd-swiper-card {
+  margin: 0 8rpx;
+  height: 100rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #F5F5F5;
+  border-radius: 16rpx;
+  transition: all 0.3s;
+}
+.bd-swiper-card--active {
+  height: 120rpx;
+  background: #111111;
+}
+.bd-swiper-card-name {
+  font-size: 26rpx;
+  font-weight: 500;
+  color: #999999;
+}
+.bd-swiper-card--active .bd-swiper-card-name {
+  color: #FFFFFF;
+  font-weight: 600;
+  font-size: 28rpx;
+}
+
+/* ── 内容区 ── */
+.bd-body {
+  padding: 24rpx 32rpx calc(48rpx + env(safe-area-inset-bottom));
+}
+
+/* ── 权益卡片（顶部介绍） ── */
+.bd-card {
+  background: #FFFFFF;
+  border-radius: 24rpx;
+  padding: 28rpx;
+  margin-bottom: 20rpx;
+}
+.bd-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8rpx;
+}
+.bd-card-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #000000;
+}
+.bd-badge {
+  padding: 6rpx 16rpx;
+  border-radius: 24rpx;
+  background: #F9E12A;
+}
+.bd-badge-text {
+  font-size: 22rpx;
+  font-weight: 500;
+  color: #000000;
+}
+.bd-card-desc {
+  display: block;
+  font-size: 24rpx;
+  color: #999999;
+}
+
+/* ── 领取卡片（参考滴滴"行程意外险 × 20次"） ── */
+.bd-claim-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #FFFFFF;
+  border-radius: 24rpx;
+  padding: 28rpx;
+  margin-bottom: 20rpx;
+}
+.bd-claim-left {
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+}
+.bd-claim-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #000000;
+}
+.bd-claim-status {
+  font-size: 22rpx;
+  color: #999999;
+}
+.bd-claim-btn {
+  padding: 16rpx 40rpx;
+  border-radius: 48rpx;
+  background: #F9E12A;
+}
+.bd-claim-btn--disabled {
+  background: #E8E8E8;
+}
+.bd-claim-btn-text {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #000000;
+}
+.bd-claim-btn--disabled .bd-claim-btn-text {
+  color: #CCCCCC;
+}
+
+/* ── 原价说明 ── */
+.bd-original {
+  display: block;
+  font-size: 22rpx;
+  color: #999999;
+  padding: 16rpx 28rpx;
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  margin-bottom: 20rpx;
+}
+
+/* ── 等级对比表（参考滴滴 V1-V8 表） ── */
+.bd-section {
+  background: #FFFFFF;
+  border-radius: 24rpx;
+  padding: 28rpx;
+  margin-bottom: 20rpx;
+}
+.bd-section-title {
+  display: block;
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #000000;
+  margin-bottom: 20rpx;
+}
+.bd-tier-table {
+  display: flex;
+  flex-direction: column;
+}
+.bd-tier-header {
+  display: flex;
+  padding: 12rpx 16rpx;
+  background: #F5F5F5;
+  border-radius: 12rpx 12rpx 0 0;
+}
+.bd-tier-header-cell {
+  font-size: 22rpx;
+  font-weight: 500;
+  color: #999999;
+}
+.bd-tier-header-cell:first-child { flex: 0 0 160rpx; }
+.bd-tier-header-cell:nth-child(2) { flex: 1; }
+.bd-tier-header-cell:last-child { flex: 0 0 120rpx; text-align: right; }
+
+.bd-tier-row {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 16rpx;
+  border-bottom: 1rpx solid #F5F5F5;
+}
+.bd-tier-row--on {
+  background: rgba(249, 225, 42, 0.08);
+}
+.bd-tier-cell {
+  font-size: 24rpx;
+  color: #333333;
+}
+.bd-tier-level {
+  flex: 0 0 160rpx;
+  font-weight: 500;
+}
+.bd-tier-row--on .bd-tier-level {
+  color: #000000;
+  font-weight: 600;
+}
+.bd-tier-price {
+  flex: 1;
+  font-weight: 500;
+}
+.bd-tier-row--on .bd-tier-price {
+  color: #000000;
+  font-weight: 600;
+}
+.bd-tier-freq {
+  flex: 0 0 120rpx;
+  text-align: right;
+  color: #999999;
+}
+.bd-tier-row--on .bd-tier-freq {
+  color: #000000;
+}
+
+/* ── 月月领券列表 ── */
+.bd-coupon-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+  margin-bottom: 24rpx;
+}
+.bd-coupon-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  padding: 24rpx 28rpx;
+}
+.bd-coupon-name {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #000000;
+}
+.bd-coupon-btn {
+  padding: 10rpx 28rpx;
+  border-radius: 48rpx;
+  flex-shrink: 0;
+}
+.bd-coupon-btn--claim { background: #F9E12A; }
+.bd-coupon-btn--done  { background: #F5F5F5; }
+.bd-coupon-btn-text {
+  font-size: 24rpx;
+  font-weight: 500;
+  color: #000000;
+}
+.bd-coupon-btn-text--muted { color: #CCCCCC; }
+
+/* ── 规则说明 ── */
+.bd-rules {
+  background: #FFFFFF;
+  border-radius: 24rpx;
+  padding: 28rpx;
+  margin-bottom: 20rpx;
+}
+.bd-rules-title {
+  display: block;
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #000000;
+  margin-bottom: 16rpx;
+}
+.bd-rules-text {
+  display: block;
+  font-size: 22rpx;
+  color: #999999;
+  line-height: 38rpx;
+}
+
+/* 使用按钮 */
+.bd-claim-btn--use {
+  background: #111111;
+}
+.bd-claim-btn--use .bd-claim-btn-text {
+  color: #FFFFFF;
+}
+
+/* ══ 预约弹窗（复用 monthly-coupons 同名样式） ══ */
+.bk-mask { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 100; }
+.bk-modal {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: #FFFFFF; border-radius: 24rpx 24rpx 0 0;
+  padding: 0 32rpx 40rpx;
+  padding-bottom: calc(40rpx + env(safe-area-inset-bottom));
+  z-index: 101; box-sizing: border-box;
+}
+.bk-handle { width: 60rpx; height: 6rpx; background: #C6C6C8; border-radius: 3rpx; margin: 16rpx auto 24rpx; }
+.bk-title { display: block; font-size: 32rpx; font-weight: 600; color: #000000; margin-bottom: 32rpx; }
+/* 日历 */
+.bk-cal { margin-bottom: 24rpx; }
+.bk-cal-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16rpx; }
+.bk-cal-arrow { width: 56rpx; height: 56rpx; display: flex; align-items: center; justify-content: center; font-size: 32rpx; color: #000000; }
+.bk-cal-arrow--off { color: #CCCCCC; }
+.bk-cal-month { font-size: 28rpx; font-weight: 600; color: #000000; }
+.bk-cal-week { display: flex; margin-bottom: 8rpx; }
+.bk-cal-wk { flex: 1; text-align: center; font-size: 22rpx; color: #999999; }
+.bk-cal-grid { display: flex; flex-wrap: wrap; }
+.bk-cal-day { width: calc(100% / 7); height: 80rpx; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.bk-cal-day--off { opacity: 0.3; }
+.bk-cal-day--on { background: #111111; border-radius: 12rpx; }
+.bk-cal-num { font-size: 26rpx; color: #333333; }
+.bk-cal-num--off { color: #CCCCCC; }
+.bk-cal-day--on .bk-cal-num { color: #FFFFFF; font-weight: 600; }
+.bk-cal-dot { width: 8rpx; height: 8rpx; border-radius: 50%; margin-top: 4rpx; }
+.bk-cal-dot--ok { background: #E8E8E8; }
+.bk-cal-dot--full-dot { background: #F9E12A; }
+.bk-cal-day--full { background: #F9E12A; border-radius: 12rpx; }
+.bk-cal-day--full .bk-cal-num { color: #000000; font-weight: 500; }
+.bk-cal-day--on .bk-cal-dot { background: #FFFFFF; }
+.bk-cal-legend { display: flex; gap: 24rpx; margin-top: 12rpx; }
+.bk-cal-legend-item { display: flex; align-items: center; gap: 6rpx; }
+.bk-cal-legend-text { font-size: 20rpx; color: #999999; }
+.bk-cal-selected { display: block; font-size: 24rpx; color: #000000; font-weight: 500; margin-top: 12rpx; }
+
+.bk-field { margin-bottom: 28rpx; }
+.bk-field-label { display: block; font-size: 24rpx; color: #999999; margin-bottom: 12rpx; }
+.bk-time-row { display: flex; gap: 16rpx; }
+.bk-time-btn {
+  flex: 1; height: 80rpx; display: flex; align-items: center; justify-content: center;
+  background: #F5F5F5; border-radius: 16rpx;
+}
+.bk-time-btn--on { background: #111111; }
+.bk-time-btn-text { font-size: 28rpx; font-weight: 500; color: #333333; }
+.bk-time-btn--on .bk-time-btn-text { color: #FFFFFF; }
+.bk-time-btn--off { background: #F9E12A; opacity: 0.6; }
+.bk-time-btn--off .bk-time-btn-text { color: #000000; }
+.bk-confirm-btn {
+  height: 88rpx; display: flex; align-items: center; justify-content: center;
+  background: #F9E12A; border-radius: 24rpx; margin-top: 32rpx;
+}
+.bk-confirm-text { font-size: 30rpx; font-weight: 600; color: #000000; }
+.bk-hint { display: block; font-size: 22rpx; color: #999999; text-align: center; margin-top: 16rpx; }

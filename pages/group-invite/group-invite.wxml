@@ -1,0 +1,149 @@
+<view class="gi-page">
+
+  <!-- 顶栏（全局统一） -->
+  <view class="global-top-bar">
+    <view class="global-top-back" bindtap="goBack">
+      <text class="global-top-back-icon">‹</text>
+    </view>
+    <view class="global-brand-wrap">
+      <view class="global-brand-dot"></view>
+      <text class="global-brand-title">安心住·上手吧</text>
+    </view>
+    <view class="global-top-capsule"></view>
+  </view>
+
+  <view wx:if="{{loading}}" class="gi-loading"><text>加载中…</text></view>
+
+  <!-- ── Path 3 拼团模式 ──────────────────────────────────── -->
+  <block wx:elif="{{mode === 'group_buy'}}">
+
+    <!-- 规则说明 -->
+    <view class="gi-card gi-rule-card">
+      <text class="gi-rule-title">3 户成团，每人 ¥2/㎡ 返到钱包</text>
+      <view class="gi-rule-rows">
+        <view class="gi-rule-row"><text class="gi-rule-dot">·</text><text class="gi-rule-text">你（团长）+ 邻居 2 人，7 天内完成下单</text></view>
+        <view class="gi-rule-row"><text class="gi-rule-dot">·</text><text class="gi-rule-text">成团后 ¥2/㎡ 返现到钱包，可提现</text></view>
+        <view class="gi-rule-row"><text class="gi-rule-dot">·</text><text class="gi-rule-text">新人券 -¥1/㎡ 可叠加，最低享 ¥12/㎡</text></view>
+      </view>
+    </view>
+
+    <!-- 团状态：有团 -->
+    <block wx:if="{{groupId}}">
+      <view class="gi-card gi-group-status-card">
+        <!-- 进度条 -->
+        <text class="gi-status-label">团员进度</text>
+        <view class="gi-member-row">
+          <view class="gi-member-dot filled"><text class="gi-member-dot-text">我</text></view>
+          <view class="gi-member-line {{memberCount >= 2 ? 'filled' : ''}}"></view>
+          <view class="gi-member-dot {{memberCount >= 2 ? 'filled' : 'empty'}}"><text class="gi-member-dot-text">{{memberCount >= 2 ? '✓' : '?'}}</text></view>
+          <view class="gi-member-line {{memberCount >= 3 ? 'filled' : ''}}"></view>
+          <view class="gi-member-dot {{memberCount >= 3 ? 'filled' : 'empty'}}"><text class="gi-member-dot-text">{{memberCount >= 3 ? '✓' : '?'}}</text></view>
+        </view>
+        <text class="gi-member-count">{{memberCount}}/3 人已加入</text>
+
+        <!-- 倒计时 -->
+        <view class="gi-countdown-row" wx:if="{{groupStatus === 'open'}}">
+          <text class="gi-countdown-label">剩余时间</text>
+          <text class="gi-countdown-value">{{remainHours}}h {{remainMinutes}}m</text>
+          <text class="gi-countdown-refresh" bindtap="refreshGroupStatus">刷新</text>
+        </view>
+        <view class="gi-formed-row" wx:elif="{{groupStatus === 'formed'}}">
+          <text class="gi-formed-text">🎉 拼团成功！返现已到账钱包</text>
+        </view>
+        <view class="gi-expired-row" wx:elif="{{groupStatus === 'expired'}}">
+          <text class="gi-expired-text">此团已过期，可重新开团</text>
+        </view>
+      </view>
+
+      <!-- 邀请操作 -->
+      <view class="gi-card" wx:if="{{groupStatus === 'open'}}">
+        <text class="gi-card-title">发给邻居</text>
+        <view class="gi-invite-box">
+          <text class="gi-invite-text">{{groupLink}}</text>
+        </view>
+        <view class="gi-btn gi-btn-primary" bindtap="copyGroupLink">复制邀请链接</view>
+      </view>
+    </block>
+
+    <!-- 无订单/未开团 -->
+    <block wx:elif="{{!orderId}}">
+      <view class="gi-card gi-no-order-card">
+        <text class="gi-no-order-text">开团需先完成下单</text>
+        <text class="gi-no-order-sub">下单后在支付成功页面也可直接开团</text>
+        <view class="gi-btn gi-btn-primary" bindtap="goOrder">去选服务下单</view>
+      </view>
+    </block>
+
+    <!-- 有订单但团尚未创建 -->
+    <block wx:elif="{{!groupId}}">
+      <view class="gi-card">
+        <text class="gi-card-title">开始拼团</text>
+        <text class="gi-card-sub">基于你的「{{orderName || '深度开荒'}}」订单创建拼团</text>
+        <view class="gi-btn gi-btn-primary {{groupLoading ? 'disabled' : ''}}" bindtap="createGroup">
+          {{groupLoading ? '开团中…' : '创建拼团'}}
+        </view>
+      </view>
+    </block>
+
+  </block>
+
+  <!-- ── Path 1 邀约后返模式 ──────────────────────────────── -->
+  <block wx:elif="{{mode === 'invite_back'}}">
+
+    <view class="gi-card gi-reward-card">
+      <view class="gi-reward-top">
+        <text class="gi-reward-icon">🎁</text>
+        <view class="gi-reward-texts">
+          <text class="gi-reward-title" wx:if="{{inviteBackAmount > 0}}">邻居下单后退返 ¥{{inviteBackAmount}}</text>
+          <text class="gi-reward-title" wx:else>邻居下单后享退返优惠</text>
+          <text class="gi-reward-sub">退返金额直接到账钱包，可提现</text>
+        </view>
+      </view>
+      <view class="gi-reward-rule">
+        <text class="gi-reward-rule-item">· 邻居通过你的链接进入小程序下单</text>
+        <text class="gi-reward-rule-item">· 邻居完成深度开荒后，返佣到账</text>
+        <text class="gi-reward-rule-item">· 邻居退款则取消返现</text>
+      </view>
+    </view>
+
+    <view class="gi-card">
+      <text class="gi-card-title">你的专属邀约链接</text>
+      <view class="gi-invite-box">
+        <text class="gi-invite-text">{{inviteLink || '生成中…'}}</text>
+      </view>
+      <view class="gi-btn gi-btn-primary" bindtap="copyInviteLink">复制邀约链接</view>
+      <view class="gi-btn gi-btn-secondary" bindtap="copyCode">复制邀请码</view>
+    </view>
+
+  </block>
+
+  <!-- ── 普通转介绍模式 ──────────────────────────────────── -->
+  <block wx:elif="{{mode === 'referral'}}">
+
+    <view class="gi-card gi-reward-card">
+      <view class="gi-reward-top">
+        <text class="gi-reward-icon">💰</text>
+        <view class="gi-reward-texts">
+          <text class="gi-reward-title">推荐邻居完工，赚 ¥15起</text>
+          <text class="gi-reward-sub">同栋楼最高 ¥50/户</text>
+        </view>
+      </view>
+      <view class="gi-reward-rule">
+        <text class="gi-reward-rule-item">· 邻居通过你的链接下单</text>
+        <text class="gi-reward-rule-item">· 邻居完成深度开荒后，返佣到账钱包</text>
+        <text class="gi-reward-rule-item">· 同栋楼邻居额外加返佣</text>
+      </view>
+    </view>
+
+    <view class="gi-card">
+      <text class="gi-card-title">你的专属推荐链接</text>
+      <view class="gi-invite-box">
+        <text class="gi-invite-text">{{inviteLink || '生成中…'}}</text>
+      </view>
+      <view class="gi-btn gi-btn-primary" bindtap="copyInviteLink">复制推荐链接</view>
+      <view class="gi-btn gi-btn-secondary" bindtap="copyCode">复制邀请码</view>
+    </view>
+
+  </block>
+
+</view>

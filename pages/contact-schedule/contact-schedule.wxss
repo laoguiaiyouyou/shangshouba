@@ -1,0 +1,121 @@
+.contact-page {
+  min-height: 100vh;
+  background: #f5f5f5;
+  padding-top: calc(212rpx + env(safe-area-inset-top) + 20rpx);
+  padding-bottom: 180rpx;
+  box-sizing: border-box;
+}
+
+/* =============================
+   内容区
+============================= */
+.contact-body {
+  padding: 20rpx 40rpx 0;
+}
+
+/* =============================
+   通用卡片
+============================= */
+.contact-card {
+  background: #ffffff;
+  border-radius: 24rpx;
+  padding: 28rpx;
+  margin-bottom: 48rpx;
+  box-sizing: border-box;
+}
+
+.card-title {
+  display: block;
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #000000;
+  margin-bottom: 24rpx;
+}
+
+/* =============================
+   原因说明卡
+============================= */
+.reason-item {
+  display: flex;
+  align-items: flex-start;
+  margin-top: 16rpx;
+}
+
+.reason-dot {
+  width: 10rpx;
+  height: 10rpx;
+  border-radius: 50%;
+  background: #F9E12A;
+  margin-top: 14rpx;
+  margin-right: 12rpx;
+  flex-shrink: 0;
+}
+
+.reason-text {
+  font-size: 24rpx;
+  line-height: 38rpx;
+  color: #999999;
+}
+
+/* =============================
+   服务承诺卡
+============================= */
+.service-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18rpx 0;
+  padding-bottom: 18rpx;
+  margin-bottom: 18rpx;
+}
+
+.service-row:last-child {
+  border-bottom: none;
+}
+
+.service-label {
+  font-size: 24rpx;
+  color: #999999;
+  line-height: 36rpx;
+}
+
+.service-value {
+  font-size: 24rpx;
+  color: #333333;
+  line-height: 36rpx;
+}
+
+/* =============================
+   底部按钮区
+============================= */
+.contact-footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.98);
+  padding: 20rpx 40rpx calc(env(safe-area-inset-bottom) + 20rpx);
+  box-shadow: 0 -8rpx 24rpx rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+}
+
+.contact-btn {
+  display: block;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  border-radius: 999rpx;
+  background: #F9E12A;
+  color: #000000;
+  font-size: 30rpx;
+  font-weight: 500;
+}
+
+.contact-footer-desc {
+  display: block;
+  text-align: center;
+  margin-top: 12rpx;
+  font-size: 22rpx;
+  line-height: 34rpx;
+  color: #999999;
+}

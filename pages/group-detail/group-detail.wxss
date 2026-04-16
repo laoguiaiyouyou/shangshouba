@@ -1,0 +1,335 @@
+/* group-detail.wxss — 开团详情页 */
+page { background: #F2F2F7; }
+
+.gd-page {
+  min-height: 100vh;
+  background: #F2F2F7;
+  display: flex;
+  flex-direction: column;
+}
+
+.gd-body {
+  flex: 1;
+  padding-top: calc(160rpx + env(safe-area-inset-top));
+  padding-left: 40rpx;
+  padding-right: 40rpx;
+  box-sizing: border-box;
+  height: 100vh;
+}
+
+/* ── 团状态英雄卡（黑色） ── */
+.gd-team-hero {
+  background: #111111;
+  border-radius: 24rpx;
+  padding: 32rpx 28rpx;
+  margin-bottom: 56rpx;
+}
+
+.gd-team-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8rpx;
+}
+
+.gd-team-name {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #FFFFFF;
+  flex: 1;
+  margin-right: 16rpx;
+}
+
+.gd-team-service {
+  display: block;
+  font-size: 24rpx;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 28rpx;
+}
+
+/* 状态徽章 */
+.gd-status-badge {
+  font-size: 22rpx;
+  font-weight: 500;
+  padding: 6rpx 16rpx;
+  border-radius: 20rpx;
+  flex-shrink: 0;
+}
+.gd-status-badge--recruiting {
+  background: rgba(249,225,42,0.15);
+  color: #f9e12a;
+}
+.gd-status-badge--formed {
+  background: rgba(249,225,42,0.2);
+  color: #F9E12A;
+}
+.gd-status-badge--expired {
+  background: rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.4);
+}
+
+/* 人数进度 */
+.gd-count-row {
+  display: flex;
+  align-items: baseline;
+  gap: 4rpx;
+  margin-bottom: 16rpx;
+}
+.gd-count-num {
+  font-size: 72rpx;
+  font-weight: 600;
+  color: #f9e12a;
+  line-height: 1;
+}
+.gd-count-sep {
+  font-size: 28rpx;
+  color: rgba(255,255,255,0.55);
+}
+
+.gd-progress-bar {
+  height: 12rpx;
+  background: rgba(255,255,255,0.15);
+  border-radius: 6rpx;
+  overflow: hidden;
+  margin-bottom: 20rpx;
+}
+.gd-progress-fill {
+  height: 100%;
+  background: #f9e12a;
+  border-radius: 6rpx;
+  transition: width 0.4s ease;
+}
+
+.gd-gap-tip {
+  display: block;
+  font-size: 24rpx;
+  color: rgba(255,255,255,0.55);
+  line-height: 36rpx;
+}
+
+.gd-formed-banner {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+}
+.gd-formed-icon { font-size: 32rpx; }
+.gd-formed-text {
+  font-size: 26rpx;
+  color: #F9E12A;
+  font-weight: 500;
+  line-height: 36rpx;
+}
+
+/* ── 卡片 ── */
+.gd-card {
+  background: #FFFFFF;
+  border-radius: 24rpx;
+  padding: 28rpx;
+  margin-bottom: 56rpx;
+}
+
+.gd-card-title {
+  display: block;
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #333333;
+  margin-bottom: 20rpx;
+}
+.gd-card-sub {
+  display: block;
+  font-size: 22rpx;
+  color: #999999;
+  margin-bottom: 24rpx;
+  line-height: 34rpx;
+}
+
+/* ── 二维码区域 ── */
+.gd-qr-area {
+  background: #F2F2F7;
+  border-radius: 16rpx;
+  height: 260rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20rpx;
+  overflow: hidden;
+}
+.gd-qr-img-wrap { width: 220rpx; height: 220rpx; }
+.gd-qr-image    { width: 100%; height: 100%; }
+.gd-qr-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12rpx;
+}
+.gd-qr-placeholder-icon { font-size: 56rpx; opacity: 0.25; }
+.gd-qr-placeholder-text { font-size: 24rpx; color: #999999; }
+
+/* ── 邀请操作按钮组 ── */
+.gd-invite-actions {
+  display: flex;
+  gap: 16rpx;
+}
+.gd-invite-btn {
+  flex: 1;
+  height: 76rpx;
+  background: #111111;
+  color: #FFFFFF;
+  font-size: 26rpx;
+  font-weight: 500;
+  border-radius: 12rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.gd-invite-btn--ghost {
+  background: transparent;
+  border: 2rpx solid #111111;
+  color: #333333;
+}
+
+/* ── 成员列表 ── */
+.gd-empty { padding: 24rpx 0; }
+.gd-empty-text { font-size: 26rpx; color: #999999; line-height: 40rpx; }
+
+.gd-member-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #F2F2F7;
+}
+.gd-member-item:last-child { border-bottom: none; }
+
+.gd-member-left { display: flex; flex-direction: column; gap: 4rpx; }
+.gd-member-name { font-size: 28rpx; font-weight: 500; color: #333333; }
+.gd-member-date { font-size: 22rpx; color: #999999; }
+
+.gd-member-status {
+  font-size: 22rpx;
+  font-weight: 500;
+  padding: 6rpx 16rpx;
+  border-radius: 20rpx;
+}
+.gd-member-status--leader {
+  background: rgba(249,225,42,0.2);
+  color: #333333;
+}
+.gd-member-status--joined {
+  background: rgba(0,0,0,0.1);
+  color: #000000;
+}
+.gd-member-status--ordered {
+  background: rgba(249,225,42,0.12);
+  color: #F9E12A;
+}
+.gd-member-status--paid {
+  background: rgba(249,225,42,0.12);
+  color: #F9E12A;
+}
+.gd-member-status--finished {
+  background: rgba(249,225,42,0.2);
+  color: #000000;
+}
+
+/* ── 团长激励提示条 ── */
+.gd-leader-hint {
+  background: #FFFFFF;
+  border-radius: 24rpx;
+  padding: 20rpx 28rpx;
+  margin-bottom: 56rpx;
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+.gd-leader-hint-icon  { font-size: 28rpx; flex-shrink: 0; }
+.gd-leader-hint-text  { flex: 1; font-size: 24rpx; color: #333333; line-height: 36rpx; }
+.gd-leader-hint-link  { font-size: 24rpx; color: #333333; font-weight: 500; flex-shrink: 0; }
+
+/* ── 底部占位 + 固定按钮 ── */
+.gd-footer-placeholder { height: 140rpx; }
+
+.gd-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 16rpx 40rpx calc(24rpx + env(safe-area-inset-bottom));
+  background: #FFFFFF;
+  border-top: 1rpx solid #F2F2F7;
+}
+
+.gd-footer-btn {
+  height: 96rpx;
+  background: #111111;
+  border-radius: 16rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32rpx;
+  font-weight: 500;
+  color: #FFFFFF;
+}
+.gd-footer-btn--formed {
+  background: #f9e12a;
+  color: #000000;
+}
+
+/* ── 二维码弹窗 ── */
+.gd-modal-mask {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: flex;
+  align-items: flex-end;
+  z-index: 999;
+}
+.gd-modal {
+  width: 100%;
+  background: #FFFFFF;
+  border-radius: 28rpx 28rpx 0 0;
+  padding: 36rpx 28rpx calc(48rpx + env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20rpx;
+  box-sizing: border-box;
+}
+.gd-modal-title { font-size: 34rpx; font-weight: 600; color: #000000; }
+.gd-modal-sub   { font-size: 24rpx; color: #999999; text-align: center; line-height: 36rpx; }
+
+.gd-qr-loading {
+  width: 240rpx; height: 240rpx;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 16rpx;
+}
+.gd-qr-spinner {
+  width: 60rpx; height: 60rpx;
+  border: 6rpx solid #F2F2F7;
+  border-top-color: #111111;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.gd-qr-loading-text { font-size: 24rpx; color: #999999; }
+
+.gd-qr-image-modal { width: 240rpx; height: 240rpx; border-radius: 16rpx; }
+
+.gd-link-box {
+  width: 100%;
+  background: #F2F2F7;
+  border-radius: 12rpx;
+  padding: 16rpx 20rpx;
+  box-sizing: border-box;
+}
+.gd-link-text { font-size: 22rpx; color: #333333; word-break: break-all; }
+
+.gd-modal-btn {
+  width: 100%;
+  height: 88rpx;
+  border-radius: 16rpx;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 30rpx; font-weight: 500;
+}
+.gd-modal-btn--primary { background: #f9e12a; color: #000000; }
+.gd-modal-btn--ghost   { background: transparent; border: 2rpx solid #E5E5EA; color: #999999; }

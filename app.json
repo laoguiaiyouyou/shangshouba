@@ -1,0 +1,38 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/review-list/review-list",
+    "pages/detail/detail",
+    "pages/detail-basic/detail-basic",
+    "pages/detail-max/detail-max",
+    "pages/checkout/checkout",
+    "pages/contact-schedule/contact-schedule",
+    "pages/group-buy/group-buy",
+    "pages/group-detail/group-detail",
+    "pages/group-invite/group-invite",
+    "pages/group-landing/group-landing",
+    "pages/mine/mine",
+    "pages/order-detail/order-detail",
+    "pages/payment-success/payment-success",
+    "pages/refund-apply/refund-apply",
+    "pages/final-book/final-book",
+    "pages/scheme-book/scheme-book",
+    "pages/welfare-center/welfare-center",
+    "pages/gift-service/gift-service",
+    "pages/coupon-list/coupon-list",
+    "pages/withdraw/withdraw",
+    "pages/upgrade/upgrade",
+    "pages/booking-result/booking-result",
+    "pages/withdraw-form/withdraw-form",
+    "pages/logs/logs",
+    "pages/case-list/case-list",
+    "pages/monthly-coupons/monthly-coupons",
+    "pages/benefit-detail/benefit-detail"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "上手吧",
+    "navigationBarTextStyle": "black"
+  }
+}
